@@ -53,3 +53,11 @@ export function deleteCategory(data) {
     data
   })
 }
+// 删除
+export function deletedata(data) {
+  return request({
+    url: '/category/delete',
+    method: 'post',
+    data
+  })
+}

@@ -3,7 +3,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 10:28:46
- * @LastEditTime: 2019-08-16 14:42:32
+ * @LastEditTime: 2019-12-13 14:43:30
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -96,19 +96,19 @@
       <el-table-column align="center" min-width="100" label="案例名称" prop="exampleName" />
       <el-table-column align="center" min-width="100" label="小区名称" prop="housingName" />
       <el-table-column align="center" min-width="100" label="样式" prop="exampleModel">
-          <template slot-scope="scope" >
-            {{scope.row.exampleModel == 1 ? '复式' :scope.row.exampleModel ==2 ? '户型':'暂无'}}
-          </template>
+        <template slot-scope="scope" >
+          {{ scope.row.exampleModel == 1 ? '复式' :scope.row.exampleModel ==2 ? '户型':'暂无' }}
+        </template>
       </el-table-column>
       <el-table-column align="center" min-width="100" label="户型" prop="houseType">
-          <template slot-scope="scope" >
-            {{scope.row.houseType == 1 ? '一户' : scope.row.houseType ==2 ? '两户' : scope.row.houseType ==3 ? "三户" :'暂无'  }}
-          </template>
+        <template slot-scope="scope" >
+          {{ scope.row.houseType == 1 ? '一户' : scope.row.houseType ==2 ? '两户' : scope.row.houseType ==3 ? "三户" :'暂无' }}
+        </template>
       </el-table-column>
       <el-table-column align="center" min-width="100" label="风格" prop="exampleStyle">
-          <template slot-scope="scope" >
-            {{scope.row.exampleStyle == 1 ? '西式' : scope.row.exampleStyle == 2 ? '中式' :scope.row.exampleStyle == 3 ? '法式' :scope.row.exampleStyle == 4 ? '日式' :'暂无' }}
-          </template>  
+        <template slot-scope="scope" >
+          {{ scope.row.exampleStyle == 1 ? '西式' : scope.row.exampleStyle == 2 ? '中式' :scope.row.exampleStyle == 3 ? '法式' :scope.row.exampleStyle == 4 ? '日式' :'暂无' }}
+        </template>
       </el-table-column>
       <el-table-column align="center" min-width="100" label="作者" prop="creatorName" />
       <!-- <el-table-column align="center" min-width="100" label="图片" prop="goodsLabelUrl">
@@ -143,17 +143,19 @@
             size="mini"
             @click="handleStart(scope.row)"
           >启用</el-button>
+
+          <el-button size="mini" type="danger" @click="handleDel(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <!-- <pagination
+    <pagination
       v-show="total>0"
       :total="total"
       :page.sync="listQuery.page"
       :limit.sync="listQuery.limit"
       @pagination="getList"
-    />-->
+    />
     <el-tooltip placement="top" content="返回顶部">
       <back-to-top :visibility-height="100" />
     </el-tooltip>
@@ -236,7 +238,7 @@
 </style>
 
 <script>
-import { getCaseList, forbidCase, startCase } from '@/api/case'
+import { getCaseList, forbidCase, startCase, delCase } from '@/api/case'
 import BackToTop from '@/components/BackToTop'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import { getDropDown } from '@/api/dropDown'
@@ -291,15 +293,13 @@ export default {
     // 获取案例数据
     getList() {
       this.listLoading = true
-      // console.log(this.listQuery)
       getCaseList(this.listQuery)
         .then(response => {
-          console.log(response)
           this.list = response.data.data.data
+          this.total = response.data.data.page.total
           this.listLoading = false
         })
-        .catch(err => {
-          // console.log(err)
+        .catch(() => {
           this.list = []
           this.total = 0
           this.listLoading = false
@@ -403,7 +403,7 @@ export default {
         .then(response => {
           this.getList()
         })
-        .catch(err => {})
+        .catch(err => { console.log(err) })
     },
     // 启用案例
     handleStart(row) {
@@ -415,7 +415,19 @@ export default {
         .then(response => {
           this.getList()
         })
-        .catch(err => {})
+        .catch(err => { console.log(err) })
+    },
+    handleDel(row) {
+      delCase(row).then(response => {
+        this.$notify({
+          title: '成功',
+          message: '删除成功',
+          type: 'success',
+          duration: 2000
+        })
+        const index = this.list.indexOf(row)
+        this.list.splice(index, 1)
+      })
     }
   }
 }

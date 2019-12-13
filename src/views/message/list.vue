@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 09:34:48
- * @LastEditTime: 2019-12-11 16:01:58
+ * @LastEditTime: 2019-12-13 15:27:01
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -62,7 +62,7 @@
         <template slot-scope="scope">
           <el-button v-show="scope.row.sendType != 1" type="danger" size="mini" @click="handleCancel(scope.row)">取消</el-button>
           <el-button type="primary" size="mini" @click="handleEdit(scope.row)">编辑</el-button>
-          <el-button type="primary" size="mini" @click="getReadList(scope.row)">查看</el-button>
+          <el-button type="primary" size="mini" @click="handleReadList(scope.row)">查看</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -170,6 +170,7 @@ export default {
         page: 1,
         limit: 20
       },
+      row: {},
       msgStates: [
         { name: '系统消息', id: '0' },
         { name: '活动消息', id: '1' },
@@ -187,7 +188,9 @@ export default {
       },
       readlList: [],
       syncVisible: false,
-      readListLoading: true
+      readListLoading: true,
+      // 导出
+      downloadLoading: false
 
     }
   },
@@ -224,9 +227,6 @@ export default {
     handleCreate() {
       this.$router.push({ path: '/message/create' })
     },
-    // handleUpdate(row) {
-    //   this.$router.push({ path: '/message/edit', query: { id: row.id }})
-    // },
     showDetail(detail) {
       this.goodsDetail = detail
       this.detailDialogVisible = true
@@ -251,23 +251,39 @@ export default {
       this.$router.push({ path: '/message/create', query: { data: JSON.stringify(row) }})
     },
     handleReadFilter() {
-
+      this.readListQuery.msgCode = this.row.msgCode
+      this.getReadList(this.readListQuery)
     },
     handleReadExport() {
-      this.$message({
-        message: '开发中',
-        type: 'warning'
+      this.downloadLoading = true
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = [
+          '昵称',
+          '姓名',
+          '手机号'
+        ]
+        const filterVal = [
+          'nickname',
+          'userName',
+          'mobile'
+        ]
+        excel.export_json_to_excel2(tHeader, this.readlList, filterVal, '收件人详情')
+        this.downloadLoading = false
       })
+    },
+    handleReadList(row) {
+      this.row.msgCode = row.msgCode
+      this.getReadList(row)
     },
     getReadList(row) {
       this.syncVisible = true
       this.readListLoading = true
-      pushRead({ msgCode: row.msgCode }).then(response => {
-        this.readList = response.data.data.data
+      pushRead(row).then(response => {
+        this.readlList = response.data.data.data
         // this.readTotal = response.data.data.page.total
         this.readListLoading = false
       }).catch(response => {
-        this.readList = []
+        this.readlList = []
 
         this.readListLoading = false
       })

@@ -3,7 +3,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 10:28:46
- * @LastEditTime: 2019-08-16 14:42:32
+ * @LastEditTime: 2019-12-13 14:30:30
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -65,7 +65,7 @@
           </el-col>
         </el-form-item>
       </el-form>
-      <br />
+      <br >
       <el-button
         type="primary"
         style="margin-top:20px"
@@ -96,7 +96,7 @@
       <el-table-column align="center" min-width="100" label="性别" prop="gender">
         <template
           slot-scope="scope"
-        >{{scope.row.gender==0 ? '未知' : scope.row.gender==1 ? '男' : scope.row.gender==2 ? "女":'' }}</template>
+        >{{ scope.row.gender==0 ? '未知' : scope.row.gender==1 ? '男' : scope.row.gender==2 ? "女":'' }}</template>
       </el-table-column>
       <el-table-column align="center" min-width="100" label="手机号" prop="mobile" />
       <el-table-column align="center" min-width="100" label="归属机构" prop="departName" />
@@ -115,7 +115,7 @@
       <el-table-column align="center" min-width="100" label="状态" prop="status">
         <template
           slot-scope="scope"
-        >{{ scope.row.status==0 ? '可用' : scope.row.status==1 ? '禁用' : scope.row.status == 2? "注销" : ""}}</template>
+        >{{ scope.row.status==0 ? '可用' : scope.row.status==1 ? '禁用' : scope.row.status == 2? "注销" : "" }}</template>
       </el-table-column>
 
       <el-table-column
@@ -125,22 +125,23 @@
         class-name="small-padding fixed-width"
       >
         <template slot-scope="scope">
-          <el-button type="primary" @click="handleUpdate(scope.row)">编辑</el-button>
-          <el-button type="primary" @click="handleDetail(scope.row)">查看</el-button>
-          <el-button type="primary" @click="handleDetail(scope.row)">密码重置</el-button>
-          <el-button v-show="scope.row.status==0" type="danger" @click="handleForbid(scope.row)">禁用</el-button>
-          <el-button v-show="scope.row.status==1" type="success" @click="handleForbid(scope.row)">启用</el-button>
+          <el-button size="mini" type="primary" @click="handleUpdate(scope.row)">编辑</el-button>
+          <el-button size="mini" type="primary" @click="handleDetail(scope.row)">查看</el-button>
+          <!-- <el-button size="mini" type="primary" @click="handleDetail(scope.row)">密码重置</el-button> -->
+          <el-button v-show="scope.row.status==0" size="mini" type="danger" @click="handleForbid(scope.row)">禁用</el-button>
+          <el-button v-show="scope.row.status==1" size="mini" type="success" @click="handleForbid(scope.row)">启用</el-button>
+          <el-button size="mini" type="danger" @click="handleDel(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <!-- <pagination
+    <pagination
       v-show="total>0"
       :total="total"
       :page.sync="listQuery.page"
       :limit.sync="listQuery.limit"
       @pagination="getList"
-    />-->
+    />
     <el-tooltip placement="top" content="返回顶部">
       <back-to-top :visibility-height="100" />
     </el-tooltip>
@@ -231,32 +232,33 @@
 </style>
 
 <script>
-import { getUserList, deleteUser } from "@/api/user";
-import { departList } from "@/api/depart";
-import BackToTop from "@/components/BackToTop";
-import Pagination from "@/components/Pagination"; // Secondary package based on el-pagination
-import { getDropDown } from "@/api/dropDown";
+import { getUserList, deleteUser } from '@/api/user'
+import { departList } from '@/api/depart'
+import BackToTop from '@/components/BackToTop'
+import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+// import { getDropDown } from '@/api/dropDown'
+import { managerUserDelete } from '@/api/work'
 export default {
-  name: "GoodsLabel",
+  name: 'GoodsLabel',
   components: { BackToTop, Pagination },
   data() {
     return {
       timeForm: {
-        date1: "",
-        date2: ""
+        date1: '',
+        date2: ''
       },
-      handleRemove: "",
-      pciImageUrl: "",
+      handleRemove: '',
+      pciImageUrl: '',
       genderOptions: [
-        { value: 0, label: "未知" },
-        { value: 1, label: "男" },
-        { value: 2, label: "女" }
+        { value: 0, label: '未知' },
+        { value: 1, label: '男' },
+        { value: 2, label: '女' }
       ],
       departOptions: [],
       typeOptions: [
-        { value: 0, label: "可用" },
-        { value: 1, label: "禁用" },
-        { value: 2, label: "注销" }
+        { value: 0, label: '可用' },
+        { value: 1, label: '禁用' },
+        { value: 2, label: '注销' }
       ],
       styleOptions: [],
       commonType: undefined,
@@ -270,145 +272,158 @@ export default {
       dialogForm: {},
       caseDetail: {},
       downloadLoading: false
-    };
+    }
   },
   created() {
-    this.init();
+    this.init()
   },
   methods: {
     init: function() {
-      this.getList();
-      this.getdepartList();
+      this.getList()
+      this.getdepartList()
       //   this.getDropDownFn();
     },
     // 获取公司列表
     getdepartList() {
       departList()
         .then(response => {
-          console.log(response);
-          this.departOptions = response.data.data.data;
+          console.log(response)
+          this.departOptions = response.data.data.data
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     // 获取项目经理列表
     getList() {
-      this.listLoading = true;
+      this.listLoading = true
       // console.log(this.listQuery)
       // let listData = {...this.listQuery};
-      let listData = Object.assign({}, this.listQuery);
-      if (listData.work_year == "") {
-        delete listData.work_year;
+      let listData = Object.assign({}, this.listQuery)
+      if (listData.work_year === '') {
+        delete listData.work_year
       }
-      if (this.timeForm.date1 == "") {
-        delete listData.add_time;
+      if (this.timeForm.date1 === '') {
+        delete listData.add_time
       } else {
-        listData.add_time = this.timeForm.date1;
+        listData.add_time = this.timeForm.date1
       }
-      if (this.timeForm.date2 == "") {
-        delete listData.update_time;
+      if (this.timeForm.date2 === '') {
+        delete listData.update_time
       } else {
-        listData.update_time = this.timeForm.date2;
+        listData.update_time = this.timeForm.date2
       }
-      listData.type = 2;
+      listData.type = 2
 
       getUserList(listData)
         .then(response => {
-          console.log(response);
-          this.list = response.data.data.data;
-          this.listLoading = false;
-          listData = {};
+          console.log(response)
+          this.list = response.data.data.data
+          this.total = response.data.data.page.total
+          this.listLoading = false
+          listData = {}
         })
         .catch(err => {
-          console.log(err);
-          this.list = [];
-          this.total = 0;
-          this.listLoading = false;
-        });
+          console.log(err)
+          this.list = []
+          this.total = 0
+          this.listLoading = false
+        })
     },
     handleFilter() {
       // this.listQuery.page = 1;
-      this.getList();
+      this.getList()
     },
     // 编辑案例
     handleUpdate(row) {
       this.$router.push({
-        path: "/productManager/edit",
+        path: '/productManager/edit',
         query: { id: row.id }
-      });
+      })
     },
-    //导出
+    // 导出
     handleDownload() {
-      this.downloadLoading = true;
-      import("@/vendor/Export2Excel").then(excel => {
+      this.downloadLoading = true
+      import('@/vendor/Export2Excel').then(excel => {
         const tHeader = [
-          "序号",
-          "编号",
-          "姓名",
-          "性别",
-          "手机号",
-          "归属机构",
-          "工作年限",
-          "案例数",
-          "订单数",
-          "评分",
-          "出生日期",
-          "注册日期",
-          "状态"
-        ];
+          '序号',
+          '编号',
+          '姓名',
+          '性别',
+          '手机号',
+          '归属机构',
+          '工作年限',
+          '案例数',
+          '订单数',
+          '评分',
+          '出生日期',
+          '注册日期',
+          '状态'
+        ]
         const filterVal = [
-          "id",
-          "service_code",
-          "nickname",
-          "gender",
-          "mobile",
-          "departName",
-          "work_year",
-          "example_number",
-          "service_number",
-          "grade",
-          "birthday",
-          "add_time",
-          "status"
-        ];
-        excel.export_json_to_excel2(tHeader, this.list, filterVal, "用户信息");
-        this.downloadLoading = false;
-      });
+          'id',
+          'service_code',
+          'nickname',
+          'gender',
+          'mobile',
+          'departName',
+          'work_year',
+          'example_number',
+          'service_number',
+          'grade',
+          'birthday',
+          'add_time',
+          'status'
+        ]
+        excel.export_json_to_excel2(tHeader, this.list, filterVal, '用户信息')
+        this.downloadLoading = false
+      })
     },
     // 查看详情
     handleDetail(row) {
       this.$router.push({
-        path: "/productManager/detail",
+        path: '/productManager/detail',
         query: { id: row.id }
-      });
+      })
     },
     // 新增项目经理
     handleCreate() {
-      this.$router.push({ path: "/productManager/create" });
+      this.$router.push({ path: '/productManager/create' })
     },
     // 禁用案例
     handleForbid(row) {
-      if(row.status == 1){
+      if (row.status === 1) {
         row.status = '0'
-      }else if(row.status == 0 ){
+      } else if (row.status === 0) {
         row.status = '1'
       }
       const State = {
         id: row.id,
         status: row.status
         // .toString()
-      };
+      }
       //   console.log(State)
       deleteUser(State)
         .then(response => {
-          console.log(response);
-          this.getList();
+          console.log(response)
+          this.getList()
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
+    },
+    handleDel(row) {
+      managerUserDelete(row).then(response => {
+        this.$notify({
+          title: '成功',
+          message: '删除成功',
+          type: 'success',
+          duration: 2000
+        })
+        const index = this.list.indexOf(row)
+        this.list.splice(index, 1)
+      })
     }
   }
-};
+}
 </script>

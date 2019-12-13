@@ -3,7 +3,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 10:28:46
- * @LastEditTime: 2019-08-16 14:42:32
+ * @LastEditTime: 2019-12-13 16:32:52
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -75,6 +75,8 @@
             size="mini"
             @click="handleForbid(scope.row)"
           >启用</el-button>
+
+          <el-button size="mini" type="danger" @click="handleDel(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -133,7 +135,7 @@
 </style>
 
 <script>
-import { getGoodsLableList, forbidGoodsLabel } from '@/api/label'
+import { getGoodsLableList, forbidGoodsLabel, goodsLabelDelete } from '@/api/label'
 import BackToTop from '@/components/BackToTop'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
@@ -187,10 +189,11 @@ export default {
       this.listLoading = true
       getGoodsLableList(this.listQuery)
         .then(response => {
-          this.list = response.data.data
+          this.list = response.data.data.data
+          this.total = response.data.data.page.total
           this.listLoading = false
         })
-        .catch(err => {
+        .catch(() => {
           this.list = []
           this.total = 0
           this.listLoading = false
@@ -243,6 +246,18 @@ export default {
     // 查看图片
     viewimage(url) {
       window.open(url)
+    },
+    handleDel(row) {
+      goodsLabelDelete(row).then(response => {
+        this.$notify({
+          title: '成功',
+          message: '删除成功',
+          type: 'success',
+          duration: 2000
+        })
+        const index = this.list.indexOf(row)
+        this.list.splice(index, 1)
+      })
     }
   }
 }

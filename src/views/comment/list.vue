@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 09:34:48
- * @LastEditTime: 2019-12-12 16:40:12
+ * @LastEditTime: 2019-12-13 16:37:13
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -32,10 +32,10 @@
           <el-tag>{{ scope.row.MsgType == '0' ? '商品评论' : '服务订单评论' }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" min-width="100" label="名称" prop="pushTime"/>
-      <el-table-column align="center" min-width="100" label="评论数" prop="pushType"/>
-      <el-table-column align="center" min-width="100" label="综合评分" prop="pushType"/>
-      <el-table-column align="center" min-width="100" label="创建时间" prop="addTime"/>
+      <el-table-column align="center" min-width="100" label="名称" prop="name"/>
+      <el-table-column align="center" min-width="100" label="评论数" prop="size"/>
+      <el-table-column align="center" min-width="100" label="综合评分" prop="grade"/>
+      <!-- <el-table-column align="center" min-width="100" label="创建时间" prop="addTime"/> -->
       <el-table-column align="center" label="操作" width="200" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleDetail(scope.row)">查看</el-button>
@@ -112,7 +112,7 @@ export default {
       this.getList()
     },
     handleDetail(row) {
-      this.$router.push({ path: '/comment/detail', query: { id: row.valueId }})
+      this.$router.push({ path: '/comment/detail', query: { valueId: row.valueId, type: row.type }})
     }
   }
 }

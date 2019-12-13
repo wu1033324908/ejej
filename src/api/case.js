@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2019-12-06 11:41:12
+ * @LastEditTime: 2019-12-13 14:35:27
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \com-ejej-admin-dev-env\src\api\case.js
+ */
 import request from '@/utils/request'
 // 案例列表
 export function getCaseList(data) {

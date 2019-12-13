@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2019-12-06 11:41:13
+ * @LastEditTime: 2019-12-13 15:49:03
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \com-ejej-admin-dev-env\src\components\SvgIcon\index.vue
+ -->
 <template>
   <svg :class="svgClass" aria-hidden="true">
     <use :xlink:href="iconName"/>

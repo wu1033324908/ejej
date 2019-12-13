@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-16 15:03:31
- * @LastEditTime: 2019-12-12 11:12:14
+ * @LastEditTime: 2019-12-13 11:46:17
  * @LastEditors: Please set LastEditors
  * 服务订单管理
  -->
@@ -43,16 +43,20 @@
       <el-table-column align="center" min-width="100" label="订单编号" prop="orderCode"/>
       <el-table-column align="center" min-width="100" label="类型" prop="orderType">
         <template slot-scope="scope">
-          <el-tag>{{ scope.row.afterStatus | afterStatusF }}</el-tag>
+          <el-tag>{{ scope.row.afterType | afterTypeF }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" min-width="100" label="售后类型" prop="afterType">
 
         <template slot-scope="scope">
-          <el-tag>{{ scope.row.orderResult | orderResultF }}</el-tag>
+          <el-tag>{{ scope.row.afterType | afterTypeF }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" min-width="100" label="售后状态" prop="afterStatus"/>
+      <el-table-column align="center" min-width="100" label="售后状态" prop="afterStatus">
+        <template slot-scope="scope">
+          <el-tag>{{ scope.row.afterType | afterTypeF }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column align="center" min-width="100" label="申请时间" prop=""/>
       <el-table-column align="center" min-width="100" label="姓名" prop="nickname"/>
       <el-table-column align="center" min-width="100" label="手机号码" prop="mobile"/>
@@ -141,12 +145,21 @@ export default {
   name: 'AfterSalesServiceOrderList',
   components: { BackToTop, Pagination },
   filters: {
-    afterStatusF(v) {
+    afterTypeF(v) {
       if (v === 0) {
-        return '售后中'
+        return '全额退款 '
       }
       if (v === 1) {
-        return '售后完成'
+        return '部分退款'
+      }
+      if (v === 2) {
+        return '退还定金'
+      }
+      if (v === 3) {
+        return '平台介入维权'
+      }
+      if (v === 4) {
+        return '其他'
       }
     },
     orderResultF(v) {

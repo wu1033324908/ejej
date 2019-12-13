@@ -3,7 +3,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 10:28:46
- * @LastEditTime: 2019-08-16 14:42:32
+ * @LastEditTime: 2019-12-13 15:10:42
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -62,6 +62,7 @@
           <el-button type="primary" @click="handleCreateL2(scope.row)">新增三级分类</el-button>
           <el-button v-show="scope.row.state==1" type="danger" @click="handleForbid(scope.row)">禁用</el-button>
           <el-button v-show="scope.row.state==0" type="success" @click="handleForbid(scope.row)">启用</el-button>
+          <el-button type="danger" @click="handleDel(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -176,6 +177,13 @@
       </el-dialog>
     </el-dialog>
 
+    <pagination
+      v-show="total>0"
+      :total="total"
+      :page.sync="listQuery.page"
+      :limit.sync="listQuery.limit"
+      @pagination="getList"
+    />
     <el-tooltip placement="top" content="返回顶部">
       <back-to-top :visibility-height="100" />
     </el-tooltip>
@@ -233,17 +241,18 @@
 <script>
 // import { getUserList, deleteUser } from "@/api/user";
 import {
-  listCategory,
+  // listCategory,
   listCategoryLv,
   createCategory,
   updateCategory,
-  deleteCategory
+  deleteCategory,
+  deletedata
 } from '@/api/category'
-import { departList } from '@/api/depart'
+// import { departList } from '@/api/depart'
 import BackToTop from '@/components/BackToTop'
 import { MessageBox } from 'element-ui'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
-import { getDropDown } from '@/api/dropDown'
+// import { getDropDown } from '@/api/dropDown'
 export default {
   name: 'GoodsLabel',
   components: { BackToTop, Pagination },
@@ -295,6 +304,8 @@ export default {
       //   level: 1,
       //   pid: 0
       // };
+
+      this.listLoading = true
       if (this.classL !== '') {
         this.listQuery.pid = this.classL
       }
@@ -305,18 +316,18 @@ export default {
         .then(response => {
           console.log(response)
           this.list = response.data.data.data
-          //   this.listLoading = false;
-          //   listData = {};
+          this.total = response.data.data.page.total
+          this.listLoading = false
         })
         .catch(err => {
           console.log(err)
-          //   this.list = [];
-          //   this.total = 0;
-          //   this.listLoading = false;
+          this.list = []
+          this.total = 0
+          this.listLoading = false
         })
     },
     handleFilter() {
-      // this.listQuery.page = 1;
+      this.listQuery.page = 1
       this.getList()
     },
     // 获得一级分类列表
@@ -490,9 +501,9 @@ export default {
 
     // 禁用分类
     handleForbid(row) {
-      if (row.state == 1) {
+      if (row.state === 1) {
         row.state = 0
-      } else if (row.state == 0) {
+      } else if (row.state === 0) {
         row.state = 1
       }
       const State = {
@@ -510,13 +521,24 @@ export default {
           })
           this.getList()
         })
-        .catch(err => {
-          console.log(err)
+        .catch(response => {
           MessageBox.alert('业务错误：' + response.data.errmsg, '警告', {
             confirmButtonText: '确定',
             type: 'error'
           })
         })
+    },
+    handleDel(row) {
+      deletedata(row).then(response => {
+        this.$notify({
+          title: '成功',
+          message: '删除成功',
+          type: 'success',
+          duration: 2000
+        })
+        const index = this.list.indexOf(row)
+        this.list.splice(index, 1)
+      })
     }
   }
 }

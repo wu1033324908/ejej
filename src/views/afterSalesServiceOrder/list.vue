@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-16 15:03:31
- * @LastEditTime: 2019-12-12 10:45:51
+ * @LastEditTime: 2019-12-13 11:51:05
  * @LastEditors: Please set LastEditors
  * 服务售后
  -->
@@ -43,16 +43,20 @@
       <el-table-column align="center" min-width="100" label="订单编号" prop="orderCode"/>
       <el-table-column align="center" min-width="100" label="类型" prop="orderType">
         <template slot-scope="scope">
-          <el-tag>{{ scope.row.afterStatus | afterStatusF }}</el-tag>
+          <el-tag>{{ scope.row.orderType | orderTypeF }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" min-width="100" label="售后类型" prop="afterType">
 
         <template slot-scope="scope">
-          <el-tag>{{ scope.row.orderResult | orderResultF }}</el-tag>
+          <el-tag>{{ scope.row.afterType | afterTypeF }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" min-width="100" label="售后状态" prop="afterStatus"/>
+      <el-table-column align="center" min-width="100" label="售后状态" prop="afterStatus">
+        <template slot-scope="scope">
+          <el-tag>{{ scope.row.afterStatus | afterStatusF }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column align="center" min-width="100" label="申请时间" prop=""/>
       <el-table-column align="center" min-width="100" label="姓名" prop="nickname"/>
       <el-table-column align="center" min-width="100" label="手机号码" prop="mobile"/>
@@ -141,23 +145,38 @@ export default {
   name: 'AfterSalesServiceOrderList',
   components: { BackToTop, Pagination },
   filters: {
-    afterStatusF(v) {
+    orderTypeF(v) {
       if (v === 0) {
-        return '售后中'
+        return '设计类订单'
       }
       if (v === 1) {
-        return '售后完成'
+        return '装修类订单'
       }
     },
-    orderResultF(v) {
+    afterTypeF(v) {
       if (v === 0 || v === '0') {
-        return '部分退款'
-      }
-      if (v === 1 || v === '1') {
         return '全额退款'
       }
+      if (v === 1 || v === '1') {
+        return '部分退款'
+      }
+      if (v === 2 || v === '2') {
+        return '退还定金'
+      }
       if (v === 3 || v === '3') {
-        return '主动撤销'
+        return '平台介入维权'
+      }
+      if (v === 4 || v === '4') {
+        return '其他'
+      }
+      return '暂无'
+    },
+    afterStatusF(v) {
+      if (v === 0 || v === '0') {
+        return '售后中'
+      }
+      if (v === 1 || v === '1') {
+        return '售后完成'
       }
       return '暂无'
     }

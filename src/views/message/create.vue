@@ -126,7 +126,7 @@ export default {
       isSJR: false,
       fromData: {
       },
-      sendTypes: [{ id: '0', name: '直接发送' }, { id: '1', name: '定时发送' }],
+      sendTypes: [{ id: 0, name: '直接发送' }, { id: 1, name: '定时发送' }],
       rules: {
         title: [
           {
@@ -172,14 +172,14 @@ export default {
       multipleSelection: [],
       listLoading: false,
       msgStates: [
-        { name: '系统消息', id: '0' },
-        { name: '活动消息', id: '1' },
-        { name: '优惠促销', id: '2' },
-        { name: '售后反馈', id: '3' },
-        { name: '通知', id: '4' },
-        { name: '私信', id: '5' },
-        { name: 'b端站内消息', id: '6' },
-        { name: 'b端站内私信', id: '7' }
+        { name: '系统消息', id: 0 },
+        { name: '活动消息', id: 1 },
+        { name: '优惠促销', id: 2 },
+        { name: '售后反馈', id: 3 },
+        { name: '通知', id: 4 },
+        { name: '私信', id: 5 },
+        { name: 'b端站内消息', id: 6 },
+        { name: 'b端站内私信', id: 7 }
       ]
     }
   },
@@ -200,12 +200,12 @@ export default {
       // this.fromData.msgCode = data.msgCode
       console.log(data)
       this.fromData = data
-      this.fromData.sendType = data.sendType.toString()
-      this.fromData.msgState = data.msgState.toString()
-      if (this.fromData.sendType === '1') {
+      this.fromData.sendType = data.sendType
+      this.fromData.msgState = data.msgState
+      if (this.fromData.sendType === 1) {
         this.isShowTimeInput = true
       }
-      if (this.fromData.sendType === '3' || this.fromData.sendType === '4' || this.fromData.sendType === '5' || this.fromData.sendType === '7') {
+      if (this.fromData.sendType === 3 || this.fromData.sendType === 4 || this.fromData.sendType === 5 || this.fromData.sendType === 7) {
         this.isSJR = true
       }
     },
@@ -262,7 +262,7 @@ export default {
       data === '0' ? _this.isShowTimeInput = false : _this.isShowTimeInput = true
     },
     changeMsgState(data) {
-      if (data === '3' || data === '4' || data === '5' || data === '7') {
+      if (data === 3 || data === 4 || data === 5 || data === 7) {
         this.isSJR = true
       }
     },

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 10:28:46
- * @LastEditTime: 2019-08-16 14:42:32
+ * @LastEditTime: 2019-12-13 15:05:20
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -34,7 +34,7 @@
           :value="item.value"
         />
       </el-select>
-      <el-button class="search-button" size="medium" @click="handleFilter">搜索</el-button>
+      <el-button class="search-button" size="medium" type="primary" @click="handleFilter">搜索</el-button>
       <el-button class="add-button" size="medium" type="primary" @click="addServiceLabelfn">新增</el-button>
     </div>
     <div class="list-container">
@@ -84,9 +84,20 @@
               size="mini"
               @click="handleForbid(scope.row)"
             >启用</el-button>
+            <el-button size="mini" type="danger" @click="handleDel(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
+      <pagination
+        v-show="total>0"
+        :total="total"
+        :page.sync="listQuery.page"
+        :limit.sync="listQuery.limit"
+        @pagination="getList"
+      />
+      <el-tooltip placement="top" content="返回顶部">
+        <back-to-top :visibility-height="100" />
+      </el-tooltip>
     </div>
   </div>
 </template>
@@ -117,10 +128,11 @@
 </style>
 
 <script>
-import { getServiceLable, forbiddenServiceLable } from '@/api/label'
+import { getServiceLable, forbiddenServiceLable, goodsLabelDelete } from '@/api/label'
 import BackToTop from '@/components/BackToTop'
 import Pagination from '@/components/Pagination'
 export default {
+  components: { BackToTop, Pagination },
   data() {
     return {
       labelNum: '',
@@ -160,11 +172,11 @@ export default {
       this.listLoading = true
       getServiceLable(this.listQuery)
         .then(response => {
-          // console.log(response);
-          this.list = response.data.data
+          this.list = response.data.data.data
+          this.total = response.data.data.page.total
           this.listLoading = false
         })
-        .catch(err => {
+        .catch(() => {
           this.list = []
           this.total = 0
           this.listLoading = false
@@ -200,7 +212,7 @@ export default {
         .then(response => {
           this.getList()
         })
-        .catch(err => {
+        .catch(() => {
           // console.log(err);
         })
     },
@@ -215,6 +227,18 @@ export default {
     handlePictureCardPreview(file) {
       this.pciImageUrl = file.url
       this.pciImageUrl = true
+    },
+    handleDel(row) {
+      goodsLabelDelete(row).then(response => {
+        this.$notify({
+          title: '成功',
+          message: '删除成功',
+          type: 'success',
+          duration: 2000
+        })
+        const index = this.list.indexOf(row)
+        this.list.splice(index, 1)
+      })
     }
   }
 }

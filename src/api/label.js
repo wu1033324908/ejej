@@ -117,7 +117,7 @@ export function addServiceUserLable(data) {
     data
   })
 }
-// 查询某个服务商全部的标签 
+// 查询某个服务商全部的标签
 export function getOneServiceUserLable(data) {
   return request({
     url: '/service/label',
@@ -137,6 +137,22 @@ export function deleteServiceUserLable(data) {
 export function addOneServiceUserLable(data) {
   return request({
     url: '/service/labelList',
+    method: 'post',
+    data
+  })
+}
+// 商品标签删除
+export function goodsLabelDelete(data) {
+  return request({
+    url: 'goodsLabel/delete',
+    method: 'post',
+    data
+  })
+}
+// 服务商标签
+export function serviceDelete(data) {
+  return request({
+    url: '/service/delete',
     method: 'post',
     data
   })

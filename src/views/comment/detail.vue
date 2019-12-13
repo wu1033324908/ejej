@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 09:34:48
- * @LastEditTime: 2019-12-12 16:51:57
+ * @LastEditTime: 2019-12-13 16:22:06
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -25,9 +25,8 @@
 
     <!-- 查询结果 -->
     <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row>
-      <el-table-column type="selection"/>
-      <el-table-column align="center" label="订单编号" prop="id"/>
-      <el-table-column align="center" label="姓名" prop="userName"/>
+      <el-table-column align="center" label="订单编号" prop="valueId"/>
+      <el-table-column align="center" label="姓名" prop="nickname"/>
       <el-table-column align="center" min-width="100" label="手机号" prop="mobile"/>
       <el-table-column align="center" min-width="100" label="综合评分" prop="star"/>
       <el-table-column align="center" min-width="100" label="评论" prop="content"/>
@@ -54,8 +53,8 @@
         label-position="left"
         label-width="100px"
         style="width: 400px; margin-left:50px;">
-        <el-form-item label="回复内容" prop="desc">
-          <el-input :rows="4" v-model="hfData.desc" type="textarea" placeholder="请输入回复内容"/>
+        <el-form-item label="回复内容" prop="content">
+          <el-input :rows="4" v-model="hfData.content" type="textarea" placeholder="请输入回复内容"/>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -104,7 +103,10 @@ export default {
       },
       types: [{ id: '0', name: '商品评论' }, { id: '1', name: '服务订单评论' }],
       hfData: {},
-      visiable: false
+      visiable: false,
+
+      valueId: undefined,
+      type: undefined
     }
   },
   created() {
@@ -115,7 +117,9 @@ export default {
     init() {
       if (!this.$route.query.valueId) return
       this.valueId = this.$route.query.valueId
+      this.type = this.$route.query.type || undefined
       this.listQuery.valueId = this.$route.query.valueId
+      console.log(this.$route.query)
     },
     getList() {
       this.listLoading = true
@@ -137,6 +141,9 @@ export default {
       this.hfData = {}
       this.visiable = true
       this.hfData = row
+      this.hfData.type = this.type
+      this.hfData.usertType = '2'
+      this.hfData.userCode = 'adminID'
     },
     handleDelete(row) {
       deleteComment(row).then(response => {
