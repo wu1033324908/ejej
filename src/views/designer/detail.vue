@@ -1,26 +1,27 @@
 <template>
-  <div class="app-container" v-loading="loadingDetail">
+  <div v-loading="loadingDetail" class="app-container">
     <h3>查看详情</h3>
     <el-card class="box-card">
       <h4>设计师基本信息</h4>
       <div
         style="display:inline-block ; vertical-align: top; margin-right:100px; width:100px;  height : 100px"
       >
+
         <div style="width:100px ;height:100px ">
-          <img style="width:100px ;height:100px " :src="designerData.avatar" />
+          <img :src="designerData.avatar" style="width:100px;height:100px;">
         </div>
         <el-upload
-          style="margin-top: 20px;margin-left: 8px; "
           ref="upLoadAvatar"
-          class="upload-demo"
           :headers="headers"
           :action="uploadPath"
           :on-remove="handleRemove"
           :on-success="handleGalleryUrl"
-          multiple
           :limit="1"
+          style="margin-top: 20px;margin-left: 8px; "
+          class="upload-demo"
+          multiple
         >
-          <el-button size="small" type="primary">点击编辑</el-button>
+          <!-- <el-button size="small" type="primary">点击编辑</el-button> -->
         </el-upload>
         <!-- @click="upLoadAvatar" -->
         <!-- :auto-upload="false" -->
@@ -28,27 +29,27 @@
       <table class="detailTable" style="display: inline-block">
         <tr>
           <th>姓名</th>
-          <td>{{designerData.nickname}}</td>
+          <td>{{ designerData.nickname }}</td>
           <th>手机号码</th>
-          <td>{{designerData.mobile}}</td>
+          <td>{{ designerData.mobile }}</td>
           <th>工作年限</th>
-          <td>{{designerData.workYear}}</td>
+          <td>{{ designerData.workYear }}</td>
         </tr>
         <tr>
           <th>归属机构</th>
-          <td>{{designerData.departCode}}</td>
+          <td>{{ designerData.departCode }}</td>
           <th>邮箱</th>
-          <td>{{designerData.email}}</td>
+          <td>{{ designerData.email }}</td>
           <th>状态</th>
-          <td>{{designerData.status}}</td>
+          <td>{{ designerData.status }}</td>
         </tr>
         <tr>
           <th>性别</th>
-          <td>{{designerData.gender== 0 ? "未知":designerData.gender==1 ?'男:' : designerData.gender==0 ? '女':'' }}</td>
+          <td>{{ designerData.gender== 0 ? "未知":designerData.gender==1 ?'男:' : designerData.gender==0 ? '女':'' }}</td>
           <th>出生日期</th>
-          <td>{{designerData.birthday}}</td>
+          <td>{{ designerData.birthday }}</td>
           <th>注册时间</th>
-          <td>{{designerData.addTime}}</td>
+          <td>{{ designerData.addTime }}</td>
         </tr>
       </table>
     </el-card>
@@ -65,10 +66,10 @@
         </thead>
         <tbody>
           <tr>
-            <td></td>
-            <td>{{activity.forWordNumber}}</td>
-            <td>{{activity.likeNumber}}</td>
-            <td>{{activity.collectNumber}}</td>
+            <td/>
+            <td>{{ activity.forWordNumber }}</td>
+            <td>{{ activity.likeNumber }}</td>
+            <td>{{ activity.collectNumber }}</td>
           </tr>
         </tbody>
       </table>
@@ -77,14 +78,16 @@
       <h4 style="display:line-block">介绍信息</h4>
       <el-button type="primary" @click="dialogInfo=true">新增</el-button>
       <el-table :data="introduce" style="width: 100%">
-        <el-table-column prop="id" label="序号" width="180"></el-table-column>
-        <el-table-column prop="introduceName" label="名称" width="180"></el-table-column>
+        <el-table-column prop="id" label="序号" width="180"/>
+        <el-table-column prop="introduceName" label="名称" width="180"/>
         <el-table-column prop="introduceContent" label="内容" width="180">
           <template slot-scope="scope">
             <!-- <img :src="scope.row.serviceLabelUrl" style="width:50px" alt /> -->
             <el-popover placement="right" width="400" trigger="click">
-              <div style="margin-left:50px" > 内容: {{scope.row.introduceContent}}</div>
-              <div style="margin-top:20px ;margin-left:50px" ><img :src="scope.row.introduceUrl" style="width:100px ; height:100px"  alt=""></div>
+              <div style="margin-left:50px">内容: {{ scope.row.introduceContent }}</div>
+              <div style="margin-top:20px ;margin-left:50px">
+                <img :src="scope.row.introduceUrl" style="width:100px ; height:100px" alt >
+              </div>
               <el-button slot="reference">查看</el-button>
             </el-popover>
           </template>
@@ -101,17 +104,17 @@
       <h4>标签信息</h4>
       <el-button type="primary" @click="ServiceLableCreate()">新增</el-button>
       <el-table :data="ServiceLable" style="width: 100%">
-        <el-table-column prop="id" label="序号" width="180"></el-table-column>
+        <el-table-column prop="id" label="序号" width="180"/>
         <el-table-column prop="serviceType" label="类型" width="180">
           <template
             slot-scope="scope"
-          >{{ scope.row.serviceType==0 ? "资质标签" : scope.row.serviceType==1 ? "属性标签" :scope.row.serviceType==2? "自定义标签" : scope.row.serviceType==3? "第三方认证" : ''  }}</template>
+          >{{ scope.row.serviceType==0 ? "资质标签" : scope.row.serviceType==1 ? "属性标签" :scope.row.serviceType==2? "自定义标签" : scope.row.serviceType==3? "第三方认证" : '' }}</template>
         </el-table-column>
-        <el-table-column prop="serviceLabelName" label="名称" width="180"></el-table-column>
+        <el-table-column prop="serviceLabelName" label="名称" width="180"/>
         <el-table-column prop="serviceLabelUrl" label="图片" width="180">
           <template slot-scope="scope">
             <!-- {{scope.row}} -->
-            <img :src="scope.row.serviceLabelUrl" style="width:100px ;height:100px " alt />
+            <img :src="scope.row.serviceLabelUrl" style="width:100px ;height:100px " alt >
           </template>
         </el-table-column>
         <el-table-column label="操作" align="operation" width="180">
@@ -124,16 +127,16 @@
     <el-card>
       <h4>案例信息</h4>
       <el-table :data="caseData" style="width: 100%">
-        <el-table-column prop="id" label="序号" width="180"></el-table-column>
-        <el-table-column prop="exampleSource" label="案例来源" width="180"></el-table-column>
-        <el-table-column prop="exampleName" label="案例名称"></el-table-column>
-        <el-table-column prop="exampleStyle" label="风格"></el-table-column>
-        <el-table-column prop="exampleModel" label="样式"></el-table-column>
-        <el-table-column prop="decorationBudget" label="装修预算"></el-table-column>
-        <el-table-column prop="area" label="面积"></el-table-column>
-        <el-table-column prop="designMoney" label="设计费用"></el-table-column>
+        <el-table-column prop="id" label="序号" width="180"/>
+        <el-table-column prop="exampleSource" label="案例来源" width="180"/>
+        <el-table-column prop="exampleName" label="案例名称"/>
+        <el-table-column prop="exampleStyle" label="风格"/>
+        <el-table-column prop="exampleModel" label="样式"/>
+        <el-table-column prop="decorationBudget" label="装修预算"/>
+        <el-table-column prop="area" label="面积"/>
+        <el-table-column prop="designMoney" label="设计费用"/>
         <el-table-column prop="desc" label="设计说明">
-          <template slot-scope="scope">{{scope.row}}</template>
+          <template slot-scope="scope">{{ scope.row }}</template>
         </el-table-column>
         <el-table-column prop="address" label="操作">
           <template slot-scope="scope">
@@ -149,25 +152,25 @@
       <el-button @click="handleCancel">取消</el-button>
       <el-button type="primary" @click="handlePublish">添加</el-button>
     </div>-->
-    <el-dialog title="编辑介绍信息" :visible.sync="dialogInfoEdit">
+    <el-dialog :visible.sync="dialogInfoEdit" title="编辑介绍信息">
       <el-form :model="introduceEdit">
         <el-form-item label="介绍名称">
-          <el-input v-model="introduceEdit.introduceName" autocomplete="off"></el-input>
+          <el-input v-model="introduceEdit.introduceName" autocomplete="off"/>
         </el-form-item>
         <el-form-item label="介绍内容">
-          <el-input v-model="introduceEdit.introduceContent" autocomplete="off"></el-input>
+          <el-input v-model="introduceEdit.introduceContent" autocomplete="off"/>
         </el-form-item>
         <el-form-item label="图片">
-          <img style="width:100px;height:100px" :src="introduceEdit.introduceUrl" alt />
+          <img :src="introduceEdit.introduceUrl" style="width:100px;height:100px" alt >
           <el-upload
             ref="upLoadInfo"
-            class="upload-demo"
             :headers="headers"
             :action="serviceUploadPath"
             :on-remove="handleRemove"
             :on-success="handleGalleryUrlInfo"
-            multiple
             :limit="1"
+            class="upload-demo"
+            multiple
           >
             <el-button size="small" style="margin-left:46px" type="primary">点击编辑</el-button>
           </el-upload>
@@ -178,13 +181,13 @@
         <el-button type="primary" @click="editLableDetail">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="新增介绍信息" :visible.sync="dialogInfo">
+    <el-dialog :visible.sync="dialogInfo" title="新增介绍信息">
       <el-form :model="InfoForm">
         <el-form-item label="介绍名称">
-          <el-input v-model="InfoForm.introduce_name" autocomplete="off"></el-input>
+          <el-input v-model="InfoForm.introduce_name" autocomplete="off"/>
         </el-form-item>
         <el-form-item label="介绍内容">
-          <el-input v-model="InfoForm.introduce_content" autocomplete="off"></el-input>
+          <el-input v-model="InfoForm.introduce_content" autocomplete="off"/>
         </el-form-item>
         <el-form-item label="图片">
           <el-upload
@@ -207,7 +210,7 @@
         <el-button type="primary" @click="addLableDetail">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="新增关联标签" :visible.sync="dialogLable" v-loading="lableLoading">
+    <el-dialog v-loading="lableLoading" :visible.sync="dialogLable" title="新增关联标签">
       <el-input v-model="searchLable.serviceLabelName" style="width: 150px;" placeholder="请输入名称" />
       <el-select
         v-model="searchLable.serviceType"
@@ -215,24 +218,24 @@
         style="width: 120px;"
         placeholder="请选择类型"
       >
-        <el-option label="资质标签" value="0"></el-option>
-        <el-option label="属性标签" value="1"></el-option>
-        <el-option label="自定义标签" value="2"></el-option>
-        <el-option label="第三方认证" value="3"></el-option>
+        <el-option label="资质标签" value="0"/>
+        <el-option label="属性标签" value="1"/>
+        <el-option label="自定义标签" value="2"/>
+        <el-option label="第三方认证" value="3"/>
       </el-select>
       <el-button type="primary" @click="ServiceLableCreate">搜索</el-button>
       <el-button type="primary" @click="createLableLoading = true">新增</el-button>
       <el-table :data="lableData" style="width: 100%">
-        <el-table-column prop="id" label="序号" width="180"></el-table-column>
+        <el-table-column prop="id" label="序号" width="180"/>
         <el-table-column prop="serviceType" label="类型" width="180">
           <template
             slot-scope="scope"
-          >{{ scope.row.serviceType==0 ? "资质标签" : scope.row.serviceType==1 ? "属性标签" :scope.row.serviceType==2? "自定义标签" : scope.row.serviceType==3? "第三方认证" : ''  }}</template>
+          >{{ scope.row.serviceType==0 ? "资质标签" : scope.row.serviceType==1 ? "属性标签" :scope.row.serviceType==2? "自定义标签" : scope.row.serviceType==3? "第三方认证" : '' }}</template>
         </el-table-column>
-        <el-table-column prop="serviceLabelName" label="名称"></el-table-column>
+        <el-table-column prop="serviceLabelName" label="名称"/>
         <el-table-column prop="serviceLabelUrl" label="图片">
           <template slot-scope="scope">
-            <img style=" width:100px;height:100px" :src="scope.row.serviceLabelUrl" alt />
+            <img :src="scope.row.serviceLabelUrl" style=" width:100px;height:100px" alt >
           </template>
         </el-table-column>
         <el-table-column prop="address" label="操作">
@@ -247,7 +250,7 @@
         <el-button type="primary" @click="addUserLabel">确 定</el-button>
       </div>
 
-      <el-dialog width="30%" title="新增一个关联标签" :visible.sync="createLableLoading" append-to-body>
+      <el-dialog :visible.sync="createLableLoading" width="30%" title="新增一个关联标签" append-to-body>
         <el-form ref="serviceLabel" :rules="rules" :model="serviceNewLabel" label-width="120px">
           <el-form-item label="服务商标签序号" prop="id">
             <el-input v-model="serviceNewLabel.id" />
@@ -377,29 +380,29 @@
 </style>
 
 <script>
-import { userDetail, uploadPath } from "@/api/user";
-import { getCaseList } from "@/api/case";
+import { userDetail, uploadPath } from '@/api/user'
+import { getCaseList } from '@/api/case'
 import {
   getServiceLable,
-  addServiceLable,
-  forbidGoodsLabel,
+  // addServiceLable,
+  // forbidGoodsLabel,
   detailServiceLable,
   addServiceUserLable,
   getOneServiceUserLable,
   deleteServiceUserLable,
   serviceUploadPath,
   addOneServiceUserLable,
-  introduceUploadPath,
-  updataDetailServiceLable,
-  delDetailServiceLable
-} from "@/api/label";
-import { departList } from "@/api/depart";
-import { MessageBox } from "element-ui";
-import { getToken } from "@/utils/auth";
+  // introduceUploadPath,
+  updataDetailServiceLable
+  // delDetailServiceLable
+} from '@/api/label'
+// import { departList } from '@/api/depart'
+// import { MessageBox } from 'element-ui'
+import { getToken } from '@/utils/auth'
 export default {
   data() {
     return {
-      designerId: "",
+      designerId: '',
       uploadPath,
       serviceUploadPath,
       dialogLable: false,
@@ -414,7 +417,7 @@ export default {
       introduce: [],
       departOptions: [],
       caseData: [],
-      userCode: "",
+      userCode: '',
       InfoForm: {},
       introduceEdit: {},
       loadingDetail: true,
@@ -424,36 +427,36 @@ export default {
       dialogInfoEdit: false,
       typeoptions: [
         // { value: "", label: "" },
-        { value: "0", label: "资质标签" },
-        { value: "1", label: "属性标签" },
-        { value: "2", label: "自定义标签" },
-        { value: "3", label: "第三方认证" }
+        { value: '0', label: '资质标签' },
+        { value: '1', label: '属性标签' },
+        { value: '2', label: '自定义标签' },
+        { value: '3', label: '第三方认证' }
       ],
       rules: {
         nickname: [
-          { required: true, message: "作者不能为空", trigger: "blur" }
+          { required: true, message: '作者不能为空', trigger: 'blur' }
         ],
         housingname: [
-          { required: true, message: "案例名称不能为空", trigger: "blur" }
+          { required: true, message: '案例名称不能为空', trigger: 'blur' }
         ]
       }
-    };
+    }
   },
   computed: {
     headers() {
       return {
-        "X-Wajueji-Admin-Token": getToken()
-      };
+        'X-Wajueji-Admin-Token': getToken()
+      }
     }
   },
   created() {
-    this.init();
+    this.init()
   },
   methods: {
     init: function() {
-      this.designerId = this.$route.query.id;
-      this.getUserDetail();
-      this.getLableList();
+      this.designerId = this.$route.query.id
+      this.getUserDetail()
+      this.getLableList()
     },
 
     // 获取标签列表
@@ -462,126 +465,126 @@ export default {
       // {
       //   serviceCode: this.designerData.departCode
       // }
-      getOneServiceUserLable({serviceCode:this.designerData.serviceCode})
+      getOneServiceUserLable({ serviceCode: this.designerData.serviceCode })
         .then(response => {
           // console.log(123)
           // console.log(response);
           // this.ServiceLable = response.data.data;
         })
         .catch(errmsg => {
-          console.log(errmsg);
-        });
+          console.log(errmsg)
+        })
     },
     // 获取设计师详情
     getUserDetail() {
       userDetail({ id: this.designerId })
         .then(response => {
-          console.log(response);
-          this.designerData = response.data.data.user;
+          console.log(response)
+          this.designerData = response.data.data.user
           // console.log(this.designerData);
-          this.activity = response.data.data.activity;
-          this.ServiceLable = response.data.data.ServiceLabel;
-          this.introduce = response.data.data.introduce;
+          this.activity = response.data.data.activity
+          this.ServiceLable = response.data.data.ServiceLabel
+          this.introduce = response.data.data.introduce
           // console.log(this.ServiceLable);
-          this.loadingDetail = false;
+          this.loadingDetail = false
         })
         .catch(errmsg => {
-          console.log(errmsg);
-        });
+          console.log(errmsg)
+        })
     },
     // 获取案例列表
     getCaseList() {
       getCaseList({})
         .then(response => {
-          console.log(Response);
+          console.log(Response)
         })
         .catch(errmsg => {
-          console.log(errmsg);
-        });
+          console.log(errmsg)
+        })
     },
     // 选择与服务商相关的标签
     addRelevanceLabel(row) {
-      let labelData = {
+      const labelData = {
         serviceCode: this.designerData.serviceCode,
         serviceLabelCode: row.serviceLabelCode,
         serviceType: row.serviceType,
-        serviceSource: "0"
-      };
+        serviceSource: '0'
+      }
 
       addOneServiceUserLable(labelData)
         .then(response => {
-          console.log(response);
+          console.log(response)
           // this.getLableList();
           this.getUserDetail()
           this.dialogLable = false
           this.$message({
-            type: "success",
-            message: "关联成功"
-          });
+            type: 'success',
+            message: '关联成功'
+          })
         })
         .catch(errmsg => {
-          console.log(errmsg);
-        });
+          console.log(errmsg)
+        })
     },
     // 打开编辑标签详情
     openLableDetail(row) {
-      this.dialogInfoEdit = true;
-      console.log(row);
-      this.introduceEdit = row;
+      this.dialogInfoEdit = true
+      console.log(row)
+      this.introduceEdit = row
     },
     // 更新标签详情
     editLableDetail() {
-      let InfoData = {};
-      InfoData.introduce_name = this.introduceEdit.introduceName;
-      InfoData.introduce_content = this.introduceEdit.introduceContent;
-      InfoData.introduce_url = this.InfoForm.introduce_url;
-      InfoData.service_source = 0;
-      InfoData.service_code = this.designerData.serviceCode;
+      const InfoData = {}
+      InfoData.introduce_name = this.introduceEdit.introduceName
+      InfoData.introduce_content = this.introduceEdit.introduceContent
+      InfoData.introduce_url = this.InfoForm.introduce_url
+      InfoData.service_source = 0
+      InfoData.service_code = this.designerData.serviceCode
       updataDetailServiceLable(InfoData)
         .then(response => {
-          this.dialogInfoEdit = false;
-          console.log(response);
+          this.dialogInfoEdit = false
+          console.log(response)
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     // 禁用标签详情
     introduceHandleforbid() {},
     // 新增标签详情
     addLableDetail() {
-      this.dialogInfo = true;
-      let InfoData = this.InfoForm;
-      InfoData.service_source = 0;
-      InfoData.service_code = this.designerData.serviceCode;
+      this.dialogInfo = true
+      const InfoData = this.InfoForm
+      InfoData.service_source = 0
+      InfoData.service_code = this.designerData.serviceCode
       // service_type: 0
       detailServiceLable(InfoData)
         .then(response => {
-          this.dialogInfo = false;
-          this.InfoForm = {};
-          this.$refs.uploadInfo.clearFiles();
-          this.getUserDetail();
+          this.dialogInfo = false
+          this.InfoForm = {}
+          this.$refs.uploadInfo.clearFiles()
+          this.getUserDetail()
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
-    //新增标签
+    // 新增标签
     ServiceLableCreate() {
-      this.dialogLable = true;
+      this.dialogLable = true
       // 查询服务商的标签列表
-      let searchLableData = this.searchLable;
-      searchLableData.serviceSource = "0";
-      searchLableData.id = this.$route.query.id;
+      const searchLableData = this.searchLable
+      searchLableData.serviceSource = '0'
+      searchLableData.id = this.$route.query.id
       getServiceLable(searchLableData)
         .then(response => {
-          console.log(response);
-          this.lableData = response.data.data;
-          this.lableLoading = false;
+          console.log(response)
+          this.lableData = response.data.data
+          this.lableLoading = false
         })
         .catch(errmsg => {
-          console.log(errmsg);
-        });
+          console.log(errmsg)
+        })
 
       // this.$router.push({
       //   path: "/label/createServiceLabel",
@@ -597,10 +600,10 @@ export default {
     },
     // 选择新增标签
     addLabel() {
-      this.createLableLoading = true;
-      let newLableData = this.serviceNewLabel;
-      newLableData.serviceSource = "0";
-      newLableData.serviceCode = this.designerData.serviceCode;
+      this.createLableLoading = true
+      const newLableData = this.serviceNewLabel
+      newLableData.serviceSource = '0'
+      newLableData.serviceCode = this.designerData.serviceCode
       // {
       //   serviceLabelCode: row.serviceLabelCode,
       //   serviceCode: this.designerData.departCode,
@@ -612,23 +615,23 @@ export default {
       // console.log(this.designerData);
       addServiceUserLable(newLableData)
         .then(response => {
-          console.log(response);
-          console.log(11223);
+          console.log(response)
+          console.log(11223)
           this.$message({
-            type: "success",
-            message: "新增成功"
-          });
-          this.createLableLoading = false;
+            type: 'success',
+            message: '新增成功'
+          })
+          this.createLableLoading = false
         })
         .catch(errmsg => {
-          console.log(errmsg);
-        });
+          console.log(errmsg)
+        })
     },
     // 新增标签
     addUserLabel() {
-      this.dialogLable = false;
+      this.dialogLable = false
     },
-    //删除
+    // 删除
     handleforbid(row) {
       // console.log(this.designerData.departCode);
       deleteServiceUserLable({
@@ -639,43 +642,43 @@ export default {
         .then(response => {
           // console.log(123);
           // console.log(response);
-          this.getUserDetail();
+          this.getUserDetail()
           // console.log(this.ServiceLable)
         })
         .catch(errmsg => {
           // console.log(errmsg);
           // console.log(1234444);
-        });
+        })
     },
     upLoadAvatar() {
-      this.$refs.upLoadAvatar.submit();
-      this.getUserDetail();
+      this.$refs.upLoadAvatar.submit()
+      this.getUserDetail()
     },
     handleCancel: function() {
-      this.$router.push({ path: "/case/create" });
+      this.$router.push({ path: '/case/create' })
     },
     uploadPicUrl: function(response) {
-      this.designerData.picUrl = response.data.url;
+      this.designerData.picUrl = response.data.url
     },
     uploadOverrun: function() {
       this.$message({
-        type: "error",
-        message: "上传文件个数超出限制!最多上传1张图片!"
-      });
+        type: 'error',
+        message: '上传文件个数超出限制!最多上传1张图片!'
+      })
     },
     uploadOverrunCase: function() {
       this.$message({
-        type: "error",
-        message: "上传文件个数超出限制!最多上传1张图片!"
-      });
+        type: 'error',
+        message: '上传文件个数超出限制!最多上传1张图片!'
+      })
     },
     // 信息图片上传成功的钩子
     handleGalleryUrlInfo(response) {
-      this.InfoForm.introduce_url = response.data.allfilePath;
+      this.InfoForm.introduce_url = response.data.allfilePath
     },
     handleGalleryUrl(response, file, fileList) {
-      console.log(response);
-      this.designerData.avatar = response.data.allfilePath;
+      console.log(response)
+      this.designerData.avatar = response.data.allfilePath
       // if (response.errno === 0) {
       //   this.designerData.gallery.push(response.data.url);
       // }
@@ -700,30 +703,30 @@ export default {
     //   });
     // },
     handleGalleryUrlLable(response, file, fileList) {
-      console.log(fileList);
-      console.log(file);
+      console.log(fileList)
+      console.log(file)
       // this.designerData.url_list.push({
       //   fileName: this.fileName,
       //   sortOrder: this.sort,
-      this.serviceNewLabel.serviceLabelUrl = response.data.allfilePath;
+      this.serviceNewLabel.serviceLabelUrl = response.data.allfilePath
       // fileUrl: response.data.allfilePath
       // });
-      console.log(this.designerData);
+      console.log(this.designerData)
       // if (response.errno === 0) {
       //   this.designerData.gallery.push(response.data.url);
       // }
     },
     beforeUpload(file) {
-      this.disabled = true;
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      this.disabled = true
+      const isLt2M = file.size / 1024 / 1024 < 2
       if (!isLt2M) {
-        this.disabled = false;
+        this.disabled = false
         this.$message({
-          message: "上传文件大小不能超过 2MB!",
-          type: "warning"
-        });
+          message: '上传文件大小不能超过 2MB!',
+          type: 'warning'
+        })
       }
-      return isLt2M;
+      return isLt2M
     },
     handleRemove(file, fileList) {
       for (var i = 0; i < this.designerData.gallery.length; i++) {
@@ -731,21 +734,21 @@ export default {
         // 1. 如果所删除图片是刚刚上传的图片，那么图片地址是file.response.data.url
         //    此时的file.url虽然存在，但是是本机地址，而不是远程地址。
         // 2. 如果所删除图片是后台返回的已有图片，那么图片地址是file.url
-        var url;
-        console.log(file);
-        console.log(fileList);
+        var url
+        console.log(file)
+        console.log(fileList)
         // this.designerData.url_list.
         if (file.response === undefined) {
-          url = file.url;
+          url = file.url
         } else {
-          url = file.response.data.url;
+          url = file.response.data.url
         }
 
         if (this.designerData.gallery[i] === url) {
-          this.designerData.gallery.splice(i, 1);
+          this.designerData.gallery.splice(i, 1)
         }
       }
     }
   }
-};
+}
 </script>

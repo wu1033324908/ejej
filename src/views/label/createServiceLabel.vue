@@ -115,7 +115,7 @@ export default {
   data() {
     return {
       serviceUploadPath,
-      userId:'',
+      userId: '',
       serviceLabel: { serviceLabelUrl: '', gallery: [] },
       applyoptions: [
         // { value: "", label: "" },
@@ -151,7 +151,7 @@ export default {
     }
   },
   created() {
-    this.init();
+    this.init()
     // console.log(getToken())
   },
 
@@ -161,11 +161,11 @@ export default {
       //   this.categoryList = response.data.data.categoryList;
       //   this.brandList = response.data.data.brandList;
       // });
-      this.userId = this.$route.query.id;
+      this.userId = this.$route.query.id
       console.log(this.userId)
     },
     handlePublish() {
-      if(this.userId!=""){
+      if (this.userId !== '') {
         this.serviceLabel.id = this.userId
       }
       addServiceLable(this.serviceLabel)
@@ -175,9 +175,9 @@ export default {
             title: '成功',
             message: '创建成功'
           })
-          if(this.$route.query.id != ''){
-            this.$router.push({ path: '/designer/detail',query:{id:this.userId} })
-          }else {
+          if (this.$route.query.id !== '') {
+            this.$router.push({ path: '/designer/detail', query: { id: this.userId }})
+          } else {
             this.$router.push({ path: '/label/serviceLabel' })
           }
         })

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 10:28:46
- * @LastEditTime: 2019-12-13 15:05:20
+ * @LastEditTime: 2019-12-17 15:00:22
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -152,6 +152,7 @@ export default {
         { value: '2', label: '自定义标签' }
       ],
       options: [{ value: 1, label: '启用' }, { value: 0, label: '禁用' }],
+      total: 0,
       listQuery: {},
       list: [],
       picVisible: false,

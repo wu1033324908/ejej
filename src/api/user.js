@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2019-12-06 11:41:12
+ * @LastEditTime: 2019-12-16 14:39:27
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \com-ejej-admin-dev-env\src\api\user.js
+ */
 import request from '@/utils/request'
 
 export function fetchList(query) {
@@ -63,7 +71,7 @@ export function createUser(data) {
 }
 export function deleteUser(data) {
   return request({
-    url: '/managerUser/delete',
+    url: '/managerUser/state',
     method: 'post',
     data
   })

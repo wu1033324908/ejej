@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2019-12-12 09:49:26
- * @LastEditTime: 2019-12-12 11:20:21
+ * @LastEditTime: 2019-12-17 16:50:18
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \com-ejej-admin-dev-env\src\api\serviceOrder.js
@@ -24,7 +24,7 @@ export function saveFile(data) {
   })
 }
 // 服务订单详情
-export function detail(data) {
+export function serviceOrderDetail(data) {
   return request({
     url: '/serviceOrder/detail',
     method: 'post',

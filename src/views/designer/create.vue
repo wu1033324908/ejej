@@ -8,9 +8,9 @@
         </el-form-item>
         <el-form-item label="性别">
           <el-select v-model="newDesigner.gender" placeholder="请选择性别">
-            <el-option label="男" value="1"></el-option>
-            <el-option label="女" value="2"></el-option>
-            <el-option label="未知" value="0"></el-option>
+            <el-option label="男" value="1"/>
+            <el-option label="女" value="2"/>
+            <el-option label="未知" value="0"/>
           </el-select>
         </el-form-item>
         <el-form-item label="手机号码" prop="mobile">
@@ -47,7 +47,7 @@
           <el-input v-model="newDesigner.email" />
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input  type="password" autocomplete="off"  v-model="newDesigner.password" />
+          <el-input v-model="newDesigner.password" autocomplete="off" />
         </el-form-item>
 
         <el-form-item label="头像">
@@ -163,114 +163,114 @@
 </style>
 
 <script>
-import { createUser, uploadPath } from "@/api/user";
-import { departList } from "@/api/depart";
-import { MessageBox } from "element-ui";
-import { getToken } from "@/utils/auth";
+import { createUser, uploadPath } from '@/api/user'
+import { departList } from '@/api/depart'
+import { MessageBox } from 'element-ui'
+import { getToken } from '@/utils/auth'
 export default {
   data() {
     var checkPhone = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error("手机号不能为空"));
+        return callback(new Error('手机号不能为空'))
       }
       setTimeout(() => {
         // if (!Number.isInteger(value)) {
         //   callback(new Error("请输入数字值"));
         // } else {
-          if (!/^1[3456789]\d{9}$/.test(value)) {
-            callback(new Error("请输入正确的手机号"));
-          } else {
-            callback();
-          }
+        if (!/^1[3456789]\d{9}$/.test(value)) {
+          callback(new Error('请输入正确的手机号'))
+        } else {
+          callback()
+        }
         // }
-      }, 1000);
-    };
+      }, 1000)
+    }
     return {
       uploadPath,
       // newDesigner: { picUrl: '', gallery: [] },
       newDesigner: {},
       departOptions: [],
-      userCode: "",
+      userCode: '',
       rules: {
         nickname: [
-          { required: true, message: "用户名不能为空", trigger: "blur" }
+          { required: true, message: '用户名不能为空', trigger: 'blur' }
         ],
-        mobile: [{ validator: checkPhone, trigger: "blur" }],
+        mobile: [{ validator: checkPhone, trigger: 'blur' }],
         email: [
-          { required: true, message: "请输入邮箱地址", trigger: "blur" },
+          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
           {
-            type: "email",
-            message: "请输入正确的邮箱地址",
-            trigger: ["blur", "change"]
+            type: 'email',
+            message: '请输入正确的邮箱地址',
+            trigger: ['blur', 'change']
           }
         ]
       }
-    };
+    }
   },
   computed: {
     headers() {
       return {
-        "X-Wajueji-Admin-Token": getToken()
-      };
+        'X-Wajueji-Admin-Token': getToken()
+      }
     }
   },
   created() {
-    this.init();
+    this.init()
   },
   methods: {
     init: function() {
-      this.getdepartList();
+      this.getdepartList()
     },
     getdepartList() {
       departList()
         .then(response => {
-          this.departOptions = response.data.data.data;
+          this.departOptions = response.data.data.data
           console.log(this.departOptions)
           console.log('this.departOptions')
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     // 添加
     handlePublish() {
-      this.newDesigner.type = '0';
-      this.newDesigner.status = "1";
+      this.newDesigner.type = '0'
+      this.newDesigner.status = '1'
       //   this.newDesigner.birthday = this.newDesigner.birthday + " 00:00:00";
-      console.log(this.newDesigner.birthday);
+      console.log(this.newDesigner.birthday)
       createUser(this.newDesigner)
         .then(response => {
-          console.log(response);
+          console.log(response)
           this.$notify.success({
-            title: "成功",
-            message: "创建成功"
-          });
-          const id = response.data.data.id;
-          // this.$router.push({ path: "/designer/detail", query: { id: id } });
+            title: '成功',
+            message: '创建成功'
+          })
+          const id = response.data.data.user.id
+          this.$router.push({ path: '/designer/detail', query: { id: id }})
         })
         .catch(errmsg => {
-          console.log(errmsg);
-          MessageBox.alert("业务错误：" + errmsg.data.errmsg, "警告", {
-            confirmButtonText: "确定",
-            type: "error"
-          });
-        });
+          console.log(errmsg)
+          MessageBox.alert('业务错误：' + errmsg.data.errmsg, '警告', {
+            confirmButtonText: '确定',
+            type: 'error'
+          })
+        })
     },
     handleCancel: function() {
-      this.$router.push({ path: "/case/create" });
+      this.$router.push({ path: '/case/create' })
     },
     uploadPicUrl: function(response) {
-      this.newDesigner.picUrl = response.data.url;
+      this.newDesigner.picUrl = response.data.url
     },
     uploadOverrun: function() {
       this.$message({
-        type: "error",
-        message: "上传文件个数超出限制!最多上传1张图片!"
-      });
+        type: 'error',
+        message: '上传文件个数超出限制!最多上传1张图片!'
+      })
     },
-    
+
     handleGalleryUrl(response, file, fileList) {
-      console.log(response);
+      console.log(response)
       this.newDesigner.avatar = response.data.allfilePath
       // if (response.errno === 0) {
       //   this.newDesigner.gallery.push(response.data.url);
@@ -299,7 +299,7 @@ export default {
     //   console.log(fileList);
     //   console.log(file);
     //   this.newDesigner.avatar = response.data.allfilePath
-     
+
     //   console.log(this.newDesigner);
     //   // if (response.errno === 0) {
     //   //   this.newDesigner.gallery.push(response.data.url);
@@ -312,21 +312,21 @@ export default {
         // 1. 如果所删除图片是刚刚上传的图片，那么图片地址是file.response.data.url
         //    此时的file.url虽然存在，但是是本机地址，而不是远程地址。
         // 2. 如果所删除图片是后台返回的已有图片，那么图片地址是file.url
-        var url;
-        console.log(file);
-        console.log(fileList);
+        var url
+        console.log(file)
+        console.log(fileList)
         // this.newDesigner.url_list.
         if (file.response === undefined) {
-          url = file.url;
+          url = file.url
         } else {
-          url = file.response.data.url;
+          url = file.response.data.url
         }
 
         if (this.newDesigner.gallery[i] === url) {
-          this.newDesigner.gallery.splice(i, 1);
+          this.newDesigner.gallery.splice(i, 1)
         }
       }
     }
   }
-};
+}
 </script>

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-16 15:03:31
- * @LastEditTime: 2019-12-11 14:36:00
+ * @LastEditTime: 2019-12-17 17:34:38
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -12,7 +12,7 @@
     <div class="filter-container">
       <el-input v-model="listQuery.nickname" clearable class="filter-item" style="width: 200px;" placeholder="请输入姓名"/>
       <el-input v-model="listQuery.serviceCode" clearable class="filter-item" style="width: 200px;" placeholder="请输入编号"/>
-      <el-input v-model="listQuery.label" clearable class="filter-item" style="width: 200px;" placeholder="请输入标签"/>
+      <!-- <el-input v-model="listQuery.label" clearable class="filter-item" style="width: 200px;" placeholder="请输入标签"/> -->
       <!-- <el-input v-model="listQuery.serviceRecommendCode" clearable class="filter-item" style="width: 300px;" placeholder="请输入服务商推荐类目编码"/> -->
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="syncVisible = true">新增</el-button>
@@ -25,12 +25,12 @@
       <el-table-column align="center" min-width="100" label="评分" prop="grade"/>
       <el-table-column align="center" min-width="100" label="成交数" prop="serviceNumber"/>
       <el-table-column align="center" min-width="100" label="案例数" prop="exampleNumber"/>
-      <el-table-column align="center" min-width="100" label="标签" prop="label"/>
+      <!-- <el-table-column align="center" min-width="100" label="标签" prop="label"/>
       <el-table-column align="center" min-width="100" label="标签图片">
         <template slot-scope="scope">
           <div><img v-show="scope.row.avatar" :src="scope.row.avatar" alt="暂无" style="height:50px;"></div>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column align="center" label="操作" width="200" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleDelete(scope.row)">删除</el-button>

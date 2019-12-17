@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 09:34:48
- * @LastEditTime: 2019-12-13 16:37:13
+ * @LastEditTime: 2019-12-13 16:41:48
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -29,13 +29,12 @@
       <el-table-column align="center" label="编号" prop="id"/>
       <el-table-column align="center" label="类别" prop="title">
         <template slot-scope="scope">
-          <el-tag>{{ scope.row.MsgType == '0' ? '商品评论' : '服务订单评论' }}</el-tag>
+          <el-tag>{{ scope.row.MsgType | MsgTypefilter }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" min-width="100" label="名称" prop="name"/>
       <el-table-column align="center" min-width="100" label="评论数" prop="size"/>
       <el-table-column align="center" min-width="100" label="综合评分" prop="grade"/>
-      <!-- <el-table-column align="center" min-width="100" label="创建时间" prop="addTime"/> -->
       <el-table-column align="center" label="操作" width="200" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleDetail(scope.row)">查看</el-button>
@@ -78,6 +77,15 @@ import Pagination from '@/components/Pagination' // Secondary package based on e
 export default {
   name: 'CommentList',
   components: { BackToTop, Pagination },
+  filters: {
+    MsgTypefilter(val) {
+      if (val === 0 || val === '0') {
+        return '商品评论 '
+      } else if (val === 1 || val === '1') {
+        return '服务订单评论'
+      }
+    }
+  },
   data() {
     return {
       list: [],

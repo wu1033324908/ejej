@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 10:25:06
- * @LastEditTime: 2019-08-16 15:07:29
+ * @LastEditTime: 2019-12-17 16:32:44
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -24,18 +24,20 @@
 
     <!-- 查询结果 -->
     <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row>
-      <el-table-column type="selection"/>
+
       <el-table-column align="center" label="订单编号" prop="orderCode"/>
       <el-table-column align="center" min-width="100" label="用户编号" prop="userCode"/>
-      <el-table-column align="center" min-width="100" label="订单名称" prop="orderName"/>
-      <el-table-column align="center" min-width="100" label="订单数量" prop="orderNum"/>
       <el-table-column align="center" min-width="100" label="订单价格" prop="orderPrice"/>
-      <el-table-column align="center" min-width="100" label="订单状态" prop="orderText"/>
+      <el-table-column align="center" min-width="100" label="订单状态" >
+        <template slot-scope="scope">
+          <el-tag>{{ scope.row.orderStatus_text }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column align="center" min-width="100" label="订单生成时间" prop="addTime"/>
       <el-table-column align="center" label="操作" width="300" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleDetail(scope.row)">详情</el-button>
-          <el-button v-show="scope.row.orderHandleOption.deliver" type="primary" size="mini" @click="handleSend(scope.row)">发货</el-button>
+          <el-button v-show="scope.row.orderStatus<=201 && scope.row.orderStatus>101" type="primary" size="mini" @click="handleSend(scope.row)">发货</el-button>
           <el-button v-show="scope.row.orderStatus === 101" type="danger" size="mini" @click="handleCancel(scope.row)">取消</el-button>
         </template>
       </el-table-column>

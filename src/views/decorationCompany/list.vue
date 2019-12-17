@@ -3,7 +3,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 10:28:46
- * @LastEditTime: 2019-12-13 15:55:12
+ * @LastEditTime: 2019-12-17 17:18:22
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -103,13 +103,13 @@
       </el-table-column>
     </el-table>
 
-    <!-- <pagination
+    <pagination
       v-show="total>0"
       :total="total"
       :page.sync="listQuery.page"
       :limit.sync="listQuery.limit"
       @pagination="getList"
-    />-->
+    />
     <el-tooltip placement="top" content="返回顶部">
       <back-to-top :visibility-height="100" />
     </el-tooltip>
@@ -263,6 +263,7 @@ export default {
         .then(response => {
           console.log(response)
           this.list = response.data.data.data
+          this.total = response.data.data.page.total
           this.listLoading = false
           listData = {}
         })

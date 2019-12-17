@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-16 15:03:31
- * @LastEditTime: 2019-12-11 17:12:48
+ * @LastEditTime: 2019-12-17 17:30:42
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -58,11 +58,9 @@
       <el-table-column align="center" min-width="100" label="申请退款金额" prop="refundPrice"/>
       <el-table-column align="center" min-width="100" label="允许退款金额" prop="allowPrice"/>
       <el-table-column align="center" min-width="100" label="实际退款金额" prop="truePrice"/>
-      <el-table-column align="center" label="操作" width="300" class-name="small-padding fixed-width">
+      <el-table-column align="center" label="操作" width="100" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="handleAfterSale(scope.row)">售后</el-button>
-          <el-button type="primary" size="mini" @click="handleRefund(scope.row)">退款</el-button>
-          <!-- <el-button type="primary" size="mini" @click="handleAuditFK(scope.row)">查看</el-button> -->
+          <el-button v-show="scope.row.afterStatus == 0" type="primary" size="mini" @click="handleAfterSale(scope.row)">售后</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -200,7 +198,7 @@ export default {
       formVisible: false,
       afterSaleData: {},
       isAfters: [{ id: '1', name: '同意' }, { id: '2', name: '驳回' }],
-      orderResults: [{ id: '0', name: '部分退款' }, { id: '1', name: '全额退款' }, { id: '2', name: '主动撤销' }],
+      orderResults: [{ id: 0, name: '部分退款' }, { id: 1, name: '全额退款' }, { id: 2, name: '主动撤销' }],
       // 退款
       refundVisible: false,
       refundData: {},

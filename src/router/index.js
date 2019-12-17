@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-16 14:46:41
- * @LastEditTime: 2019-12-12 16:38:53
+ * @LastEditTime: 2019-12-17 17:38:03
  * @LastEditors: Please set LastEditors
  */
 import Vue from 'vue'
@@ -305,29 +305,29 @@ export const asyncRouterMap = [
   //   ]
   // },
   // gai
-  {
-    path: '/individualAccount',
-    component: Layout,
-    redirect: 'noredirect',
-    alwaysShow: true,
-    name: 'IndividualAccount',
-    meta: {
-      title: '个人账户',
-      icon: 'chart'
-    },
-    children: [
-      {
-        path: 'information',
-        component: () => import('@/views/individualAccount/information'),
-        name: 'information',
-        meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
-          title: '个人信息',
-          noCache: true
-        }
-      }
-    ]
-  },
+  // {
+  //   path: '/individualAccount',
+  //   component: Layout,
+  //   redirect: 'noredirect',
+  //   alwaysShow: true,
+  //   name: 'IndividualAccount',
+  //   meta: {
+  //     title: '个人账户',
+  //     icon: 'chart'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'information',
+  //       component: () => import('@/views/individualAccount/information'),
+  //       name: 'information',
+  //       meta: {
+  //         perms: ['POST /admin/oldGood/getOldPageList'],
+  //         title: '个人信息',
+  //         noCache: true
+  //       }
+  //     }
+  //   ]
+  // },
   {
     path: '/designer',
     component: Layout,
@@ -566,12 +566,23 @@ export const asyncRouterMap = [
       {
         path: 'list',
         component: () => import('@/views/serviceOrder/list'),
-        name: 'serviceOrderList',
+        name: 'ServiceOrderList',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/serviceOrder/list'],
           title: '服务订单列表',
           noCache: true
         }
+      },
+      {
+        path: '/serviceOrder/detail',
+        component: () => import('@/views/serviceOrder/detail'),
+        name: 'ServiceOrderDetail',
+        meta: {
+          perms: ['POST /admin/serviceOrder/detail'],
+          title: '服务订单列表',
+          noCache: true
+        },
+        hidden: true
       }
     ]
   },
@@ -1087,29 +1098,30 @@ export const asyncRouterMap = [
       // }
     ]
   },
-  {
-    path: '/order',
-    component: Layout,
-    redirect: 'noredirect',
-    alwaysShow: true,
-    name: 'order',
-    meta: {
-      title: '订单管理',
-      icon: 'chart'
-    },
-    children: [
-      {
-        path: 'list',
-        component: () => import('@/views/order/list'),
-        name: 'orderList',
-        meta: {
-          perms: ['POST /admin/order/list'],
-          title: '订单列表',
-          noCache: true
-        }
-      }
-    ]
-  },
+  // 隐藏
+  // {
+  //   path: '/order',
+  //   component: Layout,
+  //   redirect: 'noredirect',
+  //   alwaysShow: true,
+  //   name: 'order',
+  //   meta: {
+  //     title: '订单管理',
+  //     icon: 'chart'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'list',
+  //       component: () => import('@/views/order/list'),
+  //       name: 'orderList',
+  //       meta: {
+  //         perms: ['POST /admin/order/list'],
+  //         title: '订单列表',
+  //         noCache: true
+  //       }
+  //     }
+  //   ]
+  // },
   // {
   //   path: '/appManage',
   //   component: Layout,
@@ -1197,39 +1209,39 @@ export const asyncRouterMap = [
   //     // }
   //   ]
   // },
-  {
-    path: '/userManage',
-    component: Layout,
-    redirect: 'noredirect',
-    alwaysShow: true,
-    name: 'userManage',
-    meta: {
-      title: '用户管理',
-      icon: 'chart'
-    },
-    children: [
-      {
-        path: 'preSalManageList',
-        component: () => import('@/views/userManage/preSalManageList'),
-        name: 'preSalManageList',
-        meta: {
-          perms: ['POST /admin/msg/findMsg'],
-          title: '售前咨询',
-          noCache: true
-        }
-      },
-      {
-        path: 'userList',
-        component: () => import('@/views/userManage/userList'),
-        name: 'userList',
-        meta: {
-          perms: ['POST /admin/user/list', 'POST /admin/user/blockUp', 'POST /admin/user/delete'],
-          title: '用户账号',
-          noCache: true
-        }
-      }
-    ]
-  },
+  // {
+  //   path: '/userManage',
+  //   component: Layout,
+  //   redirect: 'noredirect',
+  //   alwaysShow: true,
+  //   name: 'userManage',
+  //   meta: {
+  //     title: '用户管理',
+  //     icon: 'chart'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'preSalManageList',
+  //       component: () => import('@/views/userManage/preSalManageList'),
+  //       name: 'preSalManageList',
+  //       meta: {
+  //         perms: ['POST /admin/msg/findMsg'],
+  //         title: '售前咨询',
+  //         noCache: true
+  //       }
+  //     },
+  //     {
+  //       path: 'userList',
+  //       component: () => import('@/views/userManage/userList'),
+  //       name: 'userList',
+  //       meta: {
+  //         perms: ['POST /admin/user/list', 'POST /admin/user/blockUp', 'POST /admin/user/delete'],
+  //         title: '用户账号',
+  //         noCache: true
+  //       }
+  //     }
+  //   ]
+  // },
   {
     path: '/coupon',
     component: Layout,
@@ -1371,6 +1383,16 @@ export const asyncRouterMap = [
         meta: {
           perms: ['POST /admin/orderWater/list'],
           title: '商品售后列表',
+          noCache: true
+        }
+      },
+      {
+        path: 'tklist',
+        component: () => import('@/views/afterSaleManagement/tklist'),
+        name: 'AfterSaleManagementtkList',
+        meta: {
+          perms: ['POST /admin/orderWater/list'],
+          title: '商品退款列表',
           noCache: true
         }
       }

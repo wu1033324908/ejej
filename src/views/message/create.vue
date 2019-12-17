@@ -116,6 +116,7 @@
 
 <script>
 import { save, AppUserList, edit } from '@/api/messages'
+import { getUserList } from '@/api/user'
 import { MessageBox } from 'element-ui'
 import { getToken } from '@/utils/auth'
 export default {
@@ -259,12 +260,13 @@ export default {
     },
     changeSendType(data) {
       const _this = this
-      data === '0' ? _this.isShowTimeInput = false : _this.isShowTimeInput = true
+      data === 0 ? _this.isShowTimeInput = false : _this.isShowTimeInput = true
     },
     changeMsgState(data) {
       if (data === 3 || data === 4 || data === 5 || data === 7) {
         this.isSJR = true
       }
+      this.saveMultipleSelection = []
     },
     handleSelectionChange(val) {
       this.multipleSelection = val
@@ -274,7 +276,7 @@ export default {
       if (rows) {
         this.$nextTick(() => {
           rows.forEach(row => {
-            if (this.saveMultipleSelection.indexOf(row.id) >= 0) {
+            if (this.saveMultipleSelection.indexOf(row.userCode) >= 0) { // 改过
               _this.$refs.multipleTable.toggleRowSelection(row, true)
             }
           })
@@ -284,7 +286,7 @@ export default {
     getSelectId() {
       this.saveMultipleSelection = []
       for (const i in this.multipleSelection) {
-        this.saveMultipleSelection.push(this.multipleSelection[i].id)
+        this.saveMultipleSelection.push(this.multipleSelection[i].userCode) // 改过
       }
       this.syncVisible = false
       console.log(this.saveMultipleSelection)
@@ -296,18 +298,35 @@ export default {
     handleSet() {
       this.syncVisible = true
       this.listLoading = true
-      AppUserList(this.listQuery)
-        .then(response => {
-          this.list = response.data.data.data
-          this.total = response.data.data.page.total
-          this.listLoading = false
-          this.toggleSelection(this.list)
-        })
-        .catch(response => {
-          this.list = []
-          this.total = 0
-          this.listLoading = false
-        })
+      if (this.fromData.msgState === 7) {
+        const sendData = this.listQuery
+        sendData.type = '-1'
+        getUserList(sendData)
+          .then(response => {
+            this.list = response.data.data.data
+            this.total = response.data.data.page.total
+            this.listLoading = false
+            this.toggleSelection(this.list)
+          })
+          .catch(response => {
+            this.list = []
+            this.total = 0
+            this.listLoading = false
+          })
+      } else {
+        AppUserList(this.listQuery)
+          .then(response => {
+            this.list = response.data.data.data
+            this.total = response.data.data.page.total
+            this.listLoading = false
+            this.toggleSelection(this.list)
+          })
+          .catch(response => {
+            this.list = []
+            this.total = 0
+            this.listLoading = false
+          })
+      }
     }
     // changeTime() {
     //   this.pickerOptionsEnd = Object.assign({}, this.pickerOptionsEnd, {

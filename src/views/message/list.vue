@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 09:34:48
- * @LastEditTime: 2019-12-13 15:27:01
+ * @LastEditTime: 2019-12-16 11:32:56
  * @LastEditors: Please set LastEditors
  -->
 <template>
@@ -38,7 +38,7 @@
 
     <!-- 查询结果 -->
     <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row>
-      <el-table-column type="selection"/>
+      <!-- <el-table-column type="selection"/> -->
       <el-table-column align="center" label="消息编码" prop="msgCode"/>
       <el-table-column align="center" label="消息类型" prop="msgState">
         <template slot-scope="scope">
@@ -60,7 +60,7 @@
       <el-table-column align="center" label="备注" prop="remark"/>
       <el-table-column align="center" label="操作" width="300" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button v-show="scope.row.sendType != 1" type="danger" size="mini" @click="handleCancel(scope.row)">取消</el-button>
+          <el-button v-show="scope.row.sendType != 0" type="danger" size="mini" @click="handleCancel(scope.row)">取消</el-button>
           <el-button type="primary" size="mini" @click="handleEdit(scope.row)">编辑</el-button>
           <el-button type="primary" size="mini" @click="handleReadList(scope.row)">查看</el-button>
         </template>
@@ -247,7 +247,6 @@ export default {
       })
     },
     handleEdit(row) {
-      // console.log(row.msgCode)
       this.$router.push({ path: '/message/create', query: { data: JSON.stringify(row) }})
     },
     handleReadFilter() {
@@ -279,7 +278,7 @@ export default {
       this.syncVisible = true
       this.readListLoading = true
       pushRead(row).then(response => {
-        this.readlList = response.data.data.data
+        this.readlList = response.data.data
         // this.readTotal = response.data.data.page.total
         this.readListLoading = false
       }).catch(response => {

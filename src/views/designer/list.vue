@@ -3,16 +3,16 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 10:28:46
- * @LastEditTime: 2019-12-13 14:32:19
+ * @LastEditTime: 2019-12-17 14:46:16
  * @LastEditors: Please set LastEditors
  -->
 <template>
   <div class="app-container">
     <!-- 查询和其他操作 -->
     <div class="filter-container">
-      <el-input v-model="listQuery.nickname" style="width: 150px;" placeholder="请输入昵称or姓名" />
-      <el-input v-model="listQuery.mobile" style="width: 150px;" placeholder="请输入手机号码" />
-      <el-select v-model="listQuery.gender" clearable style="width: 120px;" placeholder="请选择性别">
+      <el-input v-model="listQuery.nickname" class="filter-item" placeholder="请输入昵称或姓名" />
+      <el-input v-model="listQuery.mobile" class="filter-item" placeholder="请输入手机号码" />
+      <el-select v-model="listQuery.gender" clearable class="filter-item" placeholder="请选择性别">
         <el-option
           v-for="(item , index) in genderOptions"
           :key="index"
@@ -23,7 +23,7 @@
       <el-select
         v-model="listQuery.departCode"
         clearable
-        style="width: 150px;"
+        class="filter-item"
         placeholder="请选择所属机构"
       >
         <el-option
@@ -33,9 +33,9 @@
           :value="item.departCode"
         />
       </el-select>
-      <el-input v-model="listQuery.work_year" style="width: 150px;" placeholder="请选择工作年限" />
+      <el-input v-model="listQuery.work_year" class="filter-item" placeholder="请选择工作年限" />
       {{ listQuery.status }}
-      <el-select v-model="listQuery.status" clearable style="width: 120px;" placeholder="请选择状态">
+      <el-select v-model="listQuery.status" clearable class="filter-item" placeholder="请选择状态">
         <el-option
           v-for="(item,index) in typeOptions"
           :key="index"
@@ -45,25 +45,20 @@
       </el-select>
       <el-form ref="form" :model="timeForm" class="initialTime" label-width="80px" size="mini">
         <el-form-item class="tiemBox" label-width="100px" label="注册起止时间">
-          <el-col :span="11">
-            <el-date-picker
-              v-model="timeForm.date1"
-              type="date"
-              value-format="yyyy-MM-dd hh:mm:ss"
-              placeholder="选择日期"
-              style="width: 100%;"
-            />
-          </el-col>
-          <el-col :span="0" class="line">-</el-col>
-          <el-col :span="11">
-            <el-date-picker
-              v-model="timeForm.date2"
-              type="date"
-              value-format="yyyy-MM-dd hh:mm:ss"
-              placeholder="选择日期"
-              style="width: 100%;"
-            />
-          </el-col>
+          <el-date-picker
+            v-model="timeForm.date1"
+            class="filter-item"
+            type="date"
+            value-format="yyyy-MM-dd hh:mm:ss"
+            placeholder="选择日期"
+          />
+          <el-date-picker
+            v-model="timeForm.date2"
+            class="filter-item"
+            type="date"
+            value-format="yyyy-MM-dd hh:mm:ss"
+            placeholder="选择日期"
+          />
         </el-form-item>
       </el-form>
       <br >
@@ -104,11 +99,12 @@
       <el-table-column align="center" min-width="100" label="工作年限" prop="work_year" />
       <el-table-column align="center" min-width="100" label="案例数" prop="example_number" />
       <el-table-column align="center" min-width="100" label="订单数" prop="service_number" />
-      <!-- <el-table-column align="center" min-width="100" label="图片" prop="goodsLabelUrl">
+      <el-table-column align="center" min-width="100" label="图片" prop="goodsLabelUrl">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="viewimage(scope.row.goodsLabelUrl)">查看</el-button>
+          <!-- <el-button type="primary" size="small" @click="viewimage(scope.row.goodsLabelUrl)">查看</el-button> -->
+          <div><img :src="scope.row.goodsLabelUrl" alt="暂无" style="height:50px;"></div>
         </template>
-      </el-table-column>-->
+      </el-table-column>
       <!-- <el-table-column align="center" min-width="100" label="首付" prop="retailPrice"/> -->
       <el-table-column align="center" min-width="100" label="评分" prop="grade" />
       <el-table-column align="center" min-width="100" label="出生日期" prop="birthday" />
@@ -184,7 +180,16 @@
   </div>
 </template>
 
-<style>
+<style scoped lang="scss">
+.filter-container {
+  padding-bottom: 10px;
+  .filter-item {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 10px;
+    width: 150px !important;
+  }
+}
 .table-expand {
   font-size: 0;
 }
@@ -222,11 +227,11 @@
   display: inline-block;
   width: 300px;
 }
-.initialTime {
+/* .initialTime {
   display: inline-block;
   vertical-align: middle;
   line-height: 47px;
-}
+} */
 .el-form-item.tiemBox.el-form-item--mini {
   margin-bottom: 0;
 }
