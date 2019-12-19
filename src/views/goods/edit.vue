@@ -47,7 +47,7 @@
             class="avatar-uploader"
             accept=".jpg, .jpeg, .png, .gif"
           >
-            <img v-if="goods.picUrl" :src="goods.picUrl" class="avatar" />
+            <img v-if="goods.picUrl" :src="goods.picUrl" class="avatar" >
             <i v-else class="el-icon-plus avatar-uploader-icon" />
           </el-upload>
         </el-form-item>
@@ -93,8 +93,8 @@
 
         <el-form-item label="所属分类">
           <el-cascader
-            :options="categoryList"
             ref="cascaderAddr"
+            :options="categoryList"
             :filterable="true"
             v-model="categoryIds"
             expand-trigger="hover"
@@ -136,7 +136,7 @@
         </el-table-column>
         <el-table-column property="picUrl" label="规格图片">
           <template slot-scope="scope">
-            <img v-if="scope.row.picUrl" :src="scope.row.picUrl" width="40" />
+            <img v-if="scope.row.picUrl" :src="scope.row.picUrl" width="40" >
           </template>
         </el-table-column>
         <el-table-column
@@ -176,7 +176,7 @@
               class="avatar-uploader"
               accept=".jpg, .jpeg, .png, .gif"
             >
-              <img v-if="specForm.picUrl" :src="specForm.picUrl" class="avatar" />
+              <img v-if="specForm.picUrl" :src="specForm.picUrl" class="avatar" >
               <i v-else class="el-icon-plus avatar-uploader-icon" />
             </el-upload>
           </el-form-item>
@@ -202,10 +202,10 @@
         <el-table-column property="goods.costPrice" label="成本价" />
         <el-table-column property="goods.number" label="货品数量" />
         <el-table-column property="goods.weight" label="货品重量" />
-        <el-table-column property="brand.name" label="供应商"></el-table-column>
+        <el-table-column property="brand.name" label="供应商"/>
         <el-table-column property="goods.url" label="货品图片">
           <template slot-scope="scope">
-            <img v-if="scope.row.goods.url" :src="scope.row.goods.url" width="40" />
+            <img v-if="scope.row.goods.url" :src="scope.row.goods.url" width="40" >
           </template>
         </el-table-column>
         <el-table-column
@@ -290,7 +290,7 @@
               class="avatar-uploader"
               accept=".jpg, .jpeg, .png, .gif"
             >
-              <img v-if="productForm.url" :src="productForm.url" class="avatar" />
+              <img v-if="productForm.url" :src="productForm.url" class="avatar" >
               <i v-else class="el-icon-plus avatar-uploader-icon" />
             </el-upload>
           </el-form-item>
@@ -430,30 +430,30 @@ import {
   editGoods,
   listCatAndBrand,
   uploadPath
-} from "@/api/goods";
-import { createStorage } from "@/api/storage";
-import Editor from "@tinymce/tinymce-vue";
-import { MessageBox } from "element-ui";
-import { getToken } from "@/utils/auth";
+} from '@/api/goods'
+import { createStorage } from '@/api/storage'
+import Editor from '@tinymce/tinymce-vue'
+import { MessageBox } from 'element-ui'
+import { getToken } from '@/utils/auth'
 
 export default {
-  name: "GoodsEdit",
+  name: 'GoodsEdit',
   components: { Editor },
   data() {
     return {
       uploadPath,
       newKeywordVisible: false,
-      newKeyword: "",
+      newKeyword: '',
       keywords: [],
       galleryFileList: [],
       categoryList: [],
       brandList: [],
       categoryIds: [],
-      categoryLevel: "",
+      categoryLevel: '',
       goods: { gallery: [] },
       specVisiable: false,
-      specForm: { specification: "", value: "", picUrl: "" },
-      specifications: [{ specification: "规格", value: "标准", picUrl: "" }],
+      specForm: { specification: '', value: '', picUrl: '' },
+      specifications: [{ specification: '规格', value: '标准', picUrl: '' }],
       productVisiable: false,
       productForm: {
         id: 0,
@@ -461,184 +461,184 @@ export default {
         price: 0.0,
         number: 0,
         weight: 0,
-        url: "",
+        url: '',
         brandId: 0
       },
       products: [
         {
           goods: {
             id: 0,
-            specifications: ["标准"],
+            specifications: ['标准'],
             price: 0.0,
             number: 0,
-            url: ""
+            url: ''
           }
         }
       ],
       attributeVisiable: false,
-      attributeForm: { attribute: "", value: "" },
+      attributeForm: { attribute: '', value: '' },
       attributes: [],
       rules: {
         goodsSn: [
-          { required: true, message: "商品编号不能为空", trigger: "blur" }
+          { required: true, message: '商品编号不能为空', trigger: 'blur' }
         ],
-        name: [{ required: true, message: "商品名称不能为空", trigger: "blur" }]
+        name: [{ required: true, message: '商品名称不能为空', trigger: 'blur' }]
       },
       editorInit: {
-        language: "zh_CN",
+        language: 'zh_CN',
         convert_urls: false,
         plugins: [
-          "advlist anchor autolink autosave code codesample colorpicker colorpicker contextmenu directionality emoticons fullscreen hr image imagetools importcss insertdatetime link lists media nonbreaking noneditable pagebreak paste preview print save searchreplace spellchecker tabfocus table template textcolor textpattern visualblocks visualchars wordcount"
+          'advlist anchor autolink autosave code codesample colorpicker colorpicker contextmenu directionality emoticons fullscreen hr image imagetools importcss insertdatetime link lists media nonbreaking noneditable pagebreak paste preview print save searchreplace spellchecker tabfocus table template textcolor textpattern visualblocks visualchars wordcount'
         ],
         toolbar: [
-          "searchreplace bold italic underline strikethrough alignleft aligncenter alignright outdent indent  blockquote undo redo removeformat subscript superscript code codesample",
-          "hr bullist numlist link image charmap preview anchor pagebreak insertdatetime media table emoticons forecolor backcolor fullscreen"
+          'searchreplace bold italic underline strikethrough alignleft aligncenter alignright outdent indent  blockquote undo redo removeformat subscript superscript code codesample',
+          'hr bullist numlist link image charmap preview anchor pagebreak insertdatetime media table emoticons forecolor backcolor fullscreen'
         ],
         images_upload_handler: function(blobInfo, success, failure) {
-          const formData = new FormData();
-          formData.append("file", blobInfo.blob());
+          const formData = new FormData()
+          formData.append('file', blobInfo.blob())
           createStorage(formData)
             .then(res => {
-              success(res.data.data.url);
+              success(res.data.data.url)
             })
             .catch(() => {
-              failure("上传失败，请重新上传");
-            });
+              failure('上传失败，请重新上传')
+            })
         }
       }
-    };
+    }
   },
   computed: {
     headers() {
       return {
-        "X-Wajueji-Admin-Token": getToken()
-      };
+        'X-Wajueji-Admin-Token': getToken()
+      }
     }
     //
   },
   created() {
-    this.init();
+    this.init()
   },
   methods: {
     init: function() {
       if (this.$route.query.id == null) {
-        return;
+        return
       }
 
-      const goods_sn = { goods_sn: this.$route.query.id };
-      console.log(goods_sn);
+      const goods_sn = { goods_sn: this.$route.query.id }
+      console.log(goods_sn)
       detailGoods(goods_sn).then(response => {
-        console.log(response);
-        this.goods = response.data.data.goods;
-        this.specifications = response.data.data.specifications;
-        let products = response.data.data.products;
+        console.log(response)
+        this.goods = response.data.data.goods
+        this.specifications = response.data.data.specifications
+        const products = response.data.data.products
         console.log(products)
         console.log('products')
         products.forEach((item, index) => {
-          products[index].goods.specifications = JSON.parse(item.goods.specifications);
-        });
+          products[index].goods.specifications = JSON.parse(item.goods.specifications)
+        })
         console.log(products)
-        this.products = products;
-        this.attributes = response.data.data.attributes;
-        this.categoryIds = response.data.data.categoryIds.list;
+        this.products = products
+        this.attributes = response.data.data.attributes
+        this.categoryIds = response.data.data.categoryIds.list
 
         // this.categoryLevel = Object.values(this.categoryIds).join(" / ");
-        this.galleryFileList = [];
+        this.galleryFileList = []
         for (var i = 0; i < this.goods.gallery.length; i++) {
           this.galleryFileList.push({
             url: this.goods.gallery[i]
-          });
+          })
         }
-        const keywords = response.data.data.goods.keywords;
+        const keywords = response.data.data.goods.keywords
         if (keywords !== null) {
-          this.keywords = keywords.split(",");
+          this.keywords = keywords.split(',')
         }
-      });
+      })
 
       listCatAndBrand().then(response => {
-        this.categoryList = response.data.data.categoryList;
-        this.brandList = response.data.data.brandList;
+        this.categoryList = response.data.data.categoryList
+        this.brandList = response.data.data.brandList
         // console.log(this.brandList)
-      });
+      })
     },
-    //显示供应商
+    // 显示供应商
     supplier(row, column) {
-      let data = this.brandList.filter((item, index, arr) => {
-        return item.value == row[column.property];
-      })[0];
+      const data = this.brandList.filter((item, index, arr) => {
+        return item.value === row[column.property] // ==?
+      })[0]
       if (data) {
-        return data.label;
+        return data.label
       }
     },
     handleCategoryChange(value) {
-      this.goods.categoryId = value[value.length - 1];
+      this.goods.categoryId = value[value.length - 1]
     },
     handleCancel: function() {
-      this.$router.push({ path: "/goods/list" });
+      this.$router.push({ path: '/goods/list' })
     },
     handleEdit: function() {
-      console.log(this.products);
+      console.log(this.products)
       for (let i = 0; i < this.products.length; i++) {
-        this.products[i] = this.products[i].goods;
+        this.products[i] = this.products[i].goods
       }
-      console.log(this.products);
-      let products = this.products;
+      console.log(this.products)
+      const products = this.products
       products.forEach((item, index) => {
-        products[index].specifications = JSON.stringify(item.specifications);
-      });
+        products[index].specifications = JSON.stringify(item.specifications)
+      })
       const finalGoods = {
         // id: this.$route.query.id,
         goods: this.goods,
         specifications: this.specifications,
-        products:   products,
+        products: products,
         attributes: this.attributes
-      };
+      }
       editGoods(finalGoods)
         .then(response => {
           this.$notify.success({
-            title: "成功",
-            message: "创建成功"
-          });
-          this.$router.push({ path: "/goods/list" });
+            title: '成功',
+            message: '创建成功'
+          })
+          this.$router.push({ path: '/goods/list' })
         })
         .catch(response => {
-          MessageBox.alert("业务错误：" + response.data.errmsg, "警告", {
-            confirmButtonText: "确定",
-            type: "error"
-          });
-        });
+          MessageBox.alert('业务错误：' + response.data.errmsg, '警告', {
+            confirmButtonText: '确定',
+            type: 'error'
+          })
+        })
     },
     handleClose(tag) {
-      this.keywords.splice(this.keywords.indexOf(tag), 1);
-      this.goods.keywords = this.keywords.toString();
+      this.keywords.splice(this.keywords.indexOf(tag), 1)
+      this.goods.keywords = this.keywords.toString()
     },
     showInput() {
-      this.newKeywordVisible = true;
+      this.newKeywordVisible = true
       this.$nextTick(_ => {
-        this.$refs.newKeywordInput.$refs.input.focus();
-      });
+        this.$refs.newKeywordInput.$refs.input.focus()
+      })
     },
     handleInputConfirm() {
-      const newKeyword = this.newKeyword;
+      const newKeyword = this.newKeyword
       if (newKeyword) {
-        this.keywords.push(newKeyword);
-        this.goods.keywords = this.keywords.toString();
+        this.keywords.push(newKeyword)
+        this.goods.keywords = this.keywords.toString()
       }
-      this.newKeywordVisible = false;
-      this.newKeyword = "";
+      this.newKeywordVisible = false
+      this.newKeyword = ''
     },
     uploadPicUrl: function(response) {
-      this.goods.picUrl = response.data.allfilePath;
+      this.goods.picUrl = response.data.allfilePath
     },
     uploadOverrun: function() {
       this.$message({
-        type: "error",
-        message: "上传文件个数超出限制!最多上传5张图片!"
-      });
+        type: 'error',
+        message: '上传文件个数超出限制!最多上传5张图片!'
+      })
     },
     handleGalleryUrl(response, file, fileList) {
       if (response.errno === 0) {
-        this.goods.gallery.push(response.data.url);
+        this.goods.gallery.push(response.data.url)
       }
     },
     handleRemove: function(file, fileList) {
@@ -647,15 +647,15 @@ export default {
         // 1. 如果所删除图片是刚刚上传的图片，那么图片地址是file.response.data.url
         //    此时的file.url虽然存在，但是是本机地址，而不是远程地址。
         // 2. 如果所删除图片是后台返回的已有图片，那么图片地址是file.url
-        var url;
+        var url
         if (file.response === undefined) {
-          url = file.url;
+          url = file.url
         } else {
-          url = file.response.data.url;
+          url = file.response.data.url
         }
 
         if (this.goods.gallery[i] === url) {
-          this.goods.gallery.splice(i, 1);
+          this.goods.gallery.splice(i, 1)
         }
       }
     },
@@ -673,133 +673,133 @@ export default {
     //   }
     // },
     uploadSpecPicUrl: function(response) {
-      this.specForm.picUrl = response.data.allfilePath;
+      this.specForm.picUrl = response.data.allfilePath
     },
     handleSpecificationShow() {
-      this.specForm = { specification: "", value: "", picUrl: "" };
-      this.specVisiable = true;
+      this.specForm = { specification: '', value: '', picUrl: '' }
+      this.specVisiable = true
     },
     handleSpecificationAdd() {
-      var index = this.specifications.length - 1;
+      var index = this.specifications.length - 1
       for (var i = 0; i < this.specifications.length; i++) {
-        const v = this.specifications[i];
+        const v = this.specifications[i]
         if (v.specification === this.specForm.specification) {
-          index = i;
+          index = i
         }
       }
 
-      this.specifications.splice(index + 1, 0, this.specForm);
-      this.specVisiable = false;
+      this.specifications.splice(index + 1, 0, this.specForm)
+      this.specVisiable = false
 
-      this.specToProduct();
+      this.specToProduct()
     },
     handleSpecificationDelete(row) {
-      console.log(row);
-      const index = this.specifications.indexOf(row);
-      this.specifications.splice(index, 1);
-      this.specToProduct();
+      console.log(row)
+      const index = this.specifications.indexOf(row)
+      this.specifications.splice(index, 1)
+      this.specToProduct()
     },
     specToProduct() {
       if (this.specifications.length === 0) {
-        return;
+        return
       }
       // 根据specifications创建临时规格列表
-      var specValues = [];
-      var spec = this.specifications[0].specification;
-      var values = [];
-      values.push(0);
+      var specValues = []
+      var spec = this.specifications[0].specification
+      var values = []
+      values.push(0)
 
       for (var i = 1; i < this.specifications.length; i++) {
-        const aspec = this.specifications[i].specification;
+        const aspec = this.specifications[i].specification
 
         if (aspec === spec) {
-          values.push(i);
+          values.push(i)
         } else {
-          specValues.push(values);
-          spec = aspec;
-          values = [];
-          values.push(i);
+          specValues.push(values)
+          spec = aspec
+          values = []
+          values.push(i)
         }
       }
-      specValues.push(values);
+      specValues.push(values)
 
       // 根据临时规格列表生产货品规格
       // 算法基于 https://blog.csdn.net/tyhj_sf/article/details/53893125
-      var productsIndex = 0;
-      var products = [];
-      var combination = [];
-      var n = specValues.length;
+      var productsIndex = 0
+      var products = []
+      var combination = []
+      var n = specValues.length
       for (var s = 0; s < n; s++) {
-        combination[s] = 0;
+        combination[s] = 0
       }
-      var index = 0;
-      var isContinue = false;
+      var index = 0
+      var isContinue = false
       do {
-        var specifications = [];
+        var specifications = []
         for (var x = 0; x < n; x++) {
-          var z = specValues[x][combination[x]];
-          specifications.push(this.specifications[z].value);
+          var z = specValues[x][combination[x]]
+          specifications.push(this.specifications[z].value)
         }
         products[productsIndex] = {
           id: productsIndex,
           specifications: specifications,
           price: 0.0,
           number: 0,
-          url: ""
-        };
-        productsIndex++;
+          url: ''
+        }
+        productsIndex++
 
-        index++;
-        combination[n - 1] = index;
+        index++
+        combination[n - 1] = index
         for (var j = n - 1; j >= 0; j--) {
           if (combination[j] >= specValues[j].length) {
-            combination[j] = 0;
-            index = 0;
+            combination[j] = 0
+            index = 0
             if (j - 1 >= 0) {
-              combination[j - 1] = combination[j - 1] + 1;
+              combination[j - 1] = combination[j - 1] + 1
             }
           }
         }
-        isContinue = false;
+        isContinue = false
         for (var p = 0; p < n; p++) {
           if (combination[p] !== 0) {
-            isContinue = true;
+            isContinue = true
           }
         }
-      } while (isContinue);
+      } while (isContinue)
 
-      this.products.goods = products;
+      this.products.goods = products
     },
     handleProductShow(row) {
-      this.productForm = Object.assign({}, row);
-      this.productVisiable = true;
+      this.productForm = Object.assign({}, row)
+      this.productVisiable = true
     },
     uploadProductUrl: function(response) {
-      this.productForm.url = response.data.allfilePath;
+      this.productForm.url = response.data.allfilePath
     },
     handleProductEdit() {
       for (var i = 0; i < this.products.length; i++) {
-        const v = this.products[i];
+        const v = this.products[i]
         if (v.id === this.productForm.id) {
-          this.products.splice(i, 1, this.productForm);
-          break;
+          this.products.splice(i, 1, this.productForm)
+          break
         }
       }
-      this.productVisiable = false;
+      this.productVisiable = false
     },
     handleAttributeShow() {
-      this.attributeForm = {};
-      this.attributeVisiable = true;
+      this.attributeForm = {}
+      this.attributeVisiable = true
     },
     handleAttributeAdd() {
-      this.attributes.unshift(this.attributeForm);
-      this.attributeVisiable = false;
+      this.attributes.unshift(this.attributeForm)
+      this.attributeVisiable = false
     },
     handleAttributeDelete(row) {
-      console.log(row);
-      const index = this.attributes.indexOf(row);
-      this.attributes.splice(index, 1);
+      console.log(row)
+      const index = this.attributes.indexOf(row)
+      this.attributes.splice(index, 1)
     }
   }
-};
+}
 </script>

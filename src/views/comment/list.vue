@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 09:34:48
- * @LastEditTime: 2019-12-13 16:41:48
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2019-12-18 18:07:02
+ * @LastEditors  : Please set LastEditors
  -->
 <template>
   <div class="app-container">
@@ -25,11 +25,11 @@
 
     <!-- 查询结果 -->
     <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row>
-      <el-table-column type="selection"/>
-      <el-table-column align="center" label="编号" prop="id"/>
-      <el-table-column align="center" label="类别" prop="title">
+      <!-- <el-table-column type="selection"/> -->
+      <el-table-column align="center" label="编号" prop="goodsSn"/>
+      <el-table-column align="center" label="类别" prop="type">
         <template slot-scope="scope">
-          <el-tag>{{ scope.row.MsgType | MsgTypefilter }}</el-tag>
+          <el-tag>{{ scope.row.type | MsgTypefilter }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column align="center" min-width="100" label="名称" prop="name"/>
@@ -95,7 +95,7 @@ export default {
         page: 1,
         limit: 20
       },
-      types: [{ id: '0', name: '商品评论' }, { id: '1', name: '服务订单评论' }]
+      types: [{ id: 0, name: '商品评论' }, { id: 1, name: '服务订单评论' }]
     }
   },
   created() {

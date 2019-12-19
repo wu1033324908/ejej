@@ -19,15 +19,15 @@
         @keyup.enter.native="handleFilter"
       />
       <el-cascader
-        class="filter-item"
         v-model="categoryId"
         :options="cOptions1"
         :props="{ checkStrictly: true }"
+        class="filter-item"
         placeholder="请选择分类"
-        @change="handleChange"
         clearable
         filterable
-      ></el-cascader>
+        @change="handleChange"
+      />
 
       <!-- <el-select
         v-model="category1"
@@ -159,7 +159,7 @@
 
       <el-table-column align="center" prop="pic_url" label="封面图">
         <template slot-scope="scope">
-          <img :src="scope.row.pic_url" width="40" />
+          <img :src="scope.row.pic_url" width="40" >
         </template>
       </el-table-column>
       <el-table-column align="center" min-width="100" label="市场价" prop="retail_price" />
@@ -168,12 +168,12 @@
         <template slot-scope="scope">{{ scope.row.is_on_sale == "0" ? '未上架' : scope.row.is_on_sale == "1" ? '已上架' : '' }}</template>
       </el-table-column>
       <el-table-column
+        :formatter="setTime"
         align="center"
         min-width="100"
         label="状创建时间"
         prop="add_time"
-        :formatter="setTime"
-      ></el-table-column>
+      />
       <!-- <el-table-column align="center" property="iconUrl" label="分享图">
         <template slot-scope="scope">
           <img :src="scope.row.shareUrl" width="40">
@@ -220,7 +220,7 @@
       <el-table-column align="center" min-width="300" label="操作">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleDetail(scope.row)">查看</el-button>
-          <el-button v-show="scope.row.is_on_sale == '1'"  type="danger" size="mini" @click="handleDelete(scope.row)">下架</el-button>
+          <el-button v-show="scope.row.is_on_sale == '1'" type="danger" size="mini" @click="handleDelete(scope.row)">下架</el-button>
           <el-button v-show="scope.row.is_on_sale == '0'" type="success" size="mini" @click="handleDelete(scope.row)">上架</el-button>
           <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
           <!-- <el-button
@@ -232,25 +232,7 @@
         </template>
       </el-table-column>
     </el-table>
-
-    <!-- <div class="block">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage4"
-        :page-sizes="[100, 200, 300, 400]"
-        :page-size="100"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="0"
-      ></el-pagination>
-    </div>-->
-    <!-- <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="listQuery.page"
-      :limit.sync="listQuery.limit"
-      @pagination="getList"
-    />-->
+    <pagination v-show="false" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
     <el-tooltip placement="top" content="返回顶部">
       <back-to-top :visibility-height="100" />
@@ -285,13 +267,40 @@
 </style>
 
 <script>
-import { listGoods, categoryGoods, listCatAndBrand , stateGoods } from "@/api/goods";
-import BackToTop from "@/components/BackToTop";
-import Pagination from "@/components/Pagination"; // Secondary package based on el-pagination
+import { listGoods, listCatAndBrand, stateGoods } from '@/api/goods'
+import BackToTop from '@/components/BackToTop'
+import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 export default {
-  name: "GoodsList",
+  name: 'GoodsList',
   components: { BackToTop, Pagination },
+  data() {
+    return {
+      list: [],
+      total: 0,
+      listLoading: true,
+      listQuery: {
+        page: 1,
+        limit: 8,
+        goodsSn: undefined,
+        name: undefined,
+        sort: 'add_time',
+        order: 'desc'
+      },
+      categoryId: [],
+      timeForm: {},
+      category1: '',
+      category2: '',
+      category3: '',
+      cOptions1: [],
+      cOptions2: [],
+      cOptions3: [],
+      // category: {},
+      goodsDetail: '',
+      detailDialogVisible: false,
+      downloadLoading: false
+    }
+  },
   computed: {
     // setTime :function (time) {
     //   console.log(time)
@@ -305,87 +314,55 @@ export default {
     //     }
     // }
   },
-  data() {
-    return {
-      list: [],
-      total: 0,
-      listLoading: true,
-      listQuery: {
-        page: 1,
-        limit: 8,
-        goodsSn: undefined,
-        name: undefined,
-        sort: "add_time",
-        order: "desc"
-      },
-      categoryId: [],
-      timeForm: {},
-      category1: "",
-      category2: "",
-      category3: "",
-      cOptions1: [],
-      cOptions2: [],
-      cOptions3: [],
-      // category: {},
-      goodsDetail: "",
-      detailDialogVisible: false,
-      downloadLoading: false
-    };
-  },
   created() {
-    this.getList();
-    this.getCategory();
+    this.getList()
+    this.getCategory()
   },
   methods: {
     // 获取列表的方法
     getList() {
-      this.listLoading = true;
-      if (this.category3 != "") {
-        this.listQuery.category_id = this.category3.toString();
-      } else if (this.category2 != "") {
-        this.listQuery.category_id = this.category2.toString();
-      } else if (this.category1 != "") {
-        this.listQuery.category_id = this.category1.toString();
+      this.listLoading = true
+      if (this.category3 !== '') {
+        this.listQuery.category_id = this.category3.toString()
+      } else if (this.category2 !== '') {
+        this.listQuery.category_id = this.category2.toString()
+      } else if (this.category1 !== '') {
+        this.listQuery.category_id = this.category1.toString()
       } else {
-        delete this.listQuery.category_id;
+        delete this.listQuery.category_id
       }
 
-      this.listQuery.beginDate = this.timeForm.date1;
-      this.listQuery.endDate = this.timeForm.date2;
+      this.listQuery.beginDate = this.timeForm.date1
+      this.listQuery.endDate = this.timeForm.date2
       listGoods(this.listQuery)
         .then(response => {
-          console.log(response);
-          this.list = response.data.data.data;
-          // let page = response.data.data.page
-          // this.total = page.total
-          // this.
-          // this.total = response.data.data.total;
-
-          this.listLoading = false;
+          this.list = response.data.data.data
+          this.total = response.data.data.page.total
+          this.listLoading = false
         })
-        .catch(err => {
-          console.log(err);
-          this.list = [];
-          // this.total = 0;
-          this.listLoading = false;
-        });
+        .catch(() => {
+          console.log('err')
+          this.list = []
+          this.total = 0
+          this.listLoading = false
+        })
     },
     // 获取分类id的方法
     handleChange(value) {
-      console.log(value);
-      console.log(this.categoryId);
+      console.log(value)
+      console.log(this.categoryId)
     },
     // 获取分类的方法
     getCategory() {
       listCatAndBrand()
         .then(response => {
-          console.log(response);
-          this.cOptions1 = response.data.data.categoryList;
+          console.log(response)
+          this.cOptions1 = response.data.data.categoryList
           // this.brandList = response.data.data.brandList
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     // 计算时间的方法
     setTime(row, column) {
@@ -396,18 +373,18 @@ export default {
       //   .replace(/\.[\d]{3}Z/, "");
       // console.log(date);
       // return date;
-      const date = new Date(row[column.property]);
+      const date = new Date(row[column.property])
       return (
         date.getFullYear() +
-        "年" +
+        '年' +
         date.getMonth() +
-        "月" +
+        '月' +
         date.getDate() +
-        "日 " +
+        '日 ' +
         date.getHours() +
-        ":" +
+        ':' +
         date.getMinutes()
-      );
+      )
     },
     // getCategory($event, level) {
     //   let cData = {
@@ -443,93 +420,93 @@ export default {
     //     });
     // },
     handleFilter() {
-      this.listQuery.page = 1;
+      this.listQuery.page = 1
 
-      this.getList();
+      this.getList()
     },
     handleCreate() {
-      this.$router.push({ path: "/goods/create" });
+      this.$router.push({ path: '/goods/create' })
     },
     handleUpdate(row) {
-      this.$router.push({ path: "/goods/edit", query: { id: row.goods_sn } });
+      this.$router.push({ path: '/goods/edit', query: { id: row.goods_sn }})
     },
     handleDetail(row) {
       this.$router.push({
-        path: "/goods/detail",
-        query: { id:row.goods_sn, total:row.total, amount:row.amount , gId:row.id }
-      });
+        path: '/goods/detail',
+        query: { id: row.goods_sn, total: row.total, amount: row.amount, gId: row.id }
+      })
     },
     handleDelete(row) {
-      if(row.is_on_sale == 1 ){
+      if (row.is_on_sale === 1 || row.is_on_sale === '1') {
         row.is_on_sale = 0
-      }else {
+      } else {
         row.is_on_sale = 1
       }
       stateGoods({
-        id : row.id ,
-        isOnSale : row.is_on_sale 
+        id: row.id,
+        isOnSale: row.is_on_sale
       })
         .then(response => {
           this.$notify.success({
-            title: "成功",
-            message: "修改成功"
-          });
+            title: '成功',
+            message: '修改成功'
+          })
           this.getList()
           // const index = this.list.indexOf(row);
           // this.list.splice(index, 1);
         })
         .catch(response => {
           this.$notify.error({
-            title: "失败",
+            title: '失败',
             message: response.data.errmsg
-          });
-        });
+          })
+        })
     },
     handleDownload() {
-      this.downloadLoading = true;
-      import("@/vendor/Export2Excel").then(excel => {
+      this.downloadLoading = true
+      import('@/vendor/Export2Excel').then(excel => {
         const tHeader = [
-          "商品ID",
-          "商品编号",
-          "名称",
-          "专柜价格",
-          "当前价格",
-          "是否新品",
-          "是否热品",
-          "是否在售",
-          "首页主图",
-          "宣传图片列表",
-          "商品介绍",
-          "详细介绍",
-          "商品图片",
-          "商品单位",
-          "关键字",
-          "类目ID",
-          "品牌商ID"
-        ];
+          '商品ID',
+          '商品编号',
+          '名称',
+          '专柜价格',
+          '当前价格',
+          '是否新品',
+          '是否热品',
+          '是否在售',
+          '首页主图',
+          '宣传图片列表',
+          '商品介绍',
+          '详细介绍',
+          '商品图片',
+          '商品单位',
+          '关键字',
+          '类目ID',
+          '品牌商ID'
+        ]
         const filterVal = [
-          "id",
-          "goodsSn",
-          "name",
-          "counterPrice",
-          "retailPrice",
-          "isNew",
-          "isHot",
-          "isOnSale",
-          "listPicUrl",
-          "gallery",
-          "brief",
-          "detail",
-          "picUrl",
-          "goodsUnit",
-          "keywords",
-          "categoryId",
-          "brandId"
-        ];
-        excel.export_json_to_excel2(tHeader, this.list, filterVal, "商品信息");
-        this.downloadLoading = false;
-      });
+          'id',
+          'goodsSn',
+          'name',
+          'counterPrice',
+          'retailPrice',
+          'isNew',
+          'isHot',
+          'isOnSale',
+          'listPicUrl',
+          'gallery',
+          'brief',
+          'detail',
+          'picUrl',
+          'goodsUnit',
+          'keywords',
+          'categoryId',
+          'brandId'
+        ]
+        excel.export_json_to_excel2(tHeader, this.list, filterVal, '商品信息')
+        this.downloadLoading = false
+      })
     }
   }
-};
+}
 </script>

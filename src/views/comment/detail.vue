@@ -2,30 +2,28 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 09:34:48
- * @LastEditTime: 2019-12-13 16:22:06
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2019-12-18 18:19:30
+ * @LastEditors  : Please set LastEditors
  -->
 <template>
   <div class="app-container">
 
     <!-- 查询和其他操作 -->
     <div class="filter-container">
-      <el-select v-model="listQuery.type" class="filter-item" clearable placeholder="请选择评论类别">
+      <el-select v-show="type == 1" v-model="listQuery.orderType" class="filter-item" clearable placeholder="请选择评论类别">
         <el-option
-          v-for="item in types"
+          v-for="item in orderTypes"
           :key="item.id"
           :label="item.name"
           :value="item.id"
         />
       </el-select>
-      <el-input v-model="listQuery.name" clearable class="filter-item" style="width: 200px;" placeholder="请输入名称"/>
-      <el-input v-model="listQuery.value_id" clearable class="filter-item" style="width: 200px;" placeholder="请输入编号"/>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
     </div>
 
     <!-- 查询结果 -->
     <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row>
-      <el-table-column align="center" label="订单编号" prop="valueId"/>
+      <!-- <el-table-column align="center" label="订单编号" prop="goodsSn"/> -->
       <el-table-column align="center" label="姓名" prop="nickname"/>
       <el-table-column align="center" min-width="100" label="手机号" prop="mobile"/>
       <el-table-column align="center" min-width="100" label="综合评分" prop="star"/>
@@ -34,7 +32,7 @@
       <el-table-column align="center" label="操作" width="200" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleReply(scope.row)">回复</el-button>
-          <el-button type="primary" size="mini" @click="handleDelete(scope.row)">删除</el-button>
+          <el-button type="danger" size="mini" @click="handleDelete(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -101,7 +99,7 @@ export default {
         page: 1,
         limit: 20
       },
-      types: [{ id: '0', name: '商品评论' }, { id: '1', name: '服务订单评论' }],
+      orderTypes: [{ id: '0', name: '设计订单' }, { id: '1', name: '服务订单' }],
       hfData: {},
       visiable: false,
 
@@ -109,25 +107,36 @@ export default {
       type: undefined
     }
   },
+  computed: {
+    userid() {
+      return this.$store.getters.userid
+    }
+  },
   created() {
     this.init()
     this.getList()
   },
+  mounted() {
+    console.log(this.userid)
+  },
   methods: {
     init() {
-      if (!this.$route.query.valueId) return
+      if (!this.$route.query) return
       this.valueId = this.$route.query.valueId
       this.type = this.$route.query.type || undefined
       this.listQuery.valueId = this.$route.query.valueId
+      this.listQuery.type = Number(this.$route.query.type)
       console.log(this.$route.query)
     },
     getList() {
       this.listLoading = true
       look(this.listQuery).then(response => {
+        console.log(response)
         this.list = response.data.data.data
         this.total = response.data.data.page.total
         this.listLoading = false
       }).catch(() => {
+        console.log('err')
         this.list = []
         this.total = 0
         this.listLoading = false
@@ -161,6 +170,7 @@ export default {
       })
     },
     hfSubmit() {
+      this.hfData.userCode = this.userid
       replyComment(this.hfData).then(response => {
         this.$notify.success({
           title: '成功',

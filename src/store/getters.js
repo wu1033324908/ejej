@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2019-12-06 11:41:13
+ * @LastEditTime: 2019-12-19 11:28:08
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \com-ejej-admin-dev-env\src\store\getters.js
+ */
 const getters = {
   sidebar: state => state.app.sidebar,
   language: state => state.app.language,
@@ -8,6 +16,7 @@ const getters = {
   token: state => state.user.token,
   avatar: state => state.user.avatar,
   name: state => state.user.name,
+  userid: state => state.user.userid,
   introduction: state => state.user.introduction,
   status: state => state.user.status,
   roles: state => state.user.roles,

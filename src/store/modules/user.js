@@ -14,7 +14,8 @@ const user = {
     perms: [],
     setting: {
       articlePlatform: []
-    }
+    },
+    userid: ''
   },
 
   mutations: {
@@ -35,6 +36,9 @@ const user = {
     },
     SET_NAME: (state, name) => {
       state.name = name
+    },
+    SET_USERID: (state, userid) => {
+      state.userid = userid
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
@@ -77,6 +81,7 @@ const user = {
 
           commit('SET_ROLES', data.roles)
           commit('SET_NAME', data.name)
+          commit('SET_USERID', data.id)
           commit('SET_AVATAR', data.avatar)
           commit('SET_INTRODUCTION', data.introduction)
           resolve(response)
@@ -134,6 +139,7 @@ const user = {
           commit('SET_ROLES', data.roles)
           commit('SET_PERMS', data.perms)
           commit('SET_NAME', data.name)
+          commit('SET_USERID', data.id)
           commit('SET_AVATAR', data.avatar)
           commit('SET_INTRODUCTION', data.introduction)
           dispatch('GenerateRoutes', data) // 动态修改权限后 重绘侧边菜单
