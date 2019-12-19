@@ -1,4 +1,12 @@
-# wajueji_web
+<!--
+ * @Author: your name
+ * @Date: 2019-12-06 11:41:12
+ * @LastEditTime: 2019-12-19 15:28:54
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \com-ejej-admin-dev-env\README.md
+ -->
+# 宜家宜居后台管理系统
 
 > A Vue.js project
 
