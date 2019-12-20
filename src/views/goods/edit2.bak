@@ -202,7 +202,7 @@
         <el-table-column property="costPrice" label="成本价" />
         <el-table-column property="number" label="货品数量" />
         <el-table-column property="weight" label="货品重量" />
-        <el-table-column :formatter="supplier" property="brandId" label="供应商"/>
+        <el-table-column property="name" label="供应商"/>
         <el-table-column property="url" label="货品图片">
           <template slot-scope="scope">
             <img v-if="scope.row.url" :src="scope.row.url" width="40" >
@@ -257,10 +257,10 @@
             <el-tag v-for="tag in productForm.specifications" :key="tag">{{ tag }}</el-tag>
           </el-form-item>
           <el-form-item label="子商品名称" prop="product_name">
-            <el-input v-model="productForm.productName" />
+            <el-input v-model="productForm.product_name" />
           </el-form-item>
           <el-form-item label="成本价" prop="cost_price">
-            <el-input v-model="productForm.costPrice" />
+            <el-input v-model="productForm.cost_price" />
           </el-form-item>
           <el-form-item label="货品售价" prop="price">
             <el-input v-model="productForm.price" />
@@ -439,18 +439,6 @@ import { getToken } from '@/utils/auth'
 export default {
   name: 'GoodsEdit',
   components: { Editor },
-  // filters: {
-  //   brandIdF(v) {
-  //     const _this = this
-  //     console.log(_this)
-  //     if (!_this.brandList) return
-  //     for (const i in _this.brandList) {
-  //       if (v === _this.brandList.value) {
-  //         return _this.brandList[i].label
-  //       }
-  //     }
-  //   }
-  // },
   data() {
     return {
       uploadPath,
@@ -567,9 +555,6 @@ export default {
             products[0][i] = products[0].goods[i]
           }
         }
-
-        products[0].name = products[0].brand.name
-        console.log(products.name)
         // console.log(products)
         this.products = products
         console.log(products)
@@ -614,9 +599,9 @@ export default {
     },
     handleEdit: function() {
       console.log(this.products)
-      // for (let i = 0; i < this.products.length; i++) {
-      //   this.products[i] = this.products[i].goods
-      // }
+      for (let i = 0; i < this.products.length; i++) {
+        this.products[i] = this.products[i].goods
+      }
       console.log(this.products)
       const products = this.products
       products.forEach((item, index) => {
@@ -730,24 +715,10 @@ export default {
       this.specToProduct()
     },
     handleSpecificationDelete(row) {
-      this.$confirm('确定删除吗?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        const index = this.specifications.indexOf(row)
-        this.specifications.splice(index, 1)
-        this.specToProduct()
-        this.$message({
-          type: 'success',
-          message: '删除成功!'
-        })
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消删除'
-        })
-      })
+      console.log(row)
+      const index = this.specifications.indexOf(row)
+      this.specifications.splice(index, 1)
+      this.specToProduct()
     },
     specToProduct() {
       if (this.specifications.length === 0) {
@@ -837,7 +808,6 @@ export default {
           break
         }
       }
-      console.log(this.productForm)
       this.productVisiable = false
     },
     handleAttributeShow() {
