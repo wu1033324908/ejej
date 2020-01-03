@@ -50,8 +50,7 @@
           <el-input v-model="fromData.limit" placeholder="如果为空，则是默认限制1张"/>
         </el-form-item>
         <el-form-item label="规则内容" prop="content">
-          <el-input v-model="fromData.content">
-          </el-input>
+          <el-input v-model="fromData.content"/>
         </el-form-item>
         <el-form-item label="开始时间">
           <el-date-picker
@@ -144,10 +143,10 @@ export default {
       fromData: {
       },
       isShowInput: false,
-      typeList:[{ name: '注册赠送', id: 0 },{ name: '消费赠送', id: 1 },{ name: '登陆赠送', id: 2 },{ name: '充值赠送', id: 3 },{ name: '评论赠送', id: 4 },{ name: '自定义', id: 5 }],
-      nosendtypes:[{ name: '商品券', id: 0 }, { name: '服务类型券', id: 1 }],
-      couponCodeList:[],
-      listQuery:{
+      typeList: [{ name: '注册赠送', id: 0 }, { name: '消费赠送', id: 1 }, { name: '登陆赠送', id: 2 }, { name: '充值赠送', id: 3 }, { name: '评论赠送', id: 4 }, { name: '自定义', id: 5 }],
+      nosendtypes: [{ name: '商品券', id: 0 }, { name: '服务类型券', id: 1 }],
+      couponCodeList: [],
+      listQuery: {
         page: 1,
         limit: 9999
       },
@@ -250,11 +249,11 @@ export default {
       const data = JSON.parse(this.$route.query.data)
       console.log(data)
       this.fromData = data
-      
+
     //   couponOne({ id: this.$route.query.id }).then(response => {
-          
+
     //   }).catch(() => {
-          
+
     //   })
     },
     getList() {
@@ -274,7 +273,7 @@ export default {
       this.listLoading = true
     //   couponTypeList().then(response => {
     //     this.typeList = response.data.data.data
-        
+
     //   }).catch(() => {
     //     this.typeList = []
     //   })
@@ -283,16 +282,15 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           var finalGoods = this.fromData
-          if(finalGoods.discount/finalGoods.min>0.2){
-              this.$message({
-                message: '抵扣金额最大值为使用门槛的20%',
-                type: 'warning'
-              })
-              return false
+          if (finalGoods.discount / finalGoods.min > 0.2) {
+            this.$message({
+              message: '抵扣金额最大值为使用门槛的20%',
+              type: 'warning'
+            })
+            return false
           }
           console.log(finalGoods)
-          if(finalGoods.id){
-
+          if (finalGoods.id) {
             couponRuleUpdate(finalGoods)
               .then(response => {
                 this.$notify.success({
@@ -307,8 +305,7 @@ export default {
                   type: 'error'
                 })
               })
-          }else{
-            
+          } else {
             couponRuleCreate(finalGoods)
               .then(response => {
                 this.$notify.success({

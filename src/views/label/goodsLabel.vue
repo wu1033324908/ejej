@@ -3,8 +3,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 10:28:46
- * @LastEditTime: 2019-12-13 16:32:52
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2019-12-24 15:17:30
+ * @LastEditors  : Please set LastEditors
  -->
 <template>
   <div class="app-container">
@@ -41,7 +41,8 @@
       <el-table-column align="center" min-width="100" label="名称" prop="goodsLabelName" />
       <el-table-column align="center" min-width="100" label="图片" prop="goodsLabelUrl">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="viewimage(scope.row.goodsLabelUrl)">查看</el-button>
+          <!-- <el-button type="primary" size="small" @click="viewimage(scope.row.goodsLabelUrl)">查看</el-button> -->
+          <div><img :src="scope.row.goodsLabelUrl" alt="暂无" style="height:50px;"></div>
           <!-- 图片 -->
           <!-- <div class="demo-image__preview">
             <el-image style="width: 100px; height: 100px" src="https://img2018.cnblogs.com/blog/857591/201905/857591-20190520105429819-844152244.png"></el-image>
@@ -55,26 +56,11 @@
         <template slot-scope="scope">{{ scope.row.state ? '启用' : '禁用' }}</template>
       </el-table-column>
       <el-table-column align="center" min-width="100" label="创建时间" prop="addTime" />
-      <el-table-column
-        align="operation"
-        label="操作"
-        width="300"
-        class-name="small-padding fixed-width"
-      >
+      <el-table-column align="center" label="操作" width="200" class-name="small-padding fixed-width" >
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
-          <el-button
-            v-if="scope.row.state"
-            type="danger"
-            size="mini"
-            @click="handleForbid(scope.row)"
-          >禁用</el-button>
-          <el-button
-            v-if="!scope.row.state"
-            type="success"
-            size="mini"
-            @click="handleForbid(scope.row)"
-          >启用</el-button>
+          <!-- <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button> -->
+          <el-button v-if="scope.row.state" type="danger" size="mini" @click="handleForbid(scope.row)" >禁用</el-button>
+          <el-button v-if="!scope.row.state" type="success" size="mini" @click="handleForbid(scope.row)" >启用</el-button>
 
           <el-button size="mini" type="danger" @click="handleDel(scope.row)">删除</el-button>
         </template>

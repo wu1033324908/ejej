@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-05 15:51:22
- * @LastEditTime: 2019-08-15 17:08:41
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2019-12-20 16:08:27
+ * @LastEditors  : Please set LastEditors
  -->
 <template>
   <div class="app-container">
@@ -114,9 +114,9 @@
 
 <script>
 import { getServiceLable, updateServiceLable, serviceUploadPath } from '@/api/label'
-import { MessageBox } from 'element-ui'
+// import { MessageBox } from 'element-ui'
 import { getToken } from '@/utils/auth'
-import { getComboBox } from '@/api/select'
+// import { getComboBox } from '@/api/select'
 export default {
   name: 'AppIndexBannerEdit',
   data() {
@@ -180,8 +180,7 @@ export default {
           this.formData = response.data.data[0]
           console.log(this.formData)
         })
-        .catch(err => {
-          //   console.log(err)
+        .catch(() => {
         })
     },
 

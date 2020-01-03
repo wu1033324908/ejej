@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2019-12-06 11:41:13
+ * @LastEditTime: 2019-12-20 16:07:21
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \com-ejej-admin-dev-env\src\store\modules\permission.js
+ */
 import { asyncRouterMap, constantRouterMap } from '@/router'
 
 /**
@@ -21,7 +29,6 @@ function hasPermission(perms, route) {
  */
 function filterAsyncRouter(routes, perms) {
   const res = []
-  console.log(router)
   routes.forEach(route => {
     const tmp = { ...route }
     if (tmp.children) {

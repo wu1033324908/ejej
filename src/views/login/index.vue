@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-16 14:46:41
- * @LastEditTime: 2019-08-15 14:50:03
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2020-01-02 11:11:14
+ * @LastEditors  : Please set LastEditors
  -->
 <template>
   <div class="login-container">
@@ -17,7 +17,7 @@
       label-position="left"
     >
       <div class="logo-container">
-        <h3 class="logo">欢迎登录E家易业务管理平台</h3>
+        <div class="logo"><img src="@/assets/index/logo.png" alt=""></div>
       </div>
       <el-form-item class="username" prop="username">
         <span class="svg-container svg-container_login">
@@ -162,14 +162,16 @@ $light_gray: #eee;
   }
 }
 .login-container {
+  background:url('http://ejzx.oss-cn-qingdao.aliyuncs.com/user_id/65cc1087a11e4fa4a368b381bc0c4167.png?Expires=1893294055&OSSAccessKeyId=LTAI4FxoRFihXGmgadcfsrgE&Signature=T4JcP8r%2Fm%2BQ0Wa6qR9rT5MataBE%3D') no-repeat center;
+  background-size: 100% 100%;
   .title {
     display: inline-block;
     position: relative;
-    top: 80px;
+    top: 130px;
     left: 50%;
     transform: translateX(-50%);
     color: rgb(255, 255, 255);
-    font-size: 30px;
+    font-size: 40px;
     letter-spacing: 6px;
     font-weight: 100;
   }
@@ -202,7 +204,7 @@ $light_gray: #eee;
 </style>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-$bg: #2d3a4b;
+$bg: #1d88cd;
 $dark_gray: #889aa4;
 $light_gray: #eee;
 
@@ -213,9 +215,10 @@ $light_gray: #eee;
   background-color: $bg;
   .login-form {
     color: black;
-    background-color: rgb(197, 228, 254);
+    background-color: rgba(197, 228, 254,0.8);
     position: absolute;
     left: 50%;
+    top: 150px;
     right: 0;
     width: 434px;
     height: 486px;
@@ -273,9 +276,12 @@ $light_gray: #eee;
       font-size: 26px;
       font-weight: 400;
       color: black;
-      margin: 0px auto 40px auto;
+      margin: 0px auto 20px auto;
       text-align: center;
       font-weight: bold;
+      img{
+        width: 120px;
+      }
     }
   }
   .show-pwd {

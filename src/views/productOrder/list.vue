@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 10:25:06
- * @LastEditTime: 2019-12-10 13:48:03
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2019-12-20 16:19:49
+ * @LastEditors  : Please set LastEditors
  -->
 <template>
   <div class="app-container">
@@ -83,20 +83,20 @@
           </el-select>
         </el-form-item>
         <div v-show="!isperson">
-            <el-form-item label="快递公司">
-                <el-input v-model="logisticsForm.shipChannel" placeholder="请输入物流单号"/>
-            </el-form-item>
-            <el-form-item label="快递单号">
-                <el-input v-model="logisticsForm.shipSn" placeholder="请输入物流单号"/>
-            </el-form-item>
+          <el-form-item label="快递公司">
+            <el-input v-model="logisticsForm.shipChannel" placeholder="请输入物流单号"/>
+          </el-form-item>
+          <el-form-item label="快递单号">
+            <el-input v-model="logisticsForm.shipSn" placeholder="请输入物流单号"/>
+          </el-form-item>
         </div>
         <div v-show="isperson">
-            <el-form-item label="配送员姓名">
-                <el-input v-model="logisticsForm.shipName" placeholder="请输入物流单号"/>
-            </el-form-item>
-            <el-form-item label="联系方式">
-                <el-input v-model="logisticsForm.shipPhone" placeholder="请输入物流单号"/>
-            </el-form-item>
+          <el-form-item label="配送员姓名">
+            <el-input v-model="logisticsForm.shipName" placeholder="请输入物流单号"/>
+          </el-form-item>
+          <el-form-item label="联系方式">
+            <el-input v-model="logisticsForm.shipPhone" placeholder="请输入物流单号"/>
+          </el-form-item>
         </div>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -147,7 +147,7 @@
 
 <script>
 import { orderlist, orderdeliver } from '@/api/productOrder'
-import { MessageBox } from 'element-ui'
+// import { MessageBox } from 'element-ui'
 import BackToTop from '@/components/BackToTop'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
@@ -156,12 +156,12 @@ export default {
   components: { BackToTop, Pagination },
   data() {
     return {
-      isperson:true,
+      isperson: true,
       logisticsFormVisible: false,
       list: [],
       total: 0,
-      orderStatus: [{name:'个人配送',id:0},{name:'快递配送',id:1}],
-      shipTypes: [{name:'个人配送',id:0},{name:'快递配送',id:1}], // 发货 => 下拉列表
+      orderStatus: [{ name: '个人配送', id: 0 }, { name: '快递配送', id: 1 }],
+      shipTypes: [{ name: '个人配送', id: 0 }, { name: '快递配送', id: 1 }], // 发货 => 下拉列表
       listLoading: true,
       listQuery: {
         order_status: undefined,
@@ -196,18 +196,18 @@ export default {
       this.getList()
     },
     handleSend(row) {
-        this.logisticsFormVisible = true
-        this.logisticsForm.orderCode = row.orderCode
+      this.logisticsFormVisible = true
+      this.logisticsForm.orderCode = row.orderCode
     },
     handleDetail(row) {
-        this.$router.push({ path: '/productOrder/ProductOrderDetail', query: {data:JSON.stringify(row)} })
+      this.$router.push({ path: '/productOrder/ProductOrderDetail', query: { data: JSON.stringify(row) }})
     },
-    handleShipTypesChange(data){
-        if(data === 0){
-            this.isperson = true
-        }else{
-            this.isperson = false
-        }
+    handleShipTypesChange(data) {
+      if (data === 0) {
+        this.isperson = true
+      } else {
+        this.isperson = false
+      }
     },
     logistics() {
       orderdeliver(this.logisticsForm).then(response => {

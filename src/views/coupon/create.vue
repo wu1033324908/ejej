@@ -25,12 +25,12 @@
         </el-form-item>
         <el-form-item label="使用门槛" prop="min">
           <el-input v-model="fromData.min">
-              <template slot="append">元</template>
+            <template slot="append">元</template>
           </el-input>
         </el-form-item>
         <el-form-item label="抵扣金额" prop="discount">
           <el-input v-model="fromData.discount">
-              <template slot="append">元</template>
+            <template slot="append">元</template>
           </el-input>
         </el-form-item>
         <el-form-item label="期限类型" prop="timeType">
@@ -45,7 +45,7 @@
         </el-form-item>
         <el-form-item v-show="!isShowInput" label="期限">
           <el-input v-model="fromData.days">
-              <template slot="append">天</template>
+            <template slot="append">天</template>
           </el-input>
         </el-form-item>
         <el-form-item v-show="isShowInput" label="开始时间">
@@ -140,8 +140,8 @@ export default {
       fromData: {
       },
       isShowInput: false,
-      typeList: [{ name: '商品券',id: 0 },{ name: '服务类型券',id: 1 }],
-      timeTypes: [{ name: '优惠券有效天数',id: 0 },{ name: '优惠券有效期',id: 1 }],
+      typeList: [{ name: '商品券', id: 0 }, { name: '服务类型券', id: 1 }],
+      timeTypes: [{ name: '优惠券有效天数', id: 0 }, { name: '优惠券有效期', id: 1 }],
       rules: {
         name: [
           {
@@ -238,11 +238,11 @@ export default {
     init() {
       if (!this.$route.query.id) return
       this.fromData.id = this.$route.query.id
-      
+
     //   couponOne({ id: this.$route.query.id }).then(response => {
-          
+
     //   }).catch(() => {
-          
+
     //   })
     },
     handleCancel() {
@@ -254,7 +254,7 @@ export default {
       this.listLoading = true
     //   couponTypeList().then(response => {
     //     this.typeList = response.data.data.data
-        
+
     //   }).catch(() => {
     //     this.typeList = []
     //   })
@@ -263,12 +263,12 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           var finalGoods = this.fromData
-          if(finalGoods.discount/finalGoods.min>0.2){
-              this.$message({
-                message: '抵扣金额最大值为使用门槛的20%',
-                type: 'warning'
-              })
-              return false
+          if (finalGoods.discount / finalGoods.min > 0.2) {
+            this.$message({
+              message: '抵扣金额最大值为使用门槛的20%',
+              type: 'warning'
+            })
+            return false
           }
           console.log(finalGoods)
           create(finalGoods)

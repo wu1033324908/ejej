@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2019-12-06 11:41:12
+ * @LastEditTime: 2019-12-24 14:51:33
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \com-ejej-admin-dev-env\src\api\category.js
+ */
 import request from '@/utils/request'
 
 export function listCategory(data) {
@@ -48,7 +56,7 @@ export function updateCategory(data) {
 
 export function deleteCategory(data) {
   return request({
-    url: '/category/delete',
+    url: '/category/state',
     method: 'post',
     data
   })

@@ -188,138 +188,137 @@ import {
   uploadPermitUrlPath,
   uploadIdCardUrlPath,
   deparSearch
-} from "@/api/depart";
-import { MessageBox } from "element-ui";
-import { getToken } from "@/utils/auth";
+} from '@/api/depart'
+import { MessageBox } from 'element-ui'
+import { getToken } from '@/utils/auth'
 export default {
   data() {
     var checkPhone = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error("手机号不能为空"));
+        return callback(new Error('手机号不能为空'))
       }
       setTimeout(() => {
         // if (!Number.isInteger(value)) {
         //   callback(new Error("请输入数字值"));
         // } else {
         if (!/^1[3456789]\d{9}$/.test(value)) {
-          callback(new Error("请输入正确的手机号"));
+          callback(new Error('请输入正确的手机号'))
         } else {
-          callback();
+          callback()
         }
         // }
-      }, 1000);
-    };
+      }, 1000)
+    }
     return {
       departEdit,
       uploadHeadUrlPath,
       uploadPermitUrlPath,
       uploadIdCardUrlPath,
       loading: true,
-      newCompany:{},
-      // newCompany: { picUrl: '', gallery: [] },
       newCompany: {},
+      // newCompany: { picUrl: '', gallery: [] },
       departOptions: [],
-      userCode: "",
-      designerId: "",
+      userCode: '',
+      designerId: '',
       rules: {
         nickname: [
-          { required: true, message: "用户名不能为空", trigger: "blur" }
+          { required: true, message: '用户名不能为空', trigger: 'blur' }
         ],
-        mobile: [{ validator: checkPhone, trigger: "blur" }],
+        mobile: [{ validator: checkPhone, trigger: 'blur' }],
         email: [
-          { required: true, message: "请输入邮箱地址", trigger: "blur" },
+          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
           {
-            type: "email",
-            message: "请输入正确的邮箱地址",
-            trigger: ["blur", "change"]
+            type: 'email',
+            message: '请输入正确的邮箱地址',
+            trigger: ['blur', 'change']
           }
         ]
       }
-    };
+    }
   },
   computed: {
     headers() {
       return {
-        "X-Wajueji-Admin-Token": getToken()
-      };
+        'X-Wajueji-Admin-Token': getToken()
+      }
     }
   },
   created() {
-    this.init();
+    this.init()
   },
   methods: {
     init: function() {
-      this.designerId = this.$route.query.id;
-      this.getDecorationCompanyDetail();
+      this.designerId = this.$route.query.id
+      this.getDecorationCompanyDetail()
     },
     // 获取装修公司信息
     getDecorationCompanyDetail() {
       deparSearch({ id: this.designerId })
         .then(response => {
-          console.log(123);
-          console.log(response);
-          this.newCompany = response.data.data.list;
-          this.loading = false;
+          console.log(123)
+          console.log(response)
+          this.newCompany = response.data.data.list
+          this.loading = false
         })
         .catch(errmsg => {
-          console.log(errmsg);
-        });
+          console.log(errmsg)
+        })
     },
 
     // 保存
     handlePublish() {
       // this.newCompany.type = "0";
-      this.newCompany.status = "1";
+      this.newCompany.status = '1'
       //   this.newCompany.birthday = this.newCompany.birthday + " 00:00:00";
-      console.log(this.newCompany.birthday);
+      console.log(this.newCompany.birthday)
       departEdit(this.newCompany)
         .then(response => {
-          console.log(response);
+          console.log(response)
           this.$notify.success({
-            title: "成功",
-            message: "修改成功"
-          });
+            title: '成功',
+            message: '修改成功'
+          })
           // const id = response.data.data.id;
-          this.$router.push({ path: "/decorationCompany/list" });
+          this.$router.push({ path: '/decorationCompany/list' })
         })
         .catch(errmsg => {
-          console.log(errmsg);
-          MessageBox.alert("业务错误：" + errmsg.data.errmsg, "警告", {
-            confirmButtonText: "确定",
-            type: "error"
-          });
-        });
+          console.log(errmsg)
+          MessageBox.alert('业务错误：' + errmsg.data.errmsg, '警告', {
+            confirmButtonText: '确定',
+            type: 'error'
+          })
+        })
     },
     handleCancel: function() {
-      this.$router.push({ path: "/case/create" });
+      this.$router.push({ path: '/case/create' })
     },
     uploadPicUrl: function(response) {
-      this.newCompany.picUrl = response.data.url;
+      this.newCompany.picUrl = response.data.url
     },
     uploadOverrun: function() {
       this.$message({
-        type: "error",
-        message: "上传文件个数超出限制!最多上传1张图片!"
-      });
+        type: 'error',
+        message: '上传文件个数超出限制!最多上传1张图片!'
+      })
     },
     uploadOverrunCase: function() {
       this.$message({
-        type: "error",
-        message: "上传文件个数超出限制!最多上传1张图片!"
-      });
+        type: 'error',
+        message: '上传文件个数超出限制!最多上传1张图片!'
+      })
     },
     headUrl(response) {
-      console.log(response);
-      this.newCompany.avatar = response.data.allfilePath;
+      console.log(response)
+      this.newCompany.avatar = response.data.allfilePath
     },
     permitUrl(response) {
-      this.newCompany.businessLicense = response.data.allfilePath;
+      this.newCompany.businessLicense = response.data.allfilePath
     },
     idCardUrlF(response) {
-      this.idCard.push(response.data.allfilePath);
+      this.idCard.push(response.data.allfilePath)
     },
     idCardUrlR(response) {
-      this.idCard.push(response.data.allfilePath);
+      this.idCard.push(response.data.allfilePath)
     },
     // handleGalleryUrl(response, file, fileList) {
     //   console.log(response);
@@ -348,14 +347,14 @@ export default {
     //   });
     // },
     handleGalleryUrlCase(response, file, fileList) {
-      console.log(fileList);
-      console.log(file);
+      console.log(fileList)
+      console.log(file)
       this.newCompany.url_list.push({
         fileName: this.fileName,
         sortOrder: this.sort,
         fileUrl: response.data.allfilePath
-      });
-      console.log(this.newCompany);
+      })
+      console.log(this.newCompany)
       // if (response.errno === 0) {
       //   this.newCompany.gallery.push(response.data.url);
       // }
@@ -367,21 +366,21 @@ export default {
         // 1. 如果所删除图片是刚刚上传的图片，那么图片地址是file.response.data.url
         //    此时的file.url虽然存在，但是是本机地址，而不是远程地址。
         // 2. 如果所删除图片是后台返回的已有图片，那么图片地址是file.url
-        var url;
-        console.log(file);
-        console.log(fileList);
+        var url
+        console.log(file)
+        console.log(fileList)
         // this.newCompany.url_list.
         if (file.response === undefined) {
-          url = file.url;
+          url = file.url
         } else {
-          url = file.response.data.url;
+          url = file.response.data.url
         }
 
         if (this.newCompany.gallery[i] === url) {
-          this.newCompany.gallery.splice(i, 1);
+          this.newCompany.gallery.splice(i, 1)
         }
       }
     }
   }
-};
+}
 </script>

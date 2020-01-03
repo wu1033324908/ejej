@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 10:28:46
- * @LastEditTime: 2019-12-17 15:00:22
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2019-12-24 15:15:42
+ * @LastEditors  : Please set LastEditors
  -->
 <template>
   <div class="app-container">
@@ -44,7 +44,8 @@
         <el-table-column prop="serviceLabelName" label="名称" />
         <el-table-column prop="serviceLabelUrl" label="图片">
           <template slot-scope="scope">
-            <el-button type="primary" size="small" @click="viewimage(scope.row.serviceLabelUrl)">查看</el-button>
+            <!-- <el-button type="primary" size="small" @click="viewimage(scope.row.serviceLabelUrl)">查看</el-button> -->
+            <div><img :src="scope.row.serviceLabelUrl" alt="暂无" style="height:50px;"></div>
           </template>
         </el-table-column>
         <el-table-column prop="serviceType" label="标签类型">
@@ -65,13 +66,13 @@
         </el-table-column>
         <el-table-column prop="ctime" label="创建时间" />
         <el-table-column
-          align="operation"
+          align="center"
           label="操作"
-          width="300"
+          width="200"
           class-name="small-padding fixed-width"
         >
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
+            <!-- <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button> -->
             <el-button
               v-if="scope.row.state"
               type="danger"

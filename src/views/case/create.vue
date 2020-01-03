@@ -93,16 +93,16 @@
         <el-form-item label="面积" prop="area">
           <el-input v-model="newCase.area" />
         </el-form-item>
-        <el-form-item v-if="example_type==0||example_type==2" label="设计费用" prop="designMoney">
+        <el-form-item v-if="example_type==0 || example_type==2" label="设计费用" prop="designMoney">
           <el-input v-model="newCase.designMoney" />
         </el-form-item>
-        <el-form-item v-if="example_type==1||example_type==2" label="施工天数" prop="workDay">
-          <el-input v-model.number="newCase.workDay" />
+        <el-form-item v-if="example_type==1 || example_type==2" label="施工天数" prop="workDay">
+          <el-input v-model="newCase.workDay" />
         </el-form-item>
         <el-form-item v-if="example_source==1" label="跳转路径" prop="url">
           <el-input v-model="newCase.url" />
         </el-form-item>
-        <el-form-item v-if="example_type==0||example_type==2" label="设计说明" prop="desc">
+        <el-form-item v-if="example_type==0 || example_type==2" label="设计说明" prop="desc">
           <el-input v-model="newCase.desc" />
         </el-form-item>
         <el-form-item v-if="example_type==1" label="施工说明" prop="desc">

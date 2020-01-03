@@ -2,29 +2,29 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-16 18:16:51
- * @LastEditTime: 2019-12-11 09:58:07
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2019-12-20 16:20:57
+ * @LastEditors  : Please set LastEditors
  -->
 <template>
   <div class="app-container">
     <!-- 查询和其他操作 -->
     <div class="filter-container">
-        <el-select class="filter-item" v-model="listQuery.type" placeholder="请选择优惠券类型" clearable>
-            <el-option
-              v-for="type in types"
-              :key="type.id"
-              :label="type.name"
-              :value="type.id"
-            />
-          </el-select>
-        <el-select class="filter-item" v-model="listQuery.status" placeholder="请选择优惠券状态" clearable>
-            <el-option
-              v-for="status in statuss"
-              :key="status.id"
-              :label="status.name"
-              :value="status.id"
-            />
-          </el-select>
+      <el-select v-model="listQuery.type" class="filter-item" placeholder="请选择优惠券类型" clearable>
+        <el-option
+          v-for="type in types"
+          :key="type.id"
+          :label="type.name"
+          :value="type.id"
+        />
+      </el-select>
+      <el-select v-model="listQuery.status" class="filter-item" placeholder="请选择优惠券状态" clearable>
+        <el-option
+          v-for="status in statuss"
+          :key="status.id"
+          :label="status.name"
+          :value="status.id"
+        />
+      </el-select>
       <el-input v-model="listQuery.title" clearable class="filter-item" style="width: 200px;" placeholder="请输入标题"/>
       <el-input v-model="listQuery.couponCode" clearable class="filter-item" style="width: 200px;" placeholder="请输入卡券编号"/>
       <el-input v-model="listQuery.name" clearable class="filter-item" style="width: 200px;" placeholder="请输入卡券名称"/>
@@ -87,13 +87,13 @@ import BackToTop from '@/components/BackToTop'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 
 export default {
-  name: 'couponRuleList',
+  name: 'CouponRuleList',
   components: { BackToTop, Pagination },
   filters: {
     filterDays(val) {
       if (Number(val) > 0) {
         return val + '天'
-      }else{
+      } else {
         return '按时间段'
       }
     },
@@ -105,15 +105,15 @@ export default {
         return val + '张'
       }
     },
+    // filterStatus(val) {
+    //   if (val === 0 || val === '0') {
+    //     return '可用'
+    //   } else {
+    //     return '过期'
+    //   }
+    // },
     filterStatus(val) {
-      if (val === 0 || val === '0') {
-        return '可用'
-      } else {
-        return '过期'
-      }
-    },
-    filterStatus(val) {
-       if (val === '0' || val === 0) {
+      if (val === '0' || val === 0) {
         return '正常可用'
       }
       if (val === '1' || val === 1) {
@@ -155,8 +155,8 @@ export default {
         limit: 20
       },
       recordList: [],
-      types:[{ name: '注册赠送', id: 0 },{ name: '消费赠送', id: 1 },{ name: '登陆赠送', id: 2 },{ name: '充值赠送', id: 3 },{ name: '评论赠送', id: 4 },{ name: '自定义', id: 5 }],
-      statuss:[{ name: '已生效', id: 0 }, { name: '未生效', id: 1 }, { name: '已过期', id: 2 }]
+      types: [{ name: '注册赠送', id: 0 }, { name: '消费赠送', id: 1 }, { name: '登陆赠送', id: 2 }, { name: '充值赠送', id: 3 }, { name: '评论赠送', id: 4 }, { name: '自定义', id: 5 }],
+      statuss: [{ name: '已生效', id: 0 }, { name: '未生效', id: 1 }, { name: '已过期', id: 2 }]
     }
   },
   mounted() {

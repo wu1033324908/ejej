@@ -82,7 +82,7 @@
                 </el-upload>
               </div>
             </el-col>
-           
+
           </el-row>
         </el-form-item>
         <el-form-item label="身份证背面">
@@ -107,7 +107,7 @@
                 </el-upload>
               </div>
             </el-col>
-            
+
           </el-row>
         </el-form-item>-->
         <el-form-item label="身份证正面">
@@ -243,28 +243,28 @@ import {
   uploadHeadUrlPath,
   uploadPermitUrlPath,
   uploadIdCardUrlPath
-} from "@/api/depart";
-import { departList } from "@/api/depart";
-import { MessageBox } from "element-ui";
-import { getToken } from "@/utils/auth";
+} from '@/api/depart'
+import { departList } from '@/api/depart'
+// import { MessageBox } from 'element-ui'
+import { getToken } from '@/utils/auth'
 export default {
   data() {
     var checkPhone = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error("手机号不能为空"));
+        return callback(new Error('手机号不能为空'))
       }
       setTimeout(() => {
         // if (!Number.isInteger(value)) {
         //   callback(new Error("请输入数字值"));
         // } else {
         if (!/^1[3456789]\d{9}$/.test(value)) {
-          callback(new Error("请输入正确的手机号"));
+          callback(new Error('请输入正确的手机号'))
         } else {
-          callback();
+          callback()
         }
         // }
-      }, 1000);
-    };
+      }, 1000)
+    }
     return {
       uploadHeadUrlPath,
       uploadPermitUrlPath,
@@ -273,93 +273,94 @@ export default {
       newCompany: {},
       departOptions: [],
       idCard: [],
-      userCode: "",
+      userCode: '',
       rules: {
         nickname: [
-          { required: true, message: "用户名不能为空", trigger: "blur" }
+          { required: true, message: '用户名不能为空', trigger: 'blur' }
         ],
-        mobile: [{ validator: checkPhone, trigger: "blur" }],
+        mobile: [{ validator: checkPhone, trigger: 'blur' }],
         email: [
-          { required: true, message: "请输入邮箱地址", trigger: "blur" },
+          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
           {
-            type: "email",
-            message: "请输入正确的邮箱地址",
-            trigger: ["blur", "change"]
+            type: 'email',
+            message: '请输入正确的邮箱地址',
+            trigger: ['blur', 'change']
           }
         ]
       }
-    };
+    }
   },
   computed: {
     headers() {
       return {
-        "X-Wajueji-Admin-Token": getToken()
-      };
+        'X-Wajueji-Admin-Token': getToken()
+      }
     }
   },
   created() {
-    this.init();
+    this.init()
   },
   methods: {
     init: function() {
-      this.getdepartList();
+      this.getdepartList()
     },
     getdepartList() {
       departList()
         .then(response => {
-          this.departOptions = response.data.data;
+          this.departOptions = response.data.data
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     // 添加
     handlePublish() {
       //   this.newCompany.birthday = this.newCompany.birthday + " 00:00:00";
-      this.newCompany.status = 0;
+      this.newCompany.status = 0
       this.newCompany.idCardUrl = JSON.stringify(this.idCard)
       departAdd(this.newCompany)
         .then(response => {
-          console.log(response);
+          console.log(response)
           this.$notify.success({
-            title: "成功",
-            message: "创建成功"
-          });
-          // const id = response.data.data.id;
-          this.$router.push({ path: "/designer/list"});
+            title: '成功',
+            message: '创建成功'
+          })
+          // const id = response.data.data.id
+          this.$router.push({ path: '/decorationCompany/list' })
+          //  query: { id: id }
         })
         .catch(errmsg => {
-          console.log(errmsg);
+          console.log(errmsg)
           // MessageBox.alert("业务错误：" + errmsg.data.errmsg, "警告", {
           //   confirmButtonText: "确定",
           //   type: "error"
           // });
-        });
+        })
     },
     handleCancel: function() {
-      this.$router.push({ path: "/case/create" });
+      this.$router.push({ path: '/decorationCompany/list' })
     },
     uploadPicUrl: function(response) {
-      this.newCompany.picUrl = response.data.url;
+      this.newCompany.picUrl = response.data.url
     },
     uploadOverrun: function() {
       this.$message({
-        type: "error",
-        message: "上传文件个数超出限制!最多上传1张图片!"
-      });
+        type: 'error',
+        message: '上传文件个数超出限制!最多上传1张图片!'
+      })
     },
     headUrl(response) {
-      console.log(response);
-      this.newCompany.avatar = response.data.allfilePath;
+      console.log(response)
+      this.newCompany.avatar = response.data.allfilePath
     },
     permitUrl(response) {
-      this.newCompany.businessLicense = response.data.allfilePath;
+      this.newCompany.businessLicense = response.data.allfilePath
     },
     idCardUrlF(response) {
-      this.idCard.push(response.data.allfilePath);
+      this.idCard.push(response.data.allfilePath)
     },
     idCardUrlR(response) {
-      this.idCard.push(response.data.allfilePath);
+      this.idCard.push(response.data.allfilePath)
     },
     // idCardUrl(response, file, fileList) {
     //   console.log(response);
@@ -392,18 +393,18 @@ export default {
     //   // this.newCompany.idCardUrl = JSON.stringify([me.frontPic , me.reversePic ]);
     // },
     handleGalleryUrl(response, file, fileList) {
-      console.log(response);
-      this.newCompany.avatar = response.data.allfilePath;
+      console.log(response)
+      this.newCompany.avatar = response.data.allfilePath
       // if (response.errno === 0) {
       //   this.newCompany.gallery.push(response.data.url);
       // }
     },
     beforeAvatarUpload: function(file) {
-      const me = this;
-      const isJPG = file.type === "image/jpeg";
-      const isPNG = file.type === "image/png";
+      const me = this
+      const isJPG = file.type === 'image/jpeg'
+      const isPNG = file.type === 'image/png'
       if (!(isJPG || isPNG)) {
-        me.$message.error("上传的文件只能是 JPG 或者是 PNG 格式的");
+        me.$message.error('上传的文件只能是 JPG 或者是 PNG 格式的')
       }
     },
     // beforeAvatarUpload(file) {
@@ -442,21 +443,21 @@ export default {
         // 1. 如果所删除图片是刚刚上传的图片，那么图片地址是file.response.data.url
         //    此时的file.url虽然存在，但是是本机地址，而不是远程地址。
         // 2. 如果所删除图片是后台返回的已有图片，那么图片地址是file.url
-        var url;
-        console.log(file);
-        console.log(fileList);
+        var url
+        console.log(file)
+        console.log(fileList)
         // this.newCompany.url_list.
         if (file.response === undefined) {
-          url = file.url;
+          url = file.url
         } else {
-          url = file.response.data.url;
+          url = file.response.data.url
         }
 
         if (this.newCompany.gallery[i] === url) {
-          this.newCompany.gallery.splice(i, 1);
+          this.newCompany.gallery.splice(i, 1)
         }
       }
     }
   }
-};
+}
 </script>

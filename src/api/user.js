@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2019-12-06 11:41:12
- * @LastEditTime: 2019-12-16 14:39:27
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2019-12-27 16:18:03
+ * @LastEditors  : Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \com-ejej-admin-dev-env\src\api\user.js
  */
@@ -86,6 +86,14 @@ export function userDetail(data) {
 export function userUpdata(data) {
   return request({
     url: '/managerUser/update',
+    method: 'post',
+    data
+  })
+}
+// 设计师，零工，项目经理详情介绍信息的删除
+export function introduceDeleted(data) {
+  return request({
+    url: '/introduce/deleted',
     method: 'post',
     data
   })

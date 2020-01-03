@@ -94,8 +94,8 @@
         </el-table-column>
         <el-table-column label="操作" align="operation" width="200">
           <template slot-scope="scope">
-            <el-button type="primary" icon="el-icon-edit" @click="openLableDetail(scope.row)">编辑</el-button>
-            <el-button type="danger" @click="introduceHandleforbid(scope.row)">禁用</el-button>
+            <!-- <el-button type="primary" icon="el-icon-edit" @click="openLableDetail(scope.row)">编辑</el-button> -->
+            <el-button type="danger" @click="introduceHandleforbid(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -127,31 +127,45 @@
     <el-card>
       <h4>案例信息</h4>
       <el-table :data="caseData" style="width: 100%">
-        <el-table-column prop="id" label="序号" width="180"/>
-        <el-table-column prop="exampleSource" label="案例来源" width="180"/>
-        <el-table-column prop="exampleName" label="案例名称"/>
+        <el-table-column type="index" width="50" />
+        <el-table-column prop="exampleSource" label="案例来源" width="180">
+          <template slot-scope="scope">{{ scope.row.exampleSource | exampleSourceF }}</template>
+        </el-table-column>
+        <el-table-column prop="exampleName" label="案例名称">
+          <template slot-scope="scope">{{ scope.row.exampleName | exampleSourceF }}</template>
+        </el-table-column>
         <el-table-column prop="exampleStyle" label="风格"/>
         <el-table-column prop="exampleModel" label="样式"/>
         <el-table-column prop="decorationBudget" label="装修预算"/>
         <el-table-column prop="area" label="面积"/>
         <el-table-column prop="designMoney" label="设计费用"/>
         <el-table-column prop="desc" label="设计说明">
-          <template slot-scope="scope">{{ scope.row }}</template>
+          <template slot-scope="scope">{{ scope.row.desc }}</template>
         </el-table-column>
-        <el-table-column prop="address" label="操作">
+        <!-- <el-table-column prop="address" label="操作">
           <template slot-scope="scope">
             <el-button type="danger" @click="handleforbidCase(scope.row)">禁用</el-button>
           </template>
-        </el-table-column>
+        </el-table-column> -->
       </el-table>
     </el-card>
     <el-card>
       <h4>服务订单列表</h4>
+      <el-table :data="serviceList" style="width: 100%">
+        <el-table-column type="index" width="50" />
+        <el-table-column prop="orderCode" label="订单编号"/>
+        <el-table-column prop="exampleSource" label="订单类型" width="180">
+          <template slot-scope="scope">{{ scope.row.orderType | orderTypeF }}</template>
+        </el-table-column>
+        <el-table-column prop="exampleName" label="订单状态">
+          <template slot-scope="scope">{{ scope.row.orderStatus | orderStatusF }}</template>
+        </el-table-column>
+        <el-table-column prop="contractMoney" label="合同金额"/>
+        <el-table-column prop="addTime" label="创建时间"/>
+        <el-table-column prop="signTime" label="签约时间"/>
+        <el-table-column prop="remark" label="备注"/>
+      </el-table>
     </el-card>
-    <!-- <div class="op-container">
-      <el-button @click="handleCancel">取消</el-button>
-      <el-button type="primary" @click="handlePublish">添加</el-button>
-    </div>-->
     <el-dialog :visible.sync="dialogInfoEdit" title="编辑介绍信息">
       <el-form :model="introduceEdit">
         <el-form-item label="介绍名称">
@@ -252,12 +266,12 @@
 
       <el-dialog :visible.sync="createLableLoading" width="30%" title="新增一个关联标签" append-to-body>
         <el-form ref="serviceLabel" :rules="rules" :model="serviceNewLabel" label-width="120px">
-          <el-form-item label="服务商标签序号" prop="id">
+          <!-- <el-form-item label="服务商标签序号" prop="id">
             <el-input v-model="serviceNewLabel.id" />
           </el-form-item>
           <el-form-item label="服务商标签编号" prop="serviceLabelCode">
             <el-input v-model="serviceNewLabel.serviceLabelCode" />
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item label="服务商标签名称" prop="serviceLabelName">
             <el-input v-model="serviceNewLabel.serviceLabelName" />
           </el-form-item>
@@ -271,16 +285,6 @@
               />
             </el-select>
           </el-form-item>
-          <!-- <el-form-item label="适用服务商">
-            <el-select v-model="serviceNewLabel.serviceSource" placeholder="适用服务商">
-              <el-option
-                v-for="item in typeoptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>-->
           <el-form-item label="备注">
             <el-input v-model="serviceNewLabel.desc" />
           </el-form-item>
@@ -380,7 +384,7 @@
 </style>
 
 <script>
-import { userDetail, uploadPath } from '@/api/user'
+import { userDetail, uploadPath, introduceDeleted } from '@/api/user'
 import { getCaseList } from '@/api/case'
 import {
   getServiceLable,
@@ -400,6 +404,53 @@ import {
 // import { MessageBox } from 'element-ui'
 import { getToken } from '@/utils/auth'
 export default {
+  filters: {
+    exampleSourceF(v) {
+      if (v === 0 || v === '0') {
+        return '原创链接'
+      }
+      if (v === 1 || v === '1') {
+        return '链接案例'
+      }
+      return '暂无'
+    },
+    exampleTypeF(v) {
+      if (v === 0 || v === '0') {
+        return '设计师'
+      }
+      if (v === 1 || v === '1') {
+        return '零工'
+      }
+      if (v === 2 || v === '2') {
+        return '项目经理'
+      }
+      return '暂无'
+    },
+    orderTypeF(v) {
+      if (v === 0 || v === '0') {
+        return '设计类订单'
+      }
+      if (v === 1 || v === '1') {
+        return '装修类订单'
+      }
+      return '暂无'
+    },
+    orderStatusF(v) {
+      if (v === 0 || v === '0') {
+        return '预约下单'
+      }
+      if (v === 1 || v === '1') {
+        return '签署合同'
+      }
+      if (v === 2 || v === '2') {
+        return '待评价'
+      }
+      if (v === 3 || v === '3') {
+        return '已完成'
+      }
+      return '暂无'
+    }
+  },
   data() {
     return {
       designerId: '',
@@ -439,7 +490,8 @@ export default {
         housingname: [
           { required: true, message: '案例名称不能为空', trigger: 'blur' }
         ]
-      }
+      },
+      serviceList: []
     }
   },
   computed: {
@@ -485,7 +537,10 @@ export default {
           this.activity = response.data.data.activity
           this.ServiceLable = response.data.data.ServiceLabel
           this.introduce = response.data.data.introduce
-          // console.log(this.ServiceLable);
+          this.caseData = response.data.data.exampleList
+          this.serviceList = response.data.data.serviceList
+          console.log('案例列表')
+          console.log(response.data.data.exampleList)
           this.loadingDetail = false
         })
         .catch(errmsg => {
@@ -550,7 +605,18 @@ export default {
         })
     },
     // 禁用标签详情
-    introduceHandleforbid() {},
+    introduceHandleforbid(row) {
+      introduceDeleted(row).then(response => {
+        this.$notify({
+          title: '成功',
+          message: '删除成功',
+          type: 'success',
+          duration: 2000
+        })
+        const index = this.introduce.indexOf(row)
+        this.introduce.splice(index, 1)
+      })
+    },
     // 新增标签详情
     addLableDetail() {
       this.dialogInfo = true
@@ -579,7 +645,7 @@ export default {
       getServiceLable(searchLableData)
         .then(response => {
           console.log(response)
-          this.lableData = response.data.data
+          this.lableData = response.data.data.data
           this.lableLoading = false
         })
         .catch(errmsg => {

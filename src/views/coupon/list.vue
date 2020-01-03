@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-09-16 18:16:51
- * @LastEditTime: 2019-12-09 17:13:00
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2019-12-20 16:21:19
+ * @LastEditors  : Please set LastEditors
  -->
 <template>
   <div class="app-container">
@@ -21,22 +21,22 @@
         type="datetime"
         placeholder="截止时间"
         value-format="yyyy-MM-dd HH:mm:ss"/>
-        <el-select class="filter-item" v-model="listQuery.type" placeholder="请选择优惠券类型" clearable>
-            <el-option
-              v-for="type in types"
-              :key="type.id"
-              :label="type.name"
-              :value="type.id"
-            />
-          </el-select>
-        <el-select class="filter-item" v-model="listQuery.status" placeholder="请选择优惠券状态" clearable>
-            <el-option
-              v-for="status in statuss"
-              :key="status.id"
-              :label="status.name"
-              :value="status.id"
-            />
-          </el-select>
+      <el-select v-model="listQuery.type" class="filter-item" placeholder="请选择优惠券类型" clearable>
+        <el-option
+          v-for="type in types"
+          :key="type.id"
+          :label="type.name"
+          :value="type.id"
+        />
+      </el-select>
+      <el-select v-model="listQuery.status" class="filter-item" placeholder="请选择优惠券状态" clearable>
+        <el-option
+          v-for="status in statuss"
+          :key="status.id"
+          :label="status.name"
+          :value="status.id"
+        />
+      </el-select>
       <el-input v-model="listQuery.couponCode" clearable class="filter-item" style="width: 200px;" placeholder="请输入优惠券编码"/>
       <el-input v-model="listQuery.name" clearable class="filter-item" style="width: 200px;" placeholder="请输入优惠券名称"/>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
@@ -138,7 +138,7 @@ export default {
     filterDays(val) {
       if (Number(val) > 0) {
         return val + '天'
-      }else{
+      } else {
         return '按时间段'
       }
     },
@@ -150,15 +150,15 @@ export default {
         return val + '张'
       }
     },
+    // filterStatus(val) {
+    //   if (val === 0 || val === '0') {
+    //     return '可用'
+    //   } else {
+    //     return '过期'
+    //   }
+    // },
     filterStatus(val) {
-      if (val === 0 || val === '0') {
-        return '可用'
-      } else {
-        return '过期'
-      }
-    },
-    filterStatus(val) {
-       if (val === '0' || val === 0) {
+      if (val === '0' || val === 0) {
         return '正常可用'
       }
       if (val === '1' || val === 1) {
@@ -169,15 +169,15 @@ export default {
       }
     },
     filterType(val) {
-        // if (val === '0' || val === 0) {
-        //     return '商品券'
-        // }
-        if (val === '1' || val === 1) {
-            return '服务类型券'
-        }else{
-            return '商品券'
-        }
-        
+      // if (val === '0' || val === 0) {
+      //     return '商品券'
+      // }
+      if (val === '1' || val === 1) {
+        return '服务类型券'
+      } else {
+        return '商品券'
+      }
+
     //   if (val === '0' || val === 0) {
     //     return '注册赠送'
     //   }
@@ -200,7 +200,7 @@ export default {
   },
   data() {
     return {
-      isUserData:['下架','上架'],
+      isUserData: ['下架', '上架'],
       userRecord: false,
       list: [],
       total: 0,
@@ -217,8 +217,8 @@ export default {
         limit: 10
       },
       recordTotal: 0,
-      types:[{ name: '商品券', id: 0 },{ name: '服务类型券', id: 1 }],
-      statuss:[{ name: '正常可用', id: 0 }, { name: '过期', id: 1 }, { name: '下架', id: 2 }]
+      types: [{ name: '商品券', id: 0 }, { name: '服务类型券', id: 1 }],
+      statuss: [{ name: '正常可用', id: 0 }, { name: '过期', id: 1 }, { name: '下架', id: 2 }]
     }
   },
   mounted() {
@@ -286,10 +286,9 @@ export default {
       this.userRecord = true
       this.getRecordList(row)
     },
-    handleUpDown(row){
-      
-      let _row = row
-      if(_row.isUser === '0'){
+    handleUpDown(row) {
+      const _row = row
+      if (_row.isUser === '0') {
         _row.isUser = '1'
         couponDelete(row).then(response => {
           this.$notify.success({
@@ -304,7 +303,7 @@ export default {
             message: response.errmsg
           })
         })
-      }else{
+      } else {
         _row.isUser = '0'
         couponDelete(row).then(response => {
           this.$notify.success({

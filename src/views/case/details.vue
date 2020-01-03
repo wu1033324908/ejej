@@ -87,23 +87,22 @@
           >
             <i class="el-icon-plus" />
           </el-upload>-->
-          <div style="width:200px;margin-top:30px">
-            <img :src="detailCase.fileUrl" style="width:100%;margin-left:150px" alt >
+          <div style="width:200px;margin-top:30px;border:1px solid #cdcdcd;">
+            <img :src="detailCase.fileUrl" style="width:100%;" alt >
           </div>
         </el-form-item>
 
         <el-form-item v-if="detailCase.exampleSource==0" label="案例图片">
-          <el-form-item>
-            <div class="picList" style="margin-top:30px">
-              <div v-for="(item,index) in detailCase.url_list" :key="index" class="cPic">
-                <img :src="item.fileUrl" alt >
-                <span style="display:block">{{ item.fileName }}</span>
-              </div>
-            </div>
-          </el-form-item>
 
-          <div class="picList" style="margin-top:30px">
-            <div v-for="(item,index) in detailCase.url_list" :key="index" class="cPic">
+          <div class="picList" style="margin-top:30px;border:1px solid #cdcdcd;">
+            <div v-for="(item,index) in detailCase.url_list" :key="index" class="cPic" style="border:1px solid #cdcdcd;">
+              <img :src="item.fileUrl" alt >
+              <span style="display:block">{{ item.fileName }}</span>
+            </div>
+          </div>
+
+          <div class="picList" style="margin-top:30px;border:1px solid #cdcdcd;">
+            <div v-for="(item,index) in detailCase.url_list" :key="index" class="cPic" style="border:1px solid #cdcdcd;">
               <img :src="item.fileUrl" alt >
               <span style="display:block">{{ item.fileName }}</span>
             </div>

@@ -3,8 +3,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 10:28:46
- * @LastEditTime: 2019-12-17 17:18:22
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2020-01-03 10:52:42
+ * @LastEditors  : Please set LastEditors
  -->
 <template>
   <div class="app-container">
@@ -80,8 +80,8 @@
       <!-- <el-table-column align="center" min-width="100" label="首付" prop="retailPrice"/> -->
       <el-table-column align="center" min-width="100" label="项目经理数量" prop="num2" />
       <el-table-column align="center" min-width="100" label="评分" prop="grade" />
-      <el-table-column align="center" min-width="100" label="订单数" prop="orders" />
-      <el-table-column align="center" min-width="100" label="案例数" prop="examples" />
+      <el-table-column align="center" min-width="100" label="订单数" prop="service_number" />
+      <el-table-column align="center" min-width="100" label="案例数" prop="example_number" />
       <!-- <el-table-column align="center" min-width="100" label="状态" prop="status">
         <template
           slot-scope="scope"

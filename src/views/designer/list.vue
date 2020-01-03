@@ -3,8 +3,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 10:28:46
- * @LastEditTime: 2019-12-17 14:46:16
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2019-12-24 14:39:55
+ * @LastEditors  : Please set LastEditors
  -->
 <template>
   <div class="app-container">
@@ -101,8 +101,7 @@
       <el-table-column align="center" min-width="100" label="订单数" prop="service_number" />
       <el-table-column align="center" min-width="100" label="图片" prop="goodsLabelUrl">
         <template slot-scope="scope">
-          <!-- <el-button type="primary" size="small" @click="viewimage(scope.row.goodsLabelUrl)">查看</el-button> -->
-          <div><img :src="scope.row.goodsLabelUrl" alt="暂无" style="height:50px;"></div>
+          <div><img :src="scope.row.avatar" alt="暂无" style="height:50px;"></div>
         </template>
       </el-table-column>
       <!-- <el-table-column align="center" min-width="100" label="首付" prop="retailPrice"/> -->
@@ -319,7 +318,7 @@ export default {
       } else {
         listData.update_time = this.timeForm.date2
       }
-      listData.type = ' '
+      listData.type = 0
       if (listData.status == null) {
         delete listData.status
       }

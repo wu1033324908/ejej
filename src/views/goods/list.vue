@@ -28,51 +28,6 @@
         filterable
         @change="handleChange"
       />
-
-      <!-- <el-select
-        v-model="category1"
-        clearable
-        style="width:150px;"
-        @change="getCategory( $event , '2')"
-        class="filter-item"
-        placeholder="请选择一级分类"
-      >
-        <el-option
-          v-for="(item,index) in cOptions1"
-          :key="index"
-          :label="item.name"
-          :value="item.id"
-        ></el-option>
-      </el-select>
-      <el-select
-        v-model="category2"
-        clearable
-        style="width:150px;"
-        @change="getCategory( $event , '3')"
-        class="filter-item"
-        placeholder="请选择二级分类"
-      >
-        <el-option
-          v-for="(item,index) in cOptions2"
-          :key="index"
-          :label="item.name"
-          :value="item.id"
-        ></el-option>
-      </el-select>
-      <el-select
-        v-model="category3"
-        clearable
-        style="width:150px"
-        class="filter-item"
-        placeholder="请选择三级分类"
-      >
-        <el-option
-          v-for="(item,index) in cOptions3"
-          :key="index"
-          :label="item.name"
-          :value="item.id"
-        ></el-option>
-      </el-select>-->
       <el-form
         ref="form"
         :model="timeForm"
@@ -105,13 +60,7 @@
       </el-form>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">查找</el-button>
       <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">添加</el-button>
-      <el-button
-        :loading="downloadLoading"
-        class="filter-item"
-        type="primary"
-        icon="el-icon-download"
-        @click="handleDownload"
-      >导出</el-button>
+      <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button>
     </div>
 
     <!-- 查询结果 -->
@@ -123,32 +72,6 @@
       fit
       highlight-current-row
     >
-      <!-- <el-table-column type="expand">
-        <template slot-scope="props">
-          <el-form label-position="left" class="table-expand">
-            <el-form-item label="宣传画廊">
-              <img v-for="pic in props.row.gallery" :key="pic" :src="pic" class="gallery" />
-            </el-form-item>
-            <el-form-item label="商品介绍">
-              <span>{{ props.row.brief }}</span>
-            </el-form-item>
-            <el-form-item label="商品单位">
-              <span>{{ props.row.unit }}</span>
-            </el-form-item>
-            <el-form-item label="关键字">
-              <span>{{ props.row.keywords }}</span>
-            </el-form-item>
-            <el-form-item label="类目ID">
-              <span>{{ props.row.categoryId }}</span>
-            </el-form-item>
-            <el-form-item label="品牌商ID">
-              <span>{{ props.row.brandId }}</span>
-            </el-form-item>
-          </el-form>
-        </template>
-      </el-table-column>-->
-
-      <!-- <el-table-column align="center" label="序号" prop="" /> -->
       <el-table-column align="center" label="编号" prop="goods_sn" />
       <el-table-column align="center" label="一级分类" prop="p1_name" />
       <el-table-column align="center" label="二级分类" prop="p2_name" />
@@ -167,76 +90,21 @@
       <el-table-column align="center" label="状态" prop="is_on_sale">
         <template slot-scope="scope">{{ scope.row.is_on_sale == "0" ? '未上架' : scope.row.is_on_sale == "1" ? '已上架' : '' }}</template>
       </el-table-column>
-      <el-table-column
-        :formatter="setTime"
-        align="center"
-        min-width="100"
-        label="状创建时间"
-        prop="add_time"
-      />
-      <!-- <el-table-column align="center" property="iconUrl" label="分享图">
-        <template slot-scope="scope">
-          <img :src="scope.row.shareUrl" width="40">
-        </template>
-      </el-table-column>-->
-
-      <!-- <el-table-column align="center" label="详情" prop="detail">
-        <template slot-scope="scope">
-          <el-dialog :visible.sync="detailDialogVisible" title="商品详情">
-            <div v-html="goodsDetail" />
-          </el-dialog>
-          <el-button type="primary" size="mini" @click="showDetail(scope.row.detail)">查看</el-button>
-        </template>
-      </el-table-column>-->
-
-      <!-- <el-table-column align="center" label="专柜价格" prop="counterPrice" />
-
-      <el-table-column align="center" label="当前价格" prop="retailPrice" />
-
-      <el-table-column align="center" label="是否新品" prop="isNew">
-        <template slot-scope="scope">
-          <el-tag
-            :type="scope.row.isNew ? 'success' : 'error' "
-          >{{ scope.row.isNew ? '新品' : '非新品' }}</el-tag>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="是否热品" prop="isHot">
-        <template slot-scope="scope">
-          <el-tag
-            :type="scope.row.isHot ? 'success' : 'error' "
-          >{{ scope.row.isHot ? '热品' : '非热品' }}</el-tag>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="是否在售" prop="isOnSale">
-        <template slot-scope="scope">
-          <el-tag
-            :type="scope.row.isOnSale ? 'success' : 'error' "
-          >{{ scope.row.isOnSale ? '在售' : '未售' }}</el-tag>
-        </template>
-      </el-table-column>-->
-
+      <el-table-column :formatter="setTime" align="center" min-width="100" label="状创建时间" prop="add_time" />
       <el-table-column align="center" min-width="300" label="操作">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleDetail(scope.row)">查看</el-button>
           <el-button v-show="scope.row.is_on_sale == '1'" type="danger" size="mini" @click="handleDelete(scope.row)">下架</el-button>
           <el-button v-show="scope.row.is_on_sale == '0'" type="success" size="mini" @click="handleDelete(scope.row)">上架</el-button>
           <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
-          <!-- <el-button
-            type="danger"
-            size="mini"
-            style="margin-top:10px"
-            @click="handleDelete(scope.row)"
-          >修改库存</el-button> -->
         </template>
       </el-table-column>
     </el-table>
-    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
-
     <el-tooltip placement="top" content="返回顶部">
       <back-to-top :visibility-height="100" />
     </el-tooltip>
+
+    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
   </div>
 </template>
 
@@ -269,8 +137,8 @@
 <script>
 import { listGoods, listCatAndBrand, stateGoods } from '@/api/goods'
 import BackToTop from '@/components/BackToTop'
-import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
-
+// import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
+import Pagination from '@/components/Pagination'
 export default {
   name: 'GoodsList',
   components: { BackToTop, Pagination },
@@ -281,7 +149,7 @@ export default {
       listLoading: true,
       listQuery: {
         page: 1,
-        limit: 8,
+        limit: 10,
         goodsSn: undefined,
         name: undefined,
         sort: 'add_time',
@@ -289,80 +157,63 @@ export default {
       },
       categoryId: [],
       timeForm: {},
-      category1: '',
-      category2: '',
-      category3: '',
+      category1: undefined,
+      category2: undefined,
+      category3: undefined,
       cOptions1: [],
       cOptions2: [],
       cOptions3: [],
-      // category: {},
-      goodsDetail: '',
+      goodsDetail: undefined,
       detailDialogVisible: false,
       downloadLoading: false
     }
   },
-  computed: {
-    // setTime :function (time) {
-    //   console.log(time)
-    //   var dateee = new Date(time).toJSON();
-    //   var date = new Date(+new Date(dateee) + 8 * 3600 * 1000)
-    //     .toISOString()
-    //     .replace(/T/g, " ")
-    //     .replace(/\.[\d]{3}Z/, "");
-    //     return function(){
-    //       return date
-    //     }
-    // }
-  },
   created() {
-    this.getList()
     this.getCategory()
+  },
+  mounted() {
+    this.getList()
   },
   methods: {
     // 获取列表的方法
     getList() {
       this.listLoading = true
-      if (this.category3 !== '') {
+      if (this.category3 !== undefined) {
         this.listQuery.category_id = this.category3.toString()
-      } else if (this.category2 !== '') {
+      } else if (this.category2 !== undefined) {
         this.listQuery.category_id = this.category2.toString()
-      } else if (this.category1 !== '') {
+      } else if (this.category1 !== undefined) {
         this.listQuery.category_id = this.category1.toString()
       } else {
-        delete this.listQuery.category_id
+        this.listQuery.category_id = undefined
       }
 
-      this.listQuery.beginDate = this.timeForm.date1
-      this.listQuery.endDate = this.timeForm.date2
-      listGoods(this.listQuery)
-        .then(response => {
-          this.list = response.data.data.data
-          this.total = response.data.data.page.total
-          this.listLoading = false
-        })
-        .catch(() => {
-          console.log('err')
-          this.list = []
-          this.total = 0
-          this.listLoading = false
-        })
+      this.listQuery.beginDate = this.timeForm.date1 || undefined
+      this.listQuery.endDate = this.timeForm.date2 || undefined
+
+      listGoods(this.listQuery).then(response => {
+        this.list = response.data.data.data
+        this.total = response.data.data.page.total
+        this.listLoading = false
+      }).catch(() => {
+        this.list = []
+        this.total = 0
+        this.listLoading = false
+      })
     },
     // 获取分类id的方法
     handleChange(value) {
-      console.log(value)
-      console.log(this.categoryId)
+      // console.log(value)
+      // console.log(this.categoryId)
     },
     // 获取分类的方法
     getCategory() {
       listCatAndBrand()
         .then(response => {
-          console.log(response)
           this.cOptions1 = response.data.data.categoryList
           // this.brandList = response.data.data.brandList
         })
-        .catch(err => {
-          console.log(err)
-        })
+        .catch(() => { })
     },
     // 计算时间的方法
     setTime(row, column) {
@@ -386,39 +237,6 @@ export default {
         date.getMinutes()
       )
     },
-    // getCategory($event, level) {
-    //   let cData = {
-    //     level: level
-    //   };
-    //   if (this.category1 != "") {
-    //     cData = {
-    //       level: level,
-    //       pid: JSON.stringify($event)
-    //     };
-    //   }
-
-    //   if (cData.pid == "") {
-    //     delete cData.pid;
-    //   }
-    //   categoryGoods(cData)
-    //     .then(response => {
-    //       console.log(response);
-    //       if (level == "1") {
-    //         this.cOptions1 = response.data.data.data;
-    //         this.category2 = "";
-    //         this.category3 = "";
-    //       } else if (level == "2") {
-    //         this.cOptions2 = response.data.data.data;
-    //         this.category3 = "";
-    //       } else {
-    //         this.cOptions3 = response.data.data.data;
-    //       }
-    //       console.log("一级分类");
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //     });
-    // },
     handleFilter() {
       this.listQuery.page = 1
 
@@ -452,8 +270,6 @@ export default {
             message: '修改成功'
           })
           this.getList()
-          // const index = this.list.indexOf(row);
-          // this.list.splice(index, 1);
         })
         .catch(response => {
           this.$notify.error({
