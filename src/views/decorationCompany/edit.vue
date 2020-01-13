@@ -19,7 +19,7 @@
           <el-input v-model="newCompany.email" />
         </el-form-item>
         <el-form-item label="账户/手机号码" prop="forwordPhone">
-          <el-input v-model="newCompany.mobile" />
+          <el-input v-model="newCompany.mobile"/>
         </el-form-item>
         <!-- <el-form-item label="归属机构" prop="departCode">
           <el-input v-model="newCompany.departCode" />
@@ -27,41 +27,44 @@
         <el-form-item label="头像">
           <el-upload
             :action="uploadHeadUrlPath"
-            :limit="1"
+            :show-file-list="false"
             :headers="headers"
             :on-exceed="uploadOverrun"
             :on-success="headUrl"
             :on-remove="handleRemove"
-            multiple
+            :multiple="false"
             accept=".jpg, .jpeg, .png, .gif"
             list-type="picture-card"
           >
-            <i class="el-icon-plus" />
+            <img v-if="newCompany.avatar" :src="newCompany.avatar" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"/>
           </el-upload>
         </el-form-item>
         <el-form-item label="执照">
           <el-upload
             :action="uploadPermitUrlPath"
-            :limit="1"
+            :show-file-list="false"
             :headers="headers"
             :on-exceed="uploadOverrun"
             :on-success="permitUrl"
             :on-remove="handleRemove"
-            multiple
+            :multiple="false"
             accept=".jpg, .jpeg, .png, .gif"
             list-type="picture-card"
           >
-            <i class="el-icon-plus" />
+            <img v-if="newCompany.businessLicense" :src="newCompany.businessLicense" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"/>
           </el-upload>
         </el-form-item>
-        <el-form-item label="身份证正面">
+        <el-form-item label="身份证">
           <el-upload
             :action="uploadIdCardUrlPath"
-            :limit="1"
+            :limit="2"
             :headers="headers"
-            :on-exceed="uploadOverrun"
+            :on-exceed="uploadOverrun2"
             :on-success="idCardUrlF"
-            :on-remove="handleRemove"
+            :on-remove="handleRemove1"
+            :file-list="picGalleryUrlListShow"
             multiple
             accept=".jpg, .jpeg, .png, .gif"
             list-type="picture-card"
@@ -69,49 +72,22 @@
             <i class="el-icon-plus" />
           </el-upload>
         </el-form-item>
-        <el-form-item label="身份证反面">
+        <el-form-item label="装修公司头像">
           <el-upload
             :action="uploadIdCardUrlPath"
-            :limit="1"
+            :show-file-list="false"
             :headers="headers"
             :on-exceed="uploadOverrun"
-            :on-success="idCardUrlR"
+            :on-success="departUrlR"
             :on-remove="handleRemove"
-            multiple
+            :multiple="false"
             accept=".jpg, .jpeg, .png, .gif"
             list-type="picture-card"
           >
-            <i class="el-icon-plus" />
+            <img v-if="newCompany.departUrl" :src="newCompany.departUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"/>
           </el-upload>
         </el-form-item>
-
-        <!-- <el-form-item v-if="example_source==0" class="casePic" label="案例图片">
-          <el-form-item>
-            <el-upload
-              :action="uploadPath"
-              :limit="9"
-              ref="upload"
-              :headers="headers"
-              :auto-upload="false"
-              :on-exceed="uploadOverrunCase"
-              :on-success="handleGalleryUrlCase"
-              :on-remove="handleRemoveCase"
-              :multiple="false"
-              :on-change="changeFile"
-              accept=".jpg, .jpeg, .png, .gif"
-              list-type="picture-card"
-            >
-              <i class="el-icon-plus" />
-            </el-upload>
-          </el-form-item>
-
-          <div class="picList" style="margin-top:30px">
-            <div class="cPic" v-for="(item,index) in newCompany.url_list" :key="index">
-              <img :src="item.fileUrl" alt />
-              <span style="display:block">{{item.fileName}}</span>
-            </div>
-          </div>
-        </el-form-item>-->
       </el-form>
     </el-card>
     <div class="op-container">
@@ -214,8 +190,10 @@ export default {
       uploadHeadUrlPath,
       uploadPermitUrlPath,
       uploadIdCardUrlPath,
+      departUrl: [],
       loading: true,
       newCompany: {},
+      picGalleryUrlListShow: [],
       // newCompany: { picUrl: '', gallery: [] },
       departOptions: [],
       userCode: '',
@@ -249,15 +227,33 @@ export default {
   methods: {
     init: function() {
       this.designerId = this.$route.query.id
-      this.getDecorationCompanyDetail()
+      this.getDecorationCompanyDetail(this.designerId)
     },
     // 获取装修公司信息
-    getDecorationCompanyDetail() {
-      deparSearch({ id: this.designerId })
+    getDecorationCompanyDetail(id) {
+      deparSearch({ id })
         .then(response => {
-          console.log(123)
-          console.log(response)
-          this.newCompany = response.data.data.list
+          this.newCompany = response.data.data.leader
+          this.$set(this.newCompany, 'departName', response.data.data.list.departName)
+          this.$set(this.newCompany, 'departPhone', response.data.data.list.departPhone)
+          this.$set(this.newCompany, 'companyAddress', response.data.data.list.companyAddress)
+          // this.newCompany.departName = response.data.data.list.departName
+          // this.newCompany.departPhone = response.data.data.list.departPhone
+          // this.newCompany.companyAddress = response.data.data.list.companyAddress
+          this.newCompany.businessLicense = response.data.data.list.businessLicense
+          this.newCompany.departUrl = response.data.data.list.departUrl
+          this.newCompany.leaderCode = response.data.data.leader.serviceCode
+          let idCardUrl = []
+          if (response.data.data.leader.idCardUrl && response.data.data.leader.idCardUrl.length > 0) {
+            if (typeof response.data.data.leader.idCardUrl === 'string') {
+              idCardUrl = JSON.parse(response.data.data.leader.idCardUrl)
+            }
+            for (const i in idCardUrl) {
+              this.picGalleryUrlListShow.push({
+                url: idCardUrl[i]
+              })
+            }
+          }
           this.loading = false
         })
         .catch(errmsg => {
@@ -270,7 +266,17 @@ export default {
       // this.newCompany.type = "0";
       this.newCompany.status = '1'
       //   this.newCompany.birthday = this.newCompany.birthday + " 00:00:00";
-      console.log(this.newCompany.birthday)
+      // console.log(this.newCompany.birthday)
+
+      // this.newCompany.idCardUrl = JSON.stringify(this.idCard)
+      const idCardUrl = []
+      if (this.picGalleryUrlListShow.length > 0) {
+        for (const i in this.picGalleryUrlListShow) {
+          idCardUrl.push(this.picGalleryUrlListShow[i].url)
+        }
+      }
+      this.newCompany.idCardUrl = JSON.stringify(idCardUrl)
+      this.newCompany.id = this.$route.query.id
       departEdit(this.newCompany)
         .then(response => {
           console.log(response)
@@ -301,6 +307,12 @@ export default {
         message: '上传文件个数超出限制!最多上传1张图片!'
       })
     },
+    uploadOverrun2: function() {
+      this.$message({
+        type: 'error',
+        message: '上传文件个数超出限制!最多上传2张图片!'
+      })
+    },
     uploadOverrunCase: function() {
       this.$message({
         type: 'error',
@@ -308,17 +320,24 @@ export default {
       })
     },
     headUrl(response) {
-      console.log(response)
+      // console.log(response)
       this.newCompany.avatar = response.data.allfilePath
     },
     permitUrl(response) {
       this.newCompany.businessLicense = response.data.allfilePath
     },
     idCardUrlF(response) {
-      this.idCard.push(response.data.allfilePath)
+      this.picGalleryUrlListShow.push({ url: response.data.allfilePath })
+      console.log(this.picGalleryUrlListShow)
     },
-    idCardUrlR(response) {
-      this.idCard.push(response.data.allfilePath)
+    // idCardUrlR(response) {
+    //   this.idCard.push(response.data.allfilePath)
+    // },
+    departUrlR(response) {
+      console.log(response.data.allfilePath)
+      this.newCompany.departUrl = response.data.allfilePath
+      console.log(this.newCompany.departUrl)
+      this.$forceUpdate()
     },
     // handleGalleryUrl(response, file, fileList) {
     //   console.log(response);
@@ -380,6 +399,15 @@ export default {
           this.newCompany.gallery.splice(i, 1)
         }
       }
+    },
+    handleRemove1(file, fileList) {
+      console.log(file)
+      for (var i = 0; i < this.picGalleryUrlListShow.length; i++) {
+        if (this.picGalleryUrlListShow[i].url === file.url) {
+          this.picGalleryUrlListShow.splice(i, 1)
+        }
+      }
+      console.log(this.picGalleryUrlListShow)
     }
   }
 }

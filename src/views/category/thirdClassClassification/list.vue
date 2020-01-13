@@ -3,8 +3,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 10:28:46
- * @LastEditTime: 2019-12-13 15:14:16
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2020-01-10 10:45:31
+ * @LastEditors  : Please set LastEditors
  -->
 <template>
   <div class="app-container">
@@ -73,6 +73,21 @@
         <el-form-item :label-width="'180px'" label="备注" style="width:600px">
           <el-input v-model="formEdit.desc" autocomplete="off"/>
         </el-form-item>
+        <el-form-item :label-width="'180px'" label="头像" prop="desc" style="width:600px">
+          <el-upload
+            :action="uploadPath"
+            :show-file-list="false"
+            :headers="headers"
+            :on-success="uploadPicUrl"
+            :on-remove="handleRemoveD"
+            :multiple="false"
+            class="avatar-uploader"
+            accept=".jpg, .jpeg, .png, .gif"
+          >
+            <img v-if="imgUrl" :src="imgUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"/>
+          </el-upload>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogEdit = false">取 消</el-button>
@@ -108,83 +123,27 @@
         <el-form-item :label-width="'180px'" label="备注" prop="desc" style="width:600px">
           <el-input v-model="formCreate.desc" autocomplete="off"/>
         </el-form-item>
+        <el-form-item :label-width="'180px'" label="头像" prop="desc" style="width:600px">
+          <el-upload
+            :action="uploadPath"
+            :show-file-list="false"
+            :headers="headers"
+            :on-success="uploadPicUrl"
+            :on-remove="handleRemoveD"
+            :multiple="false"
+            class="avatar-uploader"
+            accept=".jpg, .jpeg, .png, .gif"
+          >
+            <img v-if="imgUrl" :src="imgUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"/>
+          </el-upload>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogCreate = false">取 消</el-button>
         <el-button type="primary" @click="createL1('ruleForm')">确 定</el-button>
       </div>
     </el-dialog>
-    <!-- 新增三级分类的弹窗 -->
-    <!-- <el-dialog title="新增三级分类" :visible.sync="dialogL2" width="800">
-      <el-button type="primary" style="margin-top:20px" icon="el-icon-edit" @click="CreateL2">新增</el-button>
-      <el-table :data="listL2">
-        <el-table-column property label="序号" width="80">
-          <template slot-scope="scope">{{scope.$index+1}}</template>
-        </el-table-column>
-        <el-table-column property="name" label="名称" width="200"></el-table-column>
-        <el-table-column property="desc" label="备注"></el-table-column>
-        <el-table-column
-          align="operation"
-          label="操作"
-          width="400"
-          class-name="small-padding fixed-width"
-        >
-          <template slot-scope="scope">
-            <el-button type="primary" @click="handleUpdateL2(scope.row)">编辑</el-button>
-
-            <el-button v-show="scope.row.state==1" type="danger" @click="handleForbid(scope.row)">禁用</el-button>
-            <el-button
-              v-show="scope.row.state==0"
-              type="success"
-              @click="handleForbid(scope.row)"
-            >启用</el-button>
-            <el-button
-              v-show="scope.row.status==0"
-              type="danger"
-              @click="handleForbid(scope.row)"
-            >禁用</el-button>
-            <el-button
-              v-show="scope.row.status==1"
-              type="success"
-              @click="handleForbid(scope.row)"
-            >启用</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogL2 = false">取 消</el-button>
-        <el-button type="primary" @click="dialogL2 = false">确 定</el-button>
-      </div>
-      <el-dialog width="30%" title="新增三级分类" :visible.sync="dialogCreateL2" append-to-body>
-        <el-form :model="formCreateL2">
-          <el-form-item label="名称">
-            <el-input v-model="formCreateL2.name" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="备注">
-            <el-input v-model="formCreateL2.desc" autocomplete="off"></el-input>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogCreateL2 = false">取 消</el-button>
-          <el-button type="primary" @click="dCreateL2">确 定</el-button>
-        </div>
-      </el-dialog>
-      <el-dialog width="30%" title="编辑三级分类" :visible.sync="dialogEditL2" append-to-body>
-        <el-form :model="formEditL2">
-          <el-form-item label="名称">
-            <el-input v-model="formEditL2.name" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="备注">
-            <el-input v-model="formEditL2.desc" autocomplete="off"></el-input>
-          </el-form-item>
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="dialogEditL2 = false">取 消</el-button>
-          <el-button type="primary" @click="editL2">确 定</el-button>
-        </div>
-      </el-dialog>
-    </el-dialog>-->
-
     <pagination
       v-show="total>0"
       :total="total"
@@ -244,6 +203,34 @@
 .el-form-item.tiemBox.el-form-item--mini {
   margin-bottom: 0;
 }
+.avatar-uploader .el-upload {
+  width: 145px;
+  height: 145px;
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.avatar-uploader .el-upload:hover {
+  border-color: #20a0ff;
+}
+
+.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 120px;
+  height: 120px;
+  line-height: 120px;
+  text-align: center;
+}
+
+.avatar {
+  width: 145px;
+  height: 145px;
+  display: block;
+}
 </style>
 
 <script>
@@ -254,10 +241,13 @@ import {
   updateCategory,
   deleteCategory,
   deletedata
+
 } from '@/api/category'
+import { uploadPath } from '@/api/user'
 // import { departList } from '@/api/depart'
 import BackToTop from '@/components/BackToTop'
 import { MessageBox } from 'element-ui'
+import { getToken } from '@/utils/auth'
 import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 // import { getDropDown } from '@/api/dropDown'
 export default {
@@ -265,6 +255,8 @@ export default {
   components: { BackToTop, Pagination },
   data() {
     return {
+      imgUrl: undefined,
+      uploadPath,
       dialogEdit: false,
       dialogCreate: false,
       dialogCreateL2: false,
@@ -305,6 +297,13 @@ export default {
       dialogForm: {},
       caseDetail: {},
       downloadLoading: false
+    }
+  },
+  computed: {
+    headers() {
+      return {
+        'X-Wajueji-Admin-Token': getToken()
+      }
     }
   },
   created() {
@@ -446,6 +445,7 @@ export default {
     },
     // 新增三级分类
     handleCreate() {
+      this.imgUrl = undefined
       this.dialogCreate = true
     },
     createL1(formName) {
@@ -458,13 +458,12 @@ export default {
         const data = this.formCreate
         data.pid = this.class2
         data.level = 3
+        data.url = this.imgUrl
+        debugger
         this.$refs[formName].validate(valid => {
           if (valid) {
-            console.log(data)
             createCategory(data)
               .then(response => {
-                console.log(response)
-                console.log('成功')
                 this.$notify.success({
                   title: '成功',
                   message: '新增成功'
@@ -474,7 +473,6 @@ export default {
                 this.getList()
               })
               .catch(response => {
-                // console.log(123)
                 MessageBox.alert('业务错误：' + response.data.errmsg, '警告', {
                   confirmButtonText: '确定',
                   type: 'error'
@@ -496,6 +494,7 @@ export default {
       this.dialogEdit = true
       // this.editL1(row.id)]
       this.formEdit = row
+      this.imgUrl = row.icon_url
       // this.formEdit.name = row.name
       // this.formEdit.desc = row.desc
       // this.formEdit.id = row.id
@@ -505,6 +504,7 @@ export default {
       const data = this.formEdit
       //   data.pid = 0;
       data.level = 2
+      data.url = this.imgUrl
       updateCategory(data)
         .then(response => {
           // console.log(response);
@@ -630,6 +630,29 @@ export default {
         const index = this.list.indexOf(row)
         this.list.splice(index, 1)
       })
+    },
+    uploadPicUrl: function(response) {
+      this.disabled = false
+      // this.imgUrl.push(response.data.allfilePath)
+      this.imgUrl = response.data.allfilePath
+    },
+    handleRemoveD: function(file, fileList) {
+      for (let i = 0; i < this.formData.picGalleryUrlList.length; i++) {
+        // 这里存在两种情况
+        // 1. 如果所删除图片是刚刚上传的图片，那么图片地址是file.response.data.allfilePath
+        //    此时的file.url虽然存在，但是是本机地址，而不是远程地址。
+        // 2. 如果所删除图片是后台返回的已有图片，那么图片地址是file.url
+        let url
+        if (file.response === undefined) {
+          url = file.url
+        } else {
+          url = file.response.data.allfilePath
+        }
+
+        if (this.formData.picGalleryUrlList[i] === url) {
+          this.formData.picGalleryUrlList.splice(i, 1)
+        }
+      }
     }
   }
 }

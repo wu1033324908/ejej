@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 10:25:06
- * @LastEditTime : 2019-12-20 16:19:49
+ * @LastEditTime : 2020-01-10 10:25:11
  * @LastEditors  : Please set LastEditors
  -->
 <template>
@@ -52,7 +52,7 @@
     <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row>
       <el-table-column align="center" label="数据标识" prop="id"/>
       <el-table-column align="center" label="订单编号" prop="orderCode"/>
-      <el-table-column align="center" min-width="100" label="订单状态" prop="orderStatus"/>
+      <el-table-column align="center" min-width="100" label="订单状态" prop="orderStatus_text"/>
       <el-table-column align="center" min-width="100" label="姓名" prop="consignee"/>
       <el-table-column align="center" min-width="100" label="手机号码" prop="mobile"/>
       <el-table-column align="center" min-width="100" label="订单金额" prop="orderPrice"/>
@@ -61,7 +61,7 @@
       <el-table-column align="center" min-width="100" label="备注" prop="message"/>
       <el-table-column align="center" label="操作" width="300" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button v-permission="['POST /admin/order/update']" type="primary" size="mini" @click="handleSend(scope.row)">发货</el-button>
+          <el-button v-permission="['POST /admin/order/update']" v-show="scope.row.orderStatus == '201'" type="primary" size="mini" @click="handleSend(scope.row)">发货</el-button>
           <el-button v-permission="['POST /admin/order/read']" type="primary" size="mini" @click="handleDetail(scope.row)">详情</el-button>
         </template>
       </el-table-column>
@@ -160,7 +160,7 @@ export default {
       logisticsFormVisible: false,
       list: [],
       total: 0,
-      orderStatus: [{ name: '个人配送', id: 0 }, { name: '快递配送', id: 1 }],
+      orderStatus: [{ name: '未支付', id: '101' }, { name: '支付完成', id: '201' }, { name: '已发货', id: '301' }, { name: '确认收货', id: '401' }, { name: '评价完成', id: '501' }],
       shipTypes: [{ name: '个人配送', id: 0 }, { name: '快递配送', id: 1 }], // 发货 => 下拉列表
       listLoading: true,
       listQuery: {

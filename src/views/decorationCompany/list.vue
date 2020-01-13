@@ -3,7 +3,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 10:28:46
- * @LastEditTime : 2020-01-03 10:52:42
+ * @LastEditTime : 2020-01-10 10:45:50
  * @LastEditors  : Please set LastEditors
  -->
 <template>
@@ -91,7 +91,7 @@
       <el-table-column
         align="operation"
         label="操作"
-        width="400"
+        width="200"
         class-name="small-padding fixed-width"
       >
         <template slot-scope="scope">

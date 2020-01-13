@@ -60,62 +60,12 @@
             <i class="el-icon-plus" />
           </el-upload>
         </el-form-item>
-        <!-- <el-form-item label="身份证正面">
-          <el-row :gutter="30">
-            <el-col :span="8">
-              <div class="grid-content">
-                <el-upload
-                  class="upload-demo"
-                  ref="frontPic"
-                  :headers="headers"
-                  accept="image/png, image/jpeg"
-                  name="imgPath"
-                  :action="uploadIdCardUrlPath"
-                  :before-upload="beforeAvatarUpload"
-                  :on-success="idCardUrl"
-                  :limit="1"
-                  :on-exceed="uploadOverrun"
-                  list-type="picture"
-                >
-                  <el-button size="small" type="primary" @click="uploadSign=1">选取文件</el-button>
-                  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
-                </el-upload>
-              </div>
-            </el-col>
-
-          </el-row>
-        </el-form-item>
-        <el-form-item label="身份证背面">
-          <el-row :gutter="30">
-            <el-col :span="8">
-              <div class="grid-content">
-                <el-upload
-                  class="upload-demo"
-                  :headers="headers"
-                  ref="reversePic"
-                  accept="image/png, image/jpeg"
-                  name="imgPath"
-                  :action="uploadIdCardUrlPath"
-                  :before-upload="beforeAvatarUpload"
-                  :on-success="idCardUrl"
-                  :limit="1"
-                  :on-exceed="uploadOverrun"
-                  list-type="picture"
-                >
-                  <el-button size="small" type="primary" @click="uploadSign=2">选取文件</el-button>
-                  <div slot="tip" class="el-upload__tip">只能上传jpg/png文件</div>
-                </el-upload>
-              </div>
-            </el-col>
-
-          </el-row>
-        </el-form-item>-->
-        <el-form-item label="身份证正面">
+        <el-form-item label="身份证">
           <el-upload
             :action="uploadIdCardUrlPath"
-            :limit="1"
+            :limit="2"
             :headers="headers"
-            :on-exceed="uploadOverrun"
+            :on-exceed="uploadOverrun2"
             :on-success="idCardUrlF"
             :on-remove="handleRemove"
             multiple
@@ -125,49 +75,22 @@
             <i class="el-icon-plus" />
           </el-upload>
         </el-form-item>
-        <el-form-item label="身份证反面">
+        <el-form-item label="装修公司头像">
           <el-upload
             :action="uploadIdCardUrlPath"
-            :limit="1"
+            :show-file-list="false"
             :headers="headers"
             :on-exceed="uploadOverrun"
-            :on-success="idCardUrlR"
+            :on-success="departUrlR"
             :on-remove="handleRemove"
-            multiple
+            :multiple="false"
             accept=".jpg, .jpeg, .png, .gif"
             list-type="picture-card"
           >
-            <i class="el-icon-plus" />
+            <img v-if="newCompany.departUrl" :src="newCompany.departUrl" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"/>
           </el-upload>
         </el-form-item>
-
-        <!-- <el-form-item v-if="example_source==0" class="casePic" label="案例图片">
-          <el-form-item>
-            <el-upload
-              :action="uploadPath"
-              :limit="9"
-              ref="upload"
-              :headers="headers"
-              :auto-upload="false"
-              :on-exceed="uploadOverrunCase"
-              :on-success="handleGalleryUrlCase"
-              :on-remove="handleRemoveCase"
-              :multiple="false"
-              :on-change="changeFile"
-              accept=".jpg, .jpeg, .png, .gif"
-              list-type="picture-card"
-            >
-              <i class="el-icon-plus" />
-            </el-upload>
-          </el-form-item>
-
-          <div class="picList" style="margin-top:30px">
-            <div class="cPic" v-for="(item,index) in newCompany.url_list" :key="index">
-              <img :src="item.fileUrl" alt />
-              <span style="display:block">{{item.fileName}}</span>
-            </div>
-          </div>
-        </el-form-item>-->
       </el-form>
     </el-card>
     <div class="op-container">
@@ -349,6 +272,12 @@ export default {
         message: '上传文件个数超出限制!最多上传1张图片!'
       })
     },
+    uploadOverrun2: function() {
+      this.$message({
+        type: 'error',
+        message: '上传文件个数超出限制!最多上传2张图片!'
+      })
+    },
     headUrl(response) {
       console.log(response)
       this.newCompany.avatar = response.data.allfilePath
@@ -359,9 +288,9 @@ export default {
     idCardUrlF(response) {
       this.idCard.push(response.data.allfilePath)
     },
-    idCardUrlR(response) {
-      this.idCard.push(response.data.allfilePath)
-    },
+    // idCardUrlR(response) {
+    //   this.idCard.push(response.data.allfilePath)
+    // },
     // idCardUrl(response, file, fileList) {
     //   console.log(response);
     //   console.log(file);
@@ -457,6 +386,12 @@ export default {
           this.newCompany.gallery.splice(i, 1)
         }
       }
+    },
+    departUrlR(response) {
+      console.log(response.data.allfilePath)
+      this.newCompany.departUrl = response.data.allfilePath
+      console.log(this.newCompany.departUrl)
+      this.$forceUpdate()
     }
   }
 }

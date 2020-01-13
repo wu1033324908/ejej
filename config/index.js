@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-16 14:46:08
- * @LastEditTime : 2020-01-03 10:23:31
+ * @LastEditTime : 2020-01-13 14:46:41
  * @LastEditors  : Please set LastEditors
  */
 'use strict'
@@ -23,7 +23,7 @@ module.exports = {
     // can be overwritten by process.env.HOST
     // if you want dev by ip, please set host: '0.0.0.0'
     // host: '192.168.1.14',
-    host: '192.168.0.218',
+    host: '192.168.0.222',
     // host: '192.168.1.8',
     port: 9999, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,

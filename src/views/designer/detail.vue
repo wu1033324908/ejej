@@ -45,7 +45,7 @@
         </tr>
         <tr>
           <th>性别</th>
-          <td>{{ designerData.gender== 0 ? "未知":designerData.gender==1 ?'男:' : designerData.gender==0 ? '女':'' }}</td>
+          <td>{{ designerData.gender== 0 ? "未知":designerData.gender==1 ?'男:' : designerData.gender==2 ? '女':'' }}</td>
           <th>出生日期</th>
           <td>{{ designerData.birthday }}</td>
           <th>注册时间</th>
@@ -232,10 +232,11 @@
         style="width: 120px;"
         placeholder="请选择类型"
       >
-        <el-option label="资质标签" value="0"/>
-        <el-option label="属性标签" value="1"/>
-        <el-option label="自定义标签" value="2"/>
-        <el-option label="第三方认证" value="3"/>
+        <el-option
+          v-for="item in serviceType"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value"/>
       </el-select>
       <el-button type="primary" @click="ServiceLableCreate">搜索</el-button>
       <el-button type="primary" @click="createLableLoading = true">新增</el-button>
@@ -482,6 +483,12 @@ export default {
         { value: '1', label: '属性标签' },
         { value: '2', label: '自定义标签' },
         { value: '3', label: '第三方认证' }
+      ],
+      serviceType: [
+        { value: 0, label: '资质标签' },
+        { value: 1, label: '属性标签' },
+        { value: 2, label: '自定义标签' },
+        { value: 3, label: '第三方认证' }
       ],
       rules: {
         nickname: [

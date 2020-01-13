@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-16 14:46:41
- * @LastEditTime: 2019-12-17 17:38:03
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2020-01-10 17:15:04
+ * @LastEditors  : Please set LastEditors
  */
 import Vue from 'vue'
 import Router from 'vue-router'
@@ -344,7 +344,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/designer/list'),
         name: 'designerList',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/managerUser/userList'],
           title: '设计师列表',
           noCache: true
         }
@@ -354,7 +354,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/designer/create'),
         name: 'designerCreate',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/managerUser/addUser'],
           title: '新增设计师',
           noCache: true
         },
@@ -365,7 +365,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/designer/detail'),
         name: 'designerDetail',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/managerUser/userListOne'],
           title: '设计师详情',
           noCache: true
         },
@@ -376,7 +376,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/designer/edit'),
         name: 'designerEdit',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/managerUser/update'],
           title: '设计师编辑',
           noCache: true
         },
@@ -400,7 +400,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/worker/list'),
         name: 'workerList',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/managerUser/userList'],
           title: '零工列表',
           noCache: true
         }
@@ -410,7 +410,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/worker/create'),
         name: 'workerCreate',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/managerUser/addUser'],
           title: '新增零工',
           noCache: true
         },
@@ -421,7 +421,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/worker/edit'),
         name: 'workerEdit',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/managerUser/update'],
           title: '编辑零工',
           noCache: true
         },
@@ -432,7 +432,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/worker/detail'),
         name: 'workerDetail',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/managerUser/userListOne'],
           title: '零工详情',
           noCache: true
         },
@@ -456,7 +456,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/productManager/list'),
         name: 'productManagerList',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/managerUser/userList'],
           title: '项目经理列表',
           noCache: true
         }
@@ -466,7 +466,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/productManager/create'),
         name: 'productManagerCreate',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/managerUser/addUser'],
           title: '新增项目经理',
           noCache: true
         },
@@ -477,7 +477,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/productManager/edit'),
         name: 'productManagerEdit',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/managerUser/update'],
           title: '编辑项目经理',
           noCache: true
         },
@@ -488,7 +488,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/productManager/detail'),
         name: 'productManagerDetail',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/managerUser/userListOne'],
           title: '项目经理详情',
           noCache: true
         },
@@ -512,7 +512,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/decorationCompany/list'),
         name: 'decorationCompanyList',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/depart/departList'],
           title: '装修公司列表',
           noCache: true
         }
@@ -522,7 +522,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/decorationCompany/create'),
         name: 'decorationCompanyCreate',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/depart/addDepart'],
           title: '新增装修公司',
           noCache: true
         },
@@ -533,7 +533,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/decorationCompany/edit'),
         name: 'decorationCompanyEdit',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/depart/update'],
           title: '编辑公司列表',
           noCache: true
         },
@@ -544,7 +544,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/decorationCompany/detail'),
         name: 'decorationCompanyDetail',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/depart/departOne'],
           title: '装修公司详情',
           noCache: true
         },
@@ -603,7 +603,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/comment/list'),
         name: 'CommentList',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/comment/list'],
           title: '评论列表',
           noCache: true
         }
@@ -637,7 +637,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/case/list'),
         name: 'caseList',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/managerExample/list'],
           title: '案例列表',
           noCache: true
         }
@@ -647,7 +647,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/case/edit'),
         name: 'caseEdit',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/managerExample/update'],
           title: '修改案例',
           noCache: true
         },
@@ -658,7 +658,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/case/create'),
         name: 'caseCreate',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/managerExample/save'],
           title: '新增案例',
           noCache: true
         },
@@ -669,7 +669,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/case/details'),
         name: 'caseDetails',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/managerExample/detail'],
           title: '案例详情',
           noCache: true
         },
@@ -693,7 +693,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/goods/list'),
         name: 'goodsList',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/goods/list'],
           title: '商品列表',
           noCache: true
         }
@@ -703,7 +703,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/goods/create'),
         name: 'create',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/goods/create'],
           title: '新增商品',
           noCache: true
         }
@@ -714,7 +714,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/goods/edit'),
         name: 'edit',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/goods/update'],
           title: '修改商品',
           noCache: true
         },
@@ -725,7 +725,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/goods/detail'),
         name: 'detail',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/goods/detail'],
           title: '商品详情',
           noCache: true
         },
@@ -851,7 +851,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/category/firstClassClassification/list'),
         name: 'firstClassClassificationList',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/category/l'],
           title: '一级分类',
           noCache: true
         }
@@ -861,7 +861,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/category/secondClassClassification/list'),
         name: 'secondClassClassificationList',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/category/l'],
           title: '二级分类',
           noCache: true
         }
@@ -871,7 +871,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/category/thirdClassClassification/list'),
         name: 'thirdClassClassificationList',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/category/l'],
           title: '三级分类',
           noCache: true
         }
@@ -1024,7 +1024,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/label/serviceLabel'),
         name: 'serviceLabel',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/service/list'],
           title: '服务商标签管理',
           noCache: true
         }
@@ -1034,7 +1034,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/label/serviceLabelEdit'),
         name: 'serviceLabelEdit',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/service/update'],
           title: '编辑服务商标签',
           noCache: true
         },
@@ -1045,7 +1045,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/label/createServiceLabel'),
         name: 'createServiceLabel',
         meta: {
-          perms: ['POST /admin/oldGood/getOldPageList'],
+          perms: ['POST /admin/service/add'],
           title: '新增服务商标签',
           noCache: true
         },
@@ -1381,7 +1381,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/afterSaleManagement/list'),
         name: 'AfterSaleManagementList',
         meta: {
-          perms: ['POST /admin/orderWater/list'],
+          perms: ['POST /admin/orderAfter/list'],
           title: '商品售后列表',
           noCache: true
         }
@@ -1391,7 +1391,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/afterSaleManagement/tklist'),
         name: 'AfterSaleManagementtkList',
         meta: {
-          perms: ['POST /admin/orderWater/list'],
+          perms: ['POST /admin/orderAfter/list'],
           title: '商品退款列表',
           noCache: true
         }

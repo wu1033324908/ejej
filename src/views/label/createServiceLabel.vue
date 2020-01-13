@@ -175,7 +175,7 @@ export default {
             title: '成功',
             message: '创建成功'
           })
-          if (this.$route.query.id !== '') {
+          if (this.$route.query.id && this.$route.query.id.length > 0) {
             this.$router.push({ path: '/designer/detail', query: { id: this.userId }})
           } else {
             this.$router.push({ path: '/label/serviceLabel' })

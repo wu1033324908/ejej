@@ -19,6 +19,12 @@
             <template slot="append">元</template>
           </el-input>
         </el-form-item>
+
+        <el-form-item label="原价">
+          <el-input v-model="goods.counterPrice" placeholder="0.00">
+            <template slot="append">元</template>
+          </el-input>
+        </el-form-item>
         <!-- <el-form-item label="是否新品" prop="isNew">
           <el-radio-group v-model="goods.isNew">
             <el-radio :label="true">新品</el-radio>
@@ -49,6 +55,20 @@
           >
             <img v-if="goods.picUrl" :src="goods.picUrl" class="avatar" >
             <i v-else class="el-icon-plus avatar-uploader-icon" />
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="图片列表" required>
+          <el-upload
+            :action="uploadPath"
+            :headers="headers"
+            :on-success="uploadPicUrl1"
+            :on-remove="handleRemove1"
+            :file-list="picGalleryUrlListShow"
+            multiple
+            accept=".jpg, .jpeg, .png, .gif"
+            list-type="picture-card"
+          >
+            <i class="el-icon-plus avatar-uploader-icon" />
           </el-upload>
         </el-form-item>
 
@@ -456,13 +476,14 @@ export default {
       uploadPath,
       newKeywordVisible: false,
       newKeyword: '',
+      picGalleryUrlListShow: [],
       keywords: [],
       galleryFileList: [],
       categoryList: [],
       brandList: [],
       categoryIds: [],
       categoryLevel: '',
-      goods: { gallery: [] },
+      goods: { gallery: [], shareUrl: [] },
       specVisiable: false,
       specForm: { specification: '', value: '', picUrl: '' },
       specifications: [{ specification: '规格', value: '标准', picUrl: '' }],
@@ -547,32 +568,52 @@ export default {
       // console.log(goods_sn)
       detailGoods(goods_sn).then(response => {
         // console.log(response)
-        this.goods = response.data.data.goods
+        const _good = response.data.data.goods
+
+        console.log(response.data.data.goods)
         this.specifications = response.data.data.specifications
         const products = response.data.data.products
+        console.log(_good)
+        if (_good.shareUrl && _good.shareUrl.length > 0) {
+          if (typeof _good.shareUrl === 'string') {
+            _good.shareUrl = JSON.parse(_good.shareUrl)
+          }
+          //   图片初始化
+          this.picGalleryUrlListShow = []
+          for (const i in _good.shareUrl) {
+            this.picGalleryUrlListShow.push({
+              url: _good.shareUrl[i]
+            })
+          }
+        }
+        this.goods = _good
+        console.log(this.goods)
         // console.log(products)
         // console.log('products')
         // products.forEach((item, index) => {
         //   products[index].specifications = JSON.parse(item.goods.specifications)
         // })
         // console.log(products[0].goods)
-        for (const i in products[0].goods) {
-          if (i === 'specifications') {
-            if (products[0].goods[i] instanceof Array) {
-              products[0][i] = products[0].goods[i]
+
+        for (const j in products) {
+          for (const i in products[j].goods) {
+            if (i === 'specifications') {
+              if (products[j].goods[i] instanceof Array) {
+                products[j][i] = products[j].goods[i]
+              } else {
+                products[j][i] = JSON.parse(products[j].goods[i])
+              }
             } else {
-              products[0][i] = JSON.parse(products[0].goods[i])
+              products[j][i] = products[j].goods[i]
             }
-          } else {
-            products[0][i] = products[0].goods[i]
           }
         }
 
-        products[0].name = products[0].brand.name
-        console.log(products.name)
+        products[0].name = products[0].brand ? products[0].brand.name : ''
+        // console.log(products.name)
         // console.log(products)
         this.products = products
-        console.log(products)
+        // console.log(products)
         this.attributes = response.data.data.attributes
         this.categoryIds = response.data.data.categoryIds.list
 
@@ -613,15 +654,23 @@ export default {
       this.$router.push({ path: '/goods/list' })
     },
     handleEdit: function() {
-      console.log(this.products)
-      // for (let i = 0; i < this.products.length; i++) {
-      //   this.products[i] = this.products[i].goods
-      // }
-      console.log(this.products)
+      // console.log(this.products)
+      for (let i = 0; i < this.products.length; i++) {
+        this.products[i].goodsSn = this.$route.query.id
+      }
+      // console.log(this.products)
       const products = this.products
-      products.forEach((item, index) => {
-        products[index].specifications = JSON.stringify(item.specifications)
-      })
+      // products.forEach((item, index) => {
+      //   products[index].specifications = JSON.stringify(item.specifications)
+      // })
+      // eslint-disable-next-line no-empty
+      // if (typeof this.goods.shareUrl === 'string') {} else {
+
+      // }
+      if (typeof this.goods.shareUrl === 'object') {
+        this.goods.shareUrl = JSON.stringify(this.goods.shareUrl)
+      }
+      console.log(typeof this.goods.shareUrl)
       const finalGoods = {
         // id: this.$route.query.id,
         goods: this.goods,
@@ -629,6 +678,8 @@ export default {
         products: products,
         attributes: this.attributes
       }
+      console.log(finalGoods)
+      // debugger
       editGoods(finalGoods)
         .then(response => {
           this.$notify.success({
@@ -827,7 +878,9 @@ export default {
       this.productVisiable = true
     },
     uploadProductUrl: function(response) {
+      console.log(response.data.allfilePath)
       this.productForm.url = response.data.allfilePath
+      this.$forceUpdate()
     },
     handleProductEdit() {
       for (var i = 0; i < this.products.length; i++) {
@@ -852,6 +905,24 @@ export default {
       console.log(row)
       const index = this.attributes.indexOf(row)
       this.attributes.splice(index, 1)
+    },
+    handleRemove1: function(file, fileList) {
+      for (let i = 0; i < this.goods.shareUrl.length; i++) {
+        let url
+        if (file.response === undefined) {
+          url = file.url
+        } else {
+          url = file.response.data.allfilePath
+        }
+
+        if (this.goods.shareUrl[i] === url) {
+          this.goods.shareUrl.splice(i, 1)
+        }
+      }
+    },
+    uploadPicUrl1(response) {
+      this.goods.shareUrl.push(response.data.allfilePath)
+      console.log(this.goods.shareUrl)
     }
   }
 }

@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 10:28:46
- * @LastEditTime : 2019-12-24 15:15:42
+ * @LastEditTime : 2020-01-13 16:30:56
  * @LastEditors  : Please set LastEditors
  -->
 <template>
@@ -39,8 +39,8 @@
     </div>
     <div class="list-container">
       <el-table :data="list" border style="width: 100%">
-        <el-table-column prop="id" label="序号" />
-        <el-table-column prop="serviceLabelCode" label="编号" />
+        <!-- <el-table-column prop="id" label="序号" /> -->
+        <!-- <el-table-column prop="serviceLabelCode" label="编号" /> -->
         <el-table-column prop="serviceLabelName" label="名称" />
         <el-table-column prop="serviceLabelUrl" label="图片">
           <template slot-scope="scope">

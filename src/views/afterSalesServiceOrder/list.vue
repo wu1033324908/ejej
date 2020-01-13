@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-16 15:03:31
- * @LastEditTime: 2019-12-17 15:27:27
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2020-01-10 10:21:18
+ * @LastEditors  : Please set LastEditors
  * 服务售后
  -->
 <template>
@@ -13,8 +13,8 @@
     <div class="filter-container">
 
       <el-input v-model="listQuery.orderCode" clearable class="filter-item" style="width: 200px;" placeholder="请输入订单编号"/>
-      <el-input v-model="listQuery.name" clearable class="filter-item" style="width: 200px;" placeholder="请输入姓名"/>
-      <el-input v-model="listQuery.phone" clearable class="filter-item" style="width: 200px;" placeholder="请输入手机号"/>
+      <el-input v-model="listQuery.nickname" clearable class="filter-item" style="width: 200px;" placeholder="请输入姓名"/>
+      <el-input v-model="listQuery.mobile" clearable class="filter-item" style="width: 200px;" placeholder="请输入手机号"/>
       <el-select v-model="listQuery.afterStatus" class="filter-item" clearable placeholder="请选择售后状态">
         <el-option
           v-for="item in afterStatuss"
@@ -57,7 +57,7 @@
           <el-tag>{{ scope.row.afterStatus | afterStatusF }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" min-width="100" label="申请时间" prop=""/>
+      <el-table-column align="center" min-width="100" label="申请时间" prop="addTime"/>
       <el-table-column align="center" min-width="100" label="姓名" prop="nickname"/>
       <el-table-column align="center" min-width="100" label="手机号码" prop="mobile"/>
       <el-table-column align="center" min-width="100" label="城市" prop="province_name"/>
@@ -195,6 +195,7 @@ export default {
       text: undefined,
       listLoading: true,
       listQuery: {
+        isAfter: '1',
         page: 1,
         limit: 20
       },

@@ -14,6 +14,11 @@
             <template slot="append">元</template>
           </el-input>
         </el-form-item>
+        <el-form-item label="原价">
+          <el-input v-model="goods.counterPrice" placeholder="0.00">
+            <template slot="append">元</template>
+          </el-input>
+        </el-form-item>
 
         <!-- <el-form-item label="专柜价格" prop="counterPrice">
           <el-input v-model="goods.counterPrice" placeholder="0.00">
@@ -57,21 +62,19 @@
             <i v-else class="el-icon-plus avatar-uploader-icon" />
           </el-upload>
         </el-form-item>
-
-        <!-- <el-form-item label="宣传画廊">
+        <el-form-item label="图片列表" required>
           <el-upload
             :action="uploadPath"
-            :limit="5"
             :headers="headers"
-            :on-exceed="uploadOverrun"
-            :on-success="handleGalleryUrl"
+            :on-success="uploadPicUrl1"
             :on-remove="handleRemove"
             multiple
-            accept=".jpg,.jpeg,.png,.gif"
-            list-type="picture-card">
-            <i class="el-icon-plus"/>
+            accept=".jpg, .jpeg, .png, .gif"
+            list-type="picture-card"
+          >
+            <i class="el-icon-plus avatar-uploader-icon" />
           </el-upload>
-        </el-form-item>-->
+        </el-form-item>
 
         <el-form-item label="商品单位">
           <el-input v-model="goods.unit" placeholder="件 / 个 / 盒" />
@@ -207,7 +210,7 @@
       <el-table :data="products">
         <el-table-column property="value" label="货品规格">
           <template slot-scope="scope">
-            <el-tag v-for="tag in scope.row.specifications" :key="tag">{{ tag }}</el-tag>
+            <el-tag v-for="tag in scope.row.specifications=='string'?JSON.parse(scope.row.specifications):scope.row.specifications" :key="tag">{{ tag }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column property="productName" width="100" label="货品名称" />
@@ -403,7 +406,7 @@ export default {
       keywords: [],
       categoryList: [],
       brandList: [],
-      goods: { picUrl: '', gallery: [] },
+      goods: { picUrl: '', gallery: [], shareUrl: [] },
       specVisiable: false,
       specForm: { specification: '', value: '', picUrl: '' },
       multipleSpec: false,
@@ -502,15 +505,17 @@ export default {
       // console.log(this.goods.gallery)
       console.log(this.products)
       const products = this.products
-      products.forEach((item, index) => {
-        products[index].specifications = JSON.stringify(item.specifications)
-      })
+      // products.forEach((item, index) => {
+      //   products[index].specifications = JSON.stringify(item.specifications)
+      // })
+      this.goods.shareUrl = JSON.stringify(this.goods.shareUrl)
       const finalGoods = {
         goods: this.goods,
         specifications: this.specifications,
         products: products,
         attributes: this.attributes
       }
+      // console.log(finalGoods)
       publishGoods(finalGoods)
         .then(response => {
           this.$notify.success({
@@ -559,24 +564,6 @@ export default {
       // console.log(response)
       if (response.errno === 0) {
         this.goods.gallery.push(response.data.allfilePath)
-      }
-    },
-    handleRemove: function(file, fileList) {
-      for (var i = 0; i < this.goods.gallery.length; i++) {
-        // 这里存在两种情况
-        // 1. 如果所删除图片是刚刚上传的图片，那么图片地址是file.response.data.url
-        //    此时的file.url虽然存在，但是是本机地址，而不是远程地址。
-        // 2. 如果所删除图片是后台返回的已有图片，那么图片地址是file.url
-        var url
-        if (file.response === undefined) {
-          url = file.url
-        } else {
-          url = file.response.data.url
-        }
-
-        if (this.goods.gallery[i] === url) {
-          this.goods.gallery.splice(i, 1)
-        }
       }
     },
     specChanged: function(label) {
@@ -735,6 +722,24 @@ export default {
     handleAttributeDelete(row) {
       const index = this.attributes.indexOf(row)
       this.attributes.splice(index, 1)
+    },
+    handleRemove: function(file, fileList) {
+      for (let i = 0; i < this.goods.shareUrl.length; i++) {
+        let url
+        if (file.response === undefined) {
+          url = file.url
+        } else {
+          url = file.response.data.allfilePath
+        }
+
+        if (this.goods.shareUrl[i] === url) {
+          this.goods.shareUrl.splice(i, 1)
+        }
+      }
+    },
+    uploadPicUrl1(response) {
+      this.goods.shareUrl.push(response.data.allfilePath)
+      console.log(this.goods)
     }
   }
 }

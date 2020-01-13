@@ -23,15 +23,15 @@
         </el-form-item>
         <el-form-item v-if="example_type!=1" label="案例风格" prop="exampleStyle">
           <!-- <el-input v-model="detailCase.exampleStyle" /> -->
-          {{ detailCase.exampleStyle }}
+          {{ detailCase.exampleStyleText }}
         </el-form-item>
         <el-form-item label="房屋样式" prop="exampleModel">
           <!-- <el-input v-model="detailCase.exampleModel" /> -->
-          {{ detailCase.exampleModel }}
+          {{ detailCase.exampleModelText }}
         </el-form-item>
         <el-form-item label="房屋户型" prop="houseType">
           <!-- <el-input v-model="detailCase.houseType" /> -->
-          {{ detailCase.houseType }}
+          {{ detailCase.houseTypeText }}
         </el-form-item>
         <el-form-item v-if="example_type==0" label="装修预算" prop="decorationBudget">
           <!-- <el-input v-model="detailCase.decorationBudget" placeholder="0.00" /> -->
@@ -101,12 +101,12 @@
             </div>
           </div>
 
-          <div class="picList" style="margin-top:30px;border:1px solid #cdcdcd;">
+          <!-- <div class="picList" style="margin-top:30px;border:1px solid #cdcdcd;">
             <div v-for="(item,index) in detailCase.url_list" :key="index" class="cPic" style="border:1px solid #cdcdcd;">
               <img :src="item.fileUrl" alt >
               <span style="display:block">{{ item.fileName }}</span>
             </div>
-          </div>
+          </div> -->
         </el-form-item>
       </el-form>
     </el-card>

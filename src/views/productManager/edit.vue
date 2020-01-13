@@ -43,7 +43,7 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="邮箱" prop="email">
+        <el-form-item label="邮箱">
           <el-input v-model="editproductManager.email" />
         </el-form-item>
 

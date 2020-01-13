@@ -144,7 +144,8 @@ export function addOneServiceUserLable(data) {
 // 商品标签删除
 export function goodsLabelDelete(data) {
   return request({
-    url: 'goodsLabel/delete',
+    url: '/service/delete',
+    // url: 'goodsLabel/delete',
     method: 'post',
     data
   })

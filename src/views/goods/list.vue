@@ -19,7 +19,7 @@
         @keyup.enter.native="handleFilter"
       />
       <el-cascader
-        v-model="categoryId"
+        v-model="listQuery.categoryId"
         :options="cOptions1"
         :props="{ checkStrictly: true }"
         class="filter-item"
@@ -153,7 +153,8 @@ export default {
         goodsSn: undefined,
         name: undefined,
         sort: 'add_time',
-        order: 'desc'
+        order: 'desc',
+        category_id: undefined
       },
       categoryId: [],
       timeForm: {},
@@ -178,15 +179,15 @@ export default {
     // 获取列表的方法
     getList() {
       this.listLoading = true
-      if (this.category3 !== undefined) {
-        this.listQuery.category_id = this.category3.toString()
-      } else if (this.category2 !== undefined) {
-        this.listQuery.category_id = this.category2.toString()
-      } else if (this.category1 !== undefined) {
-        this.listQuery.category_id = this.category1.toString()
-      } else {
-        this.listQuery.category_id = undefined
-      }
+      // if (this.category3 !== undefined) {
+      //   this.listQuery.category_id = this.category3.toString()
+      // } else if (this.category2 !== undefined) {
+      //   this.listQuery.category_id = this.category2.toString()
+      // } else if (this.category1 !== undefined) {
+      //   this.listQuery.category_id = this.category1.toString()
+      // } else {
+      //   this.listQuery.category_id = undefined
+      // }
 
       this.listQuery.beginDate = this.timeForm.date1 || undefined
       this.listQuery.endDate = this.timeForm.date2 || undefined
@@ -203,8 +204,11 @@ export default {
     },
     // 获取分类id的方法
     handleChange(value) {
-      // console.log(value)
-      // console.log(this.categoryId)
+      const _this = this
+      console.log(value[2])
+      _this.listQuery.category_id = value[2] || undefined
+
+      console.log(_this.listQuery.category_id)
     },
     // 获取分类的方法
     getCategory() {

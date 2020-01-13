@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-16 15:03:31
- * @LastEditTime : 2019-12-20 16:00:55
+ * @LastEditTime : 2020-01-10 10:13:28
  * @LastEditors  : Please set LastEditors
  -->
 <template>
@@ -49,14 +49,14 @@
     <el-table v-loading="listLoading" :data="list" element-loading-text="正在查询中。。。" border fit highlight-current-row>
       <el-table-column align="center" min-width="100" label="昵称" prop="nickname"/>
       <el-table-column align="center" min-width="100" label="姓名" prop="name"/>
-      <el-table-column align="center" min-width="100" label="性别" prop="gender_text"/>
+      <el-table-column align="center" min-width="100" label="性别" prop="genderText"/>
       <el-table-column align="center" min-width="100" label="手机号码" prop="mobile"/>
       <el-table-column align="center" min-width="100" label="城市" prop="city"/>
       <el-table-column align="center" min-width="100" label="小区" prop="community"/>
-      <el-table-column align="center" min-width="100" label="商品订单数" prop="goods_number"/>
-      <el-table-column align="center" min-width="100" label="服务订单数" prop="service_number"/>
+      <el-table-column align="center" min-width="100" label="商品订单数" prop="goodsNumber"/>
+      <el-table-column align="center" min-width="100" label="服务订单数" prop="serviceNumber"/>
       <el-table-column align="center" min-width="100" label="出生日期" prop="birthday"/>
-      <el-table-column align="center" min-width="100" label="注册日期" prop="add_time"/>
+      <el-table-column align="center" min-width="100" label="注册日期" prop="addTime"/>
       <el-table-column align="center" label="操作" width="100" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleDetail(scope.row)">查看</el-button>
@@ -227,14 +227,14 @@ export default {
         const filterVal = [
           'nickname',
           'name',
-          'gender_text',
+          'genderText',
           'mobile',
           'city',
           'community',
-          'goods_number',
-          'service_number',
+          'goodsNumber',
+          'serviceNumber',
           'birthday',
-          'add_time'
+          'addTime'
         ]
         excel.export_json_to_excel2(tHeader, this.list, filterVal, '广告信息')
         this.downloadLoading = false

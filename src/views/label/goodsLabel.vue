@@ -3,7 +3,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 10:28:46
- * @LastEditTime : 2019-12-24 15:17:30
+ * @LastEditTime : 2020-01-13 16:30:28
  * @LastEditors  : Please set LastEditors
  -->
 <template>
@@ -35,9 +35,9 @@
     >
       s
       <!-- <el-table-column align="center" label="出厂时间" prop="factory_time"/> -->
-      <el-table-column align="center" min-width="100" label="序号" prop="id" />
+      <!-- <el-table-column align="center" min-width="100" label="序号" prop="id" /> -->
 
-      <el-table-column align="center" min-width="100" label="编号" prop="goodsLabelCode" />
+      <!-- <el-table-column align="center" min-width="100" label="编号" prop="goodsLabelCode" /> -->
       <el-table-column align="center" min-width="100" label="名称" prop="goodsLabelName" />
       <el-table-column align="center" min-width="100" label="图片" prop="goodsLabelUrl">
         <template slot-scope="scope">

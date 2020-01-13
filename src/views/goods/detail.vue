@@ -63,13 +63,39 @@
           <th>创建日期</th>
           <td>{{ goodsData.addTime }}</td>
         </tr>
+        <tr>
+          <th>原价</th>
+          <td>{{ goodsData.counterPrice }}</td>
+        </tr>
       </table>
+    </el-card>
+    <!-- 图片列表 -->
+    <el-card>
+      <h4 style="display:line-block">图片列表</h4>
+      <ul class="pt-list">
+        <li v-for="iten in goodsData.shareUrl" :key="iten"><img :src="iten" alt></li>
+      </ul>
     </el-card>
     <!-- 子商品信息 -->
     <el-card>
       <h4 style="display:line-block">子商品信息</h4>
       <!-- <el-button type="primary" @click="dialogProduct=true">新增子商品</el-button> -->
       <el-table :data="products1" type="index" style="width: 100%">
+        <el-table-column label="操作" align="operation" width="200">
+          <template slot-scope="scope">
+            <el-button type="primary" icon="el-icon-edit" @click="productDetail(scope.row)">编辑</el-button>
+            <el-button
+              v-show="scope.row.goods.isOnSale=='1'"
+              type="danger"
+              @click="updateState(scope.row)"
+            >下架</el-button>
+            <el-button
+              v-show="scope.row.goods.isOnSale=='0'"
+              type="success"
+              @click="updateState(scope.row)"
+            >上架</el-button>
+          </template>
+        </el-table-column>
         <el-table-column prop="id" label="序号" width="80">
           <template slot-scope="scope">{{ scope.$index+1 }}</template>
         </el-table-column>
@@ -77,7 +103,7 @@
         <!-- <el-table-column prop="goods.goodsSn" label="编号" width="180"></el-table-column> -->
         <el-table-column prop="goods.specifications" label="SKU" width="200">
           <template slot-scope="scope">
-            <el-tag v-for="(tag,index) in scope.row.goods.specifications " :key="index">{{ tag }}</el-tag>
+            <el-tag v-for="(tag,index) in typeof scope.row.goods.specifications === 'string'?JSON.parse(scope.row.goods.specifications):scope.row.goods.specifications" :key="index">{{ tag }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="goods" label="图片" width="100">
@@ -101,21 +127,7 @@
         </el-table-column>
         <el-table-column prop="brand.name" label="关联供应商" width="180"/>
         <el-table-column prop="brand.address" label="发货地" width="180"/>
-        <el-table-column label="操作" align="operation" width="200">
-          <template slot-scope="scope">
-            <el-button type="primary" icon="el-icon-edit" @click="productDetail(scope.row)">编辑</el-button>
-            <el-button
-              v-show="scope.row.goods.isOnSale=='1'"
-              type="danger"
-              @click="updateState(scope.row)"
-            >下架</el-button>
-            <el-button
-              v-show="scope.row.goods.isOnSale=='0'"
-              type="success"
-              @click="updateState(scope.row)"
-            >上架</el-button>
-          </template>
-        </el-table-column>
+
       </el-table>
     </el-card>
     <!-- <el-dialog title="新增子商品信息" :visible.sync="dialogProduct">
@@ -671,7 +683,24 @@
   </div>
 </template>
 
-<style>
+<style scoped>
+.pt-list{
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap:  wrap;
+  align-items: center;
+
+}
+.pt-list li{
+  list-style-type: none;
+  width: 15%;
+  margin: 5px;
+  border: 1px solid #dedede;
+}
+.pt-list li img{
+  width: 100%;
+}
 .el-card {
   margin-bottom: 10px;
 }
@@ -868,7 +897,18 @@ export default {
       detailGoods({ goods_sn: this.$route.query.id })
         .then(response => {
           console.log(response)
+          let shareUrl = response.data.data.goods.shareUrl || undefined
+
+          if (shareUrl && shareUrl.length > 0) {
+            if (typeof shareUrl === 'string') {
+              shareUrl = JSON.parse(shareUrl)
+            }
+          }
+          console.log('=-=======')
+          console.log(shareUrl)
           this.goodsData = response.data.data.goods
+          this.goodsData.shareUrl = shareUrl
+
           this.categoryIds = response.data.data.categoryIds
           this.products1 = response.data.data.products
           this.specifications = response.data.data.specifications
@@ -916,10 +956,14 @@ export default {
     },
     // 编辑条件
     editCondition() {
-      console.log()
+      // console.log()?
       const sendData = this.conditionData
-      sendData.condition_type = this.conditionDataType.toString()
-      sendData.goods_id = this.$route.query.id
+      const content = JSON.stringify(this.conditionData.content)
+      sendData.content = content
+      sendData.conditionState = sendData.condition_state
+
+      sendData.conditionType = this.conditionDataType.toString()
+      sendData.goodsSn = this.$route.query.id
 
       editGoodsCondition(sendData)
         .then(response => {
@@ -928,6 +972,7 @@ export default {
             message: '更新成功'
           })
           this.getGoodsDetail(0)
+          // window.location.reload()
         })
         .catch(response => {
           MessageBox.alert('业务错误：' + response.data.errmsg, '警告', {

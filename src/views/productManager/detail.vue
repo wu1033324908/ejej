@@ -83,7 +83,14 @@
         <el-table-column prop="introduceName" label="名称" width="180"/>
         <el-table-column prop="introduceContent" label="内容" width="180">
           <template slot-scope="scope">
-            <img :src="scope.row.serviceLabelUrl" style="width:50px" alt >
+            <!-- <img :src="scope.row.serviceLabelUrl" style="width:50px" alt /> -->
+            <el-popover placement="right" width="400" trigger="click">
+              <div style="margin-left:50px">内容: {{ scope.row.introduceContent }}</div>
+              <div style="margin-top:20px ;margin-left:50px">
+                <img :src="scope.row.introduceUrl" style="width:100px ; height:100px" alt >
+              </div>
+              <el-button slot="reference">查看</el-button>
+            </el-popover>
           </template>
         </el-table-column>
         <el-table-column label="操作" align="operation" width="200">
