@@ -22,7 +22,20 @@
           <el-input v-model="newCase.housingName" />
         </el-form-item>
         <el-form-item v-if="example_type==1" label="施工类型" prop="workType">
-          <el-input v-model="newCase.workType" />
+          <!-- <el-input v-model="newCase.workType" /> -->
+          <el-select
+            v-model="newCase.workType"
+            clearable
+            style="width: 120px;"
+            placeholder="请选择施工类型"
+          >
+            <el-option
+              v-for="(item,index) in workTypes"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item v-if="example_type!=1" label="案例风格" prop="exampleStyle">
           <!-- <el-input v-model="detailCase.exampleStyle" /> -->
@@ -242,6 +255,7 @@ export default {
       styleOptions: [],
       house_typeOptions: [],
       modelOptions: [],
+      workTypes: [],
       userCode: '',
       fileName: '',
       dialogFormVisible: false,
@@ -256,7 +270,7 @@ export default {
           { required: true, message: '小区名称不能为空', trigger: 'blur' }
         ],
         workType: [
-          { required: true, message: '施工类型不能为空', trigger: 'blur' }
+          { required: true, message: '施工类型不能为空', trigger: 'change' }
         ],
         exampleStyle: [
           { required: true, message: '案例风格不能为空', trigger: 'blur' }
@@ -369,6 +383,21 @@ export default {
         .then(response => {
           response.data.data.forEach((item, index) => {
             this.modelOptions.push({
+              label: item.key_value,
+              value: item.key_name
+            })
+          })
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      // 施工类型
+      getDropDown({
+        key_group_name: 'work_type'
+      })
+        .then(response => {
+          response.data.data.forEach((item, index) => {
+            this.workTypes.push({
               label: item.key_value,
               value: item.key_name
             })

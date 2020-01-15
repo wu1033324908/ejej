@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 09:34:48
- * @LastEditTime: 2019-12-10 15:50:09
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2020-01-15 15:35:29
+ * @LastEditors  : Please set LastEditors
  -->
 <template>
   <div class="app-container">
@@ -59,8 +59,8 @@
               <div><img :src="scope.row.picUrl" style="height:50px;" alt="暂无"></div>
             </template>
           </el-table-column>
-          <el-table-column align="center" label="数量" prop="nanumberme"/>
-          <el-table-column align="center" label="付款方式" prop="payType"/>
+          <el-table-column align="center" label="数量" prop="number"/>
+          <!-- <el-table-column align="center" label="付款方式" prop="payType"/> -->
         </el-table>
       </div>
     </el-card>

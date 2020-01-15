@@ -90,7 +90,7 @@
       <el-table-column align="center" label="状态" prop="is_on_sale">
         <template slot-scope="scope">{{ scope.row.is_on_sale == "0" ? '未上架' : scope.row.is_on_sale == "1" ? '已上架' : '' }}</template>
       </el-table-column>
-      <el-table-column :formatter="setTime" align="center" min-width="100" label="状创建时间" prop="add_time" />
+      <el-table-column align="center" min-width="100" label="状创建时间" prop="add_time" />
       <el-table-column align="center" min-width="300" label="操作">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleDetail(scope.row)">查看</el-button>

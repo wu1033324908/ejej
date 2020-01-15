@@ -3,12 +3,12 @@
     <el-card class="box-card">
       <h3>商品标签</h3>
       <el-form ref="goodsLabel" :rules="rules" :model="goodsLabel" label-width="150px">
-        <el-form-item label="商品标签序号" prop="id">
+        <!-- <el-form-item label="商品标签序号" prop="id">
           <el-input v-model="goodsLabel.id" />
         </el-form-item>
         <el-form-item label="商品标签编号" prop="goodsLabelCode">
           <el-input v-model="goodsLabel.goodsLabelCode" />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="商品标签名称" prop="goodsLabelName">
           <el-input v-model="goodsLabel.goodsLabelName" />
         </el-form-item>

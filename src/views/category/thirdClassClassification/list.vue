@@ -3,7 +3,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 10:28:46
- * @LastEditTime : 2020-01-10 10:45:31
+ * @LastEditTime : 2020-01-15 15:31:42
  * @LastEditors  : Please set LastEditors
  -->
 <template>
@@ -457,9 +457,9 @@ export default {
       } else {
         const data = this.formCreate
         data.pid = this.class2
-        data.level = 3
-        data.url = this.imgUrl
-        debugger
+        // data.level = 3
+        data.iconUrl = this.imgUrl
+        // debugger
         this.$refs[formName].validate(valid => {
           if (valid) {
             createCategory(data)

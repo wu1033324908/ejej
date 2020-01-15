@@ -10,7 +10,20 @@
           <el-input v-model="detailCase.housingName" />
         </el-form-item>
         <el-form-item v-if="example_type==1" label="施工类型" prop="workType">
-          <el-input v-model="detailCase.workType" />
+          <!-- <el-input v-model="detailCase.workType" /> -->
+          <el-select
+            v-model="detailCase.workType"
+            clearable
+            style="width: 120px;"
+            placeholder="请选择施工类型"
+          >
+            <el-option
+              v-for="(item,index) in workTypes"
+              :key="index"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item v-if="example_type!=1" label="案例风格" prop="exampleStyle">
           <!-- <el-input v-model="detailCase.exampleStyle" /> -->
@@ -66,8 +79,8 @@
         <el-form-item v-if="example_type==1" label="施工费用" prop="retailPrice">
           <el-input v-model="detailCase.retailPrice" placeholder="0.00" />
         </el-form-item>
-        <el-form-item v-if="example_type==2" label="装修费用" prop="workMoney">
-          <el-input v-model="detailCase.workMoney" placeholder="0.00" />
+        <el-form-item v-if="example_type==2" label="装修费用" prop="decorationMoney">
+          <el-input v-model="detailCase.decorationMoney" placeholder="0.00" />
         </el-form-item>
         <el-form-item label="面积" prop="area">
           <el-input v-model="detailCase.area" />
@@ -96,6 +109,7 @@
             :limit="1"
             :headers="headers"
             :on-exceed="uploadOverrun"
+            :file-list="[{url:detailCase.fileUrl}]"
             :on-success="handleGalleryUrl"
             :on-remove="handleRemove"
             multiple
@@ -105,9 +119,9 @@
             <i class="el-icon-plus" />
           </el-upload>
         </el-form-item>
-        <div style="width:200px;margin-top:30px">
+        <!-- <div style="width:200px;margin-top:30px">
           <img :src="detailCase.fileUrl" style="width:100%;margin-left:150px" alt >
-        </div>
+        </div> -->
 
         <el-form-item v-if="detailCase.exampleSource==0" label="案例图片">
           <el-form-item>
@@ -122,19 +136,20 @@
               :on-remove="handleRemoveCase"
               :multiple="false"
               :on-change="changeFile"
+              :file-list="url_list"
               accept=".jpg, .jpeg, .png, .gif"
+
               list-type="picture-card"
             >
               <i class="el-icon-plus" />
             </el-upload>
           </el-form-item>
-
-          <div class="picList" style="margin-top:30px">
+          <!-- <div class="picList" style="margin-top:30px">
             <div v-for="(item,index) in detailCase.url_list" :key="index" class="cPic">
               <img :src="item.fileUrl" alt >
               <span style="display:block">{{ item.fileName }}</span>
             </div>
-          </div>
+          </div> -->
         </el-form-item>
       </el-form>
     </el-card>
@@ -220,6 +235,7 @@ export default {
       uploadPath,
       // detailCase: { picUrl: '', gallery: [] },
       detailCase: { url_list: [] },
+      url_list: [],
       specForm: { specification: '', value: '', picUrl: '' },
       example_type: '',
       userCode: '',
@@ -227,6 +243,7 @@ export default {
       styleOptions: [],
       house_typeOptions: [],
       modelOptions: [],
+      workTypes: [],
       dialogFormVisible: false,
       userList: [],
       sort: 0,
@@ -239,7 +256,7 @@ export default {
           { required: true, message: '小区名称不能为空', trigger: 'blur' }
         ],
         workType: [
-          { required: true, message: '施工类型不能为空', trigger: 'blur' }
+          { required: true, message: '施工类型不能为空', trigger: 'change' }
         ],
         exampleStyle: [
           { required: true, message: '案例风格不能为空', trigger: 'blur' }
@@ -258,7 +275,7 @@ export default {
           { required: true, message: '施工费用不能为空', trigger: 'blur' }
           // { type: 'number', message: '施工费用必须为数字值' }
         ],
-        workMoney: [
+        decorationMoney: [
           { required: true, message: '装修费用不能为空', trigger: 'blur' }
           // { type: 'number', message: '装修费用必须为数字值' }
         ],
@@ -309,9 +326,14 @@ export default {
     getCaseDetail() {
       getCaseDetails({ exampleCode: this.exampleCode })
         .then(response => {
-          console.log(response)
+          // console.log(123123123)
+          // console.log(response)
+          // console.log(123123123)
           this.detailCase = response.data.data.example
           this.detailCase.url_list = response.data.data.url_list
+          for (const i in this.detailCase.url_list) {
+            this.url_list.push({ url: this.detailCase.url_list[i].fileUrl })
+          }
         })
         .catch(() => {})
     },
@@ -351,6 +373,22 @@ export default {
         .then(response => {
           response.data.data.forEach((item, index) => {
             this.modelOptions.push({
+              label: item.key_value,
+              value: item.key_name
+            })
+          })
+        })
+        .catch(err => {
+          console.log(err)
+        })
+
+        // 施工类型
+      getDropDown({
+        key_group_name: 'work_type'
+      })
+        .then(response => {
+          response.data.data.forEach((item, index) => {
+            this.workTypes.push({
               label: item.key_value,
               value: item.key_name
             })

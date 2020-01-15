@@ -3,12 +3,12 @@
     <el-card class="box-card">
       <h3>服务商标签</h3>
       <el-form ref="serviceLabel" :rules="rules" :model="serviceLabel" label-width="150px">
-        <el-form-item v-if="userId==undefined" label="服务商标签序号" prop="id">
+        <!-- <el-form-item v-if="userId==undefined" label="服务商标签序号" prop="id">
           <el-input v-model="serviceLabel.id" />
         </el-form-item>
         <el-form-item label="服务商标签编号" prop="serviceLabelCode">
           <el-input v-model="serviceLabel.serviceLabelCode" />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="服务商标签名称" prop="serviceLabelName">
           <el-input v-model="serviceLabel.serviceLabelName"/>
         </el-form-item>

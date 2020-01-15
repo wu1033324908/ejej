@@ -17,9 +17,9 @@
           <!-- <el-input v-model="detailCase.housingName" /> -->
           {{ detailCase.housingName }}
         </el-form-item>
-        <el-form-item v-if="example_type==1" label="施工类型" prop="workType">
+        <el-form-item v-if="example_type==1" label="施工类型" prop="workTypeText">
           <!-- <el-input v-model="detailCase.workType" /> -->
-          {{ detailCase.workType }}
+          {{ detailCase.workTypeText }}
         </el-form-item>
         <el-form-item v-if="example_type!=1" label="案例风格" prop="exampleStyle">
           <!-- <el-input v-model="detailCase.exampleStyle" /> -->
@@ -37,13 +37,13 @@
           <!-- <el-input v-model="detailCase.decorationBudget" placeholder="0.00" /> -->
           {{ detailCase.decorationBudget }}
         </el-form-item>
-        <el-form-item v-if="example_type==1" label="施工费用" prop="retailPrice">
-          <!-- <el-input v-model="detailCase.retailPrice" placeholder="0.00" /> -->
-          {{ detailCase.retailPrice }}
-        </el-form-item>
-        <el-form-item v-if="example_type==2" label="装修费用" prop="workMoney">
+        <el-form-item v-if="example_type==1" label="施工费用" prop="workMoney">
           <!-- <el-input v-model="detailCase.workMoney" placeholder="0.00" /> -->
           {{ detailCase.workMoney }}
+        </el-form-item>
+        <el-form-item v-if="example_type==2" label="装修费用" prop="decorationMoney">
+          <!-- <el-input v-model="detailCase.decorationMoney" placeholder="0.00" /> -->
+          {{ detailCase.decorationMoney }}
         </el-form-item>
         <el-form-item label="面积" prop="area">
           <!-- <el-input v-model="detailCase.area" /> -->

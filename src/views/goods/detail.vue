@@ -57,7 +57,7 @@
           <th>市场价</th>
           <td>{{ goodsData.retailPrice }}</td>
           <th>三级分类</th>
-          <td>{{ categoryIds.name2 }}</td>
+          <td>{{ categoryIds.name3 }}</td>
           <th>剩余库存数</th>
           <td>{{ total }}</td>
           <th>创建日期</th>
@@ -329,7 +329,6 @@
     </el-card>
     <el-card>
       <h4>介绍/规格信息</h4>
-      <!-- <el-button type="primary" @click="handleIntroInfo()">新增</el-button> -->
       <el-table :data="specifications" style="width: 100%">
         <el-table-column label="序号" width="100">
           <template slot-scope="scope">{{ scope.$index+1 }}</template>
@@ -396,7 +395,6 @@
     <el-dialog :title="dialogConditionTitle" :visible.sync="dialogCondition">
       <el-form :model="conditionData">
         <el-form-item label="条件名称">
-          <!-- <el-input v-model="conditionData.introduceName" autocomplete="off"></el-input> -->
           <span v-show="conditionDataType==0">邮费</span>
           <span v-show="conditionDataType==1">退款</span>
           <span v-show="conditionDataType==2">优惠</span>
@@ -404,9 +402,8 @@
         </el-form-item>
         <!-- 邮费 -->
         <el-form-item v-show="conditionDataType==0" label>
-          <!-- <el-input v-model="conditionData.conditionState" autocomplete="off"></el-input> -->
           <el-radio-group
-            v-model="conditionData.condition_state"
+            v-model="conditionData.conditionState"
             class="postage"
             style="width:900px"
             @change="postageChange"
@@ -553,58 +550,13 @@
         <el-button type="primary" @click="editCondition">确 定</el-button>
       </div>
     </el-dialog>
-    <!-- <el-dialog title="编辑介绍信息" :visible.sync="dialogInfoEdit">
-      <el-form :model="introduceEdit">
-        <el-form-item label="介绍名称">
-          <el-input v-model="introduceEdit.introduceName" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="介绍内容">
-          <el-input v-model="introduceEdit.introduceContent" autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="图片">
-          <img style="width:100px;height:100px" :src="introduceEdit.introduceUrl" alt />
-          <el-upload
-            ref="upLoadInfo"
-            class="upload-demo"
-            :headers="headers"
-            :action="uploadPath"
-            :on-remove="handleRemove"
-            :on-success="handleGalleryUrlInfo"
-            multiple
-            :limit="1"
-          >
-            <el-button size="small" style="margin-left:46px" type="primary">点击编辑</el-button>
-          </el-upload>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogInfoEdit = false">取 消</el-button>
-        <el-button type="primary" @click="editLableDetail">确 定</el-button>
-      </div>
-    </el-dialog> -->
 
     <el-dialog v-loading="lableLoading" :visible.sync="dialogLable" title="新增关联标签">
       <el-input v-model="searchLable.goodsLabelName" style="width: 150px;" placeholder="请输入名称" />
-      <!-- <el-select
-        v-model="searchLable.serviceType"
-        clearable
-        style="width: 120px;"
-        placeholder="请选择类型"
-      >
-        <el-option label="资质标签" value="0"></el-option>
-        <el-option label="属性标签" value="1"></el-option>
-        <el-option label="自定义标签" value="2"></el-option>
-        <el-option label="第三方认证" value="3"></el-option>
-      </el-select>-->
       <el-button type="primary" @click="addGoodsLabelFn">搜索</el-button>
       <el-button type="primary" @click="createGoodsLabel">新增</el-button>
       <el-table :data="lableData" style="width: 100%">
         <el-table-column prop="id" label="序号" width="100"/>
-        <!-- <el-table-column prop="serviceType" label="类型" width="180">
-          <template
-            slot-scope="scope"
-          >{{ scope.row.serviceType==0 ? "资质标签" : scope.row.serviceType==1 ? "属性标签" :scope.row.serviceType==2? "自定义标签" : scope.row.serviceType==3? "第三方认证" : '' }}</template>
-        </el-table-column>-->
         <el-table-column prop="goodsLabelName" width="180" label="名称"/>
         <el-table-column prop="goodsLabelUrl" label="图片" width="180">
           <template slot-scope="scope">
@@ -614,7 +566,6 @@
         <el-table-column prop="address" label="操作">
           <template slot-scope="scope">
             <el-button type="success" @click="addRelevanceLabel(scope.row)">选择</el-button>
-            <!-- <el-button type="danger" @click="deleteLabel(scope.row)">删除</el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -625,35 +576,9 @@
 
       <el-dialog :visible.sync="createLableLoading" width="30%" title="新增一个关联标签" append-to-body>
         <el-form ref="goodsLabel" :rules="rules" :model="goodsNewLabel" label-width="120px">
-          <!-- <el-form-item label="商品标签序号" prop="id">
-            <el-input v-model="goodsNewLabel.id" />
-          </el-form-item>
-          <el-form-item label="商品标签编号" prop="goodsLabelCode">
-            <el-input v-model="goodsNewLabel.goodsLabelCode" />
-          </el-form-item> -->
           <el-form-item label="商品标签名称" prop="goodsLabelName">
             <el-input v-model="goodsNewLabel.goodsLabelName" />
           </el-form-item>
-          <!-- <el-form-item label="标签类型">
-            <el-select v-model="goodsNewLabel.serviceType" placeholder="标签类型">
-              <el-option
-                v-for="item in typeoptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>-->
-          <!-- <el-form-item label="适用商品">
-            <el-select v-model="goodsNewLabel.serviceSource" placeholder="适用商品">
-              <el-option
-                v-for="item in typeoptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>-->
           <el-form-item label="备注">
             <el-input v-model="goodsNewLabel.desc" />
           </el-form-item>
@@ -790,7 +715,7 @@ import {
   addGoodsLabel,
   addOneGoodsLabel
 } from '@/api/label'
-import { getCaseList } from '@/api/case'
+// import { getCaseList } from '@/api/case'
 import { MessageBox } from 'element-ui'
 import { getToken } from '@/utils/auth'
 export default {
@@ -801,7 +726,6 @@ export default {
       categoryIds: {},
       products1: [],
       products: [],
-      // specifications: [],
       goodsLable: [],
       total: '',
       amount: '',
@@ -827,7 +751,6 @@ export default {
       lableData: [],
       lableLoading: true,
       selectLable: [],
-      // goodsData: { picUrl: '', gallery: [] },
       activity: {},
       ServiceLable: [],
       introduce: [],
@@ -851,7 +774,6 @@ export default {
       goodsNewLabel: {},
       dialogInfoEdit: false,
       typeoptions: [
-        // { value: "", label: "" },
         { value: '0', label: '资质标签' },
         { value: '1', label: '属性标签' },
         { value: '2', label: '自定义标签' },
@@ -886,17 +808,13 @@ export default {
       this.amount = this.$route.query.amount
       this.getGoodsDetail()
       listCatAndBrand().then(response => {
-        // console.log(response)
-        // this.categoryList = response.data.data.categoryList;
         this.brandList = response.data.data.brandList
       })
-      //   this.getLableList();
     },
     // 获取商品详情
     getGoodsDetail() {
       detailGoods({ goods_sn: this.$route.query.id })
         .then(response => {
-          console.log(response)
           let shareUrl = response.data.data.goods.shareUrl || undefined
 
           if (shareUrl && shareUrl.length > 0) {
@@ -904,8 +822,6 @@ export default {
               shareUrl = JSON.parse(shareUrl)
             }
           }
-          console.log('=-=======')
-          console.log(shareUrl)
           this.goodsData = response.data.data.goods
           this.goodsData.shareUrl = shareUrl
 
@@ -922,13 +838,10 @@ export default {
     },
     // 编辑子商品
     productDetail(row) {
-      // console.log(row);
-      //  console.log(this.products1)
       this.productForm = this.products1.filter(item => {
         // eslint-disable-next-line eqeqeq
         return item.goods.id == row.goods.id
       })[0].goods
-      // console.log(this.productForm)
       this.dialogProduct = true
     },
     // 更新子商品的方法
@@ -956,11 +869,10 @@ export default {
     },
     // 编辑条件
     editCondition() {
-      // console.log()?
       const sendData = this.conditionData
       const content = JSON.stringify(this.conditionData.content)
       sendData.content = content
-      sendData.conditionState = sendData.condition_state
+      // sendData.conditionState = sendData.condition_state
 
       sendData.conditionType = this.conditionDataType.toString()
       sendData.goodsSn = this.$route.query.id
@@ -972,7 +884,7 @@ export default {
             message: '更新成功'
           })
           this.getGoodsDetail(0)
-          // window.location.reload()
+          window.location.reload()
         })
         .catch(response => {
           MessageBox.alert('业务错误：' + response.data.errmsg, '警告', {
@@ -1015,7 +927,6 @@ export default {
           }
           break
       }
-      // console.log(row)
     },
     // 编辑条件信息
     handleforbidCondition(row) {
@@ -1039,6 +950,9 @@ export default {
     // 选择邮费状态改变时
     postageChange(data) {
       this.postageState = data
+      if (this.conditionDataType === 2 || this.conditionDataType === '2') {
+        this.conditionState = data
+      }
     },
     // sku相关
     specChanged(label) {
@@ -1187,33 +1101,8 @@ export default {
     },
     handleGalleryUrl(response) {
       this.goodsData.picUrl = response.data.allfilePath
-      //  editGoods(this.goodsData)
-      //   .then(response => {
-      //     this.$notify.success({
-      //       title: "成功",
-      //       message: "创建成功"
-      //     });
-      //     this.$router.push({ path: "/goods/list" });
-      //   })
-      //   .catch(response => {
-      //     MessageBox.alert("业务错误：" + response.data.errmsg, "警告", {
-      //       confirmButtonText: "确定",
-      //       type: "error"
-      //     });
-      //   });
-      console.log(this.goodsData)
     },
     handleGalleryUrlInfo() {},
-    // 获取案例列表
-    getCaseList() {
-      getCaseList({})
-        .then(response => {
-          console.log(Response)
-        })
-        .catch(errmsg => {
-          console.log(errmsg)
-        })
-    },
     // 选择与商品相关的标签
     addRelevanceLabel(row) {
       const labelData = {
@@ -1236,26 +1125,6 @@ export default {
           console.log(errmsg)
         })
     },
-    // 打开编辑子商品详情
-
-    // 更新标签详情
-    // editLableDetail() {
-    //   const InfoData = {}
-    //   InfoData.introduce_name = this.introduceEdit.introduceName
-    //   InfoData.introduce_content = this.introduceEdit.introduceContent
-    //   InfoData.introduce_url = this.productForm.introduce_url
-    //   InfoData.service_source = 0
-    //   InfoData.service_code = this.goodsData.serviceCode
-    //   updataDetailServiceLable(InfoData)
-    //     .then(response => {
-    //       this.dialogInfoEdit = false
-    //       console.log(response)
-    //     })
-    //     .catch(err => {
-    //       console.log(err)
-    //     })
-    // },
-    // 上架下架
     updateState(row) {
       const data = {
         id: row.goods.id,
@@ -1283,68 +1152,26 @@ export default {
           })
         })
     },
-
-    // 新增标签详情
-    // addLableDetail() {
-    //   this.dialogInfo = true
-    //   const InfoData = this.productForm
-    //   InfoData.service_source = 0
-    //   InfoData.service_code = this.goodsData.serviceCode
-    //   // service_type: 0
-    //   detailServiceLable(InfoData)
-    //     .then(response => {
-    //       this.dialogInfo = false
-    //       this.productForm = {}
-    //       this.$refs.uploadInfo.clearFiles()
-    //       this.getUserDetail()
-    //     })
-    //     .catch(err => {
-    //       console.log(err)
-    //     })
-    // },
     // 新增标签
     addGoodsLabelFn() {
       this.dialogLable = true
       // 查询商品的标签列表
       const searchLableData = this.searchLable
-      // searchLableData.serviceSource = "0";
       searchLableData.id = this.$route.query.gId
       getGoodsLableList(searchLableData)
         .then(response => {
-          console.log(response)
           this.lableData = response.data.data.data
           this.lableLoading = false
         })
         .catch(errmsg => {
           console.log(errmsg)
         })
-
-      // this.$router.push({
-      //   path: "/label/createServiceLabel",
-      //   query: { id: this.goodsData.id }
-      // });
-      // addServiceLable()
-      // .then(response =>{
-      //   console.log(response)
-      // })
-      // .catch(errmsg=>{
-      //   console.log(errmsg)
-      // })
     },
     // 选择新增标签
     addLabel() {
       this.createLableLoading = true
       const newLableData = this.goodsNewLabel
       newLableData.goodsCode = this.goodsData.goodsSn
-      // {
-      //   goodsLabelCode: row.goodsLabelCode,
-      //   serviceCode: this.goodsData.departCode,
-      //   goodsLabelName: row.goodsLabelName,
-      //   serviceType: row.serviceType,
-      //   serviceSource: row.serviceSource,
-      //   goodsLabelUrl: row.goodsLabelUrl
-      // };
-      // console.log(this.goodsData);
       addGoodsLabel(newLableData)
         .then(response => {
           this.$message({
@@ -1357,7 +1184,6 @@ export default {
           searchLableData.id = this.$route.query.gId
           getGoodsLableList(searchLableData)
             .then(response => {
-              console.log(response)
               this.lableData = response.data.data
               this.lableLoading = false
             })
@@ -1365,8 +1191,7 @@ export default {
               console.log(errmsg)
             })
         })
-        .catch(errmsg => {
-          console.log(errmsg)
+        .catch(() => {
           this.$message({
             type: 'danger',
             message: '新增失败'
@@ -1379,11 +1204,9 @@ export default {
     },
     // 删除
     handleforbid(row) {
-      // console.log(this.goodsData.departCode);
       deletedOneGoodsLabel({
         goodsCode: this.goodsData.goodsSn,
         goodsLabelCode: row.goodsLabelCode
-        // deleted:"0"
       })
         .then(response => {
           this.getGoodsDetail()
@@ -1392,9 +1215,7 @@ export default {
             message: '删除成功!'
           })
         })
-        .catch(errmsg => {
-          // console.log(errmsg);
-          // console.log(1234444);
+        .catch(() => {
           this.$message({
             type: 'error',
             message: '删除失败!'
@@ -1427,45 +1248,8 @@ export default {
     handleGalleryUrlProduct(response) {
       this.goodsData.picUrl = response.data.allfilePath
     },
-    // handleGalleryUrl(response, file, fileList) {
-    //   console.log(response);
-    //   this.goodsData.avatar = response.data.allfilePath;
-    //   // if (response.errno === 0) {
-    //   //   this.goodsData.gallery.push(response.data.url);
-    //   // }
-    // },
-    // beforeAvatarUpload(file) {
-    //   this.$prompt("请输入文件名", "提示", {
-    //     confirmButtonText: "确定",
-    //     cancelButtonText: "取消"
-    //     // inputValue：this.value,
-    //   })
-    //     .then(({ value }) => {
-    //       return true;
-    //     })
-    //     .catch(() => {
-    //       return false;
-    //     });
-    //   this.dialogFormVisible = true;
-    //   this.goodsData.url_list.push({
-    //     fileName: this.picForm.name,
-    //     sortOrder: "",
-    //     fileUrl: ""
-    //   });
-    // },
     handleGalleryUrlLable(response, file, fileList) {
-      console.log(fileList)
-      console.log(file)
-      // this.goodsData.url_list.push({
-      //   fileName: this.fileName,
-      //   sortOrder: this.sort,
       this.goodsNewLabel.goodsLabelUrl = response.data.allfilePath
-      // fileUrl: response.data.allfilePath
-      // });
-      console.log(this.goodsData)
-      // if (response.errno === 0) {
-      //   this.goodsData.gallery.push(response.data.url);
-      // }
     },
     beforeUpload(file) {
       this.disabled = true
@@ -1481,14 +1265,7 @@ export default {
     },
     handleRemove(file, fileList) {
       for (var i = 0; i < this.goodsData.gallery.length; i++) {
-        // 这里存在两种情况
-        // 1. 如果所删除图片是刚刚上传的图片，那么图片地址是file.response.data.url
-        //    此时的file.url虽然存在，但是是本机地址，而不是远程地址。
-        // 2. 如果所删除图片是后台返回的已有图片，那么图片地址是file.url
         var url
-        console.log(file)
-        console.log(fileList)
-        // this.goodsData.url_list.
         if (file.response === undefined) {
           url = file.url
         } else {
@@ -1499,9 +1276,6 @@ export default {
           this.goodsData.gallery.splice(i, 1)
         }
       }
-    },
-    handleIntroInfo() {
-
     }
   }
 }
