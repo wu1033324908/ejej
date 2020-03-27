@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2019-12-06 11:41:13
+ * @LastEditTime: 2020-03-11 11:29:11
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: \com-ejej-admin-dev-env\src\main.js
+ */
 import Vue from 'vue'
 
 import Cookies from 'js-cookie'
@@ -6,7 +14,6 @@ import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-
 import '@/styles/index.scss' // global css
 
 import App from './App'

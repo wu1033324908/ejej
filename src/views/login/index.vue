@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-16 14:46:41
- * @LastEditTime : 2020-01-02 11:11:14
- * @LastEditors  : Please set LastEditors
+ * @LastEditTime: 2020-03-04 15:31:13
+ * @LastEditors: Please set LastEditors
  -->
 <template>
   <div class="login-container">
@@ -121,23 +121,19 @@ export default {
       }
     },
     handleLogin() {
-      console.log(this.$refs)
       this.$refs.loginForm.validate(valid => {
         if (valid && !this.loading) {
           this.loading = true
-          this.$store
-            .dispatch('LoginByUsername', this.loginForm)
-            .then(() => {
-              this.loading = false
-              this.$router.push({ path: this.redirect || '/' })
+          this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
+            this.loading = false
+            this.$router.push({ path: this.redirect || '/' })
+          }).catch(response => {
+            this.$notify.error({
+              title: '失败',
+              message: response.data.errmsg
             })
-            .catch(response => {
-              this.$notify.error({
-                title: '失败',
-                message: response.data.errmsg
-              })
-              this.loading = false
-            })
+            this.loading = false
+          })
         } else {
           return false
         }

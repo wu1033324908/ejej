@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-16 14:46:41
- * @LastEditTime: 2019-10-28 11:12:42
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2020-01-15 16:03:53
+ * @LastEditors  : Please set LastEditors
  */
 import axios from 'axios'
 import {
@@ -30,7 +30,7 @@ service.interceptors.request.use(
       config.headers['X-Wajueji-Admin-Token'] = getToken()
     }
     if (config.method === 'post') {
-      if (config.url.indexOf('/storage/createTest') >= 0) {
+      if (config.url.indexOf('/storage/createTest') >= 0 || config.url.indexOf('/storage/create') >= 0) {
         // console.log(1)
       } else {
         config.data = {

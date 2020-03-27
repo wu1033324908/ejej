@@ -3,7 +3,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-02 10:28:46
- * @LastEditTime : 2020-01-15 15:31:42
+ * @LastEditTime : 2020-01-17 11:06:45
  * @LastEditors  : Please set LastEditors
  -->
 <template>
@@ -457,7 +457,7 @@ export default {
       } else {
         const data = this.formCreate
         data.pid = this.class2
-        // data.level = 3
+        data.level = 3
         data.iconUrl = this.imgUrl
         // debugger
         this.$refs[formName].validate(valid => {
@@ -504,7 +504,7 @@ export default {
       const data = this.formEdit
       //   data.pid = 0;
       data.level = 2
-      data.url = this.imgUrl
+      data.iconUrl = this.imgUrl
       updateCategory(data)
         .then(response => {
           // console.log(response);

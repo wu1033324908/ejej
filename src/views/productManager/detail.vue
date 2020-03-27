@@ -357,7 +357,7 @@ import { userDetail, uploadPath, introduceDeleted } from '@/api/user'
 // import { departList } from '@/api/depart'
 // import { MessageBox } from 'element-ui'
 import { getToken } from '@/utils/auth'
-import { serviceUploadPath, detailServiceLable, getServiceLable, addOneServiceUserLable, addServiceUserLable } from '@/api/label'
+import { serviceUploadPath, detailServiceLable, getServiceLable, addOneServiceUserLable, addServiceUserLable, deleteServiceUserLable } from '@/api/label'
 export default {
   filters: {
     exampleSourceF(v) {
@@ -705,6 +705,24 @@ export default {
         })
         .catch(errmsg => {
           console.log(errmsg)
+        })
+    },
+    handleforbidLabel(row) {
+      // console.log(this.designerData.departCode);
+      deleteServiceUserLable({
+        serviceCode: this.designerData.serviceCode,
+        serviceLabelCode: row.serviceLabelCode
+        // deleted:"0"
+      })
+        .then(response => {
+          // console.log(123);
+          // console.log(response);
+          this.getUserDetail()
+          // console.log(this.ServiceLable)
+        })
+        .catch(errmsg => {
+          // console.log(errmsg);
+          // console.log(1234444);
         })
     }
   }

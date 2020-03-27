@@ -2,8 +2,8 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-07-16 14:46:08
- * @LastEditTime : 2020-01-14 11:29:52
- * @LastEditors  : Please set LastEditors
+ * @LastEditTime: 2020-02-28 15:05:02
+ * @LastEditors: Please set LastEditors
  */
 'use strict'
 // Template version: 1.2.6
@@ -23,7 +23,7 @@ module.exports = {
     // can be overwritten by process.env.HOST
     // if you want dev by ip, please set host: '0.0.0.0'
     // host: '192.168.1.14',
-    host: '192.168.0.215',
+    host: 'localhost',
     // host: '192.168.1.8',
     port: 9999, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: true,

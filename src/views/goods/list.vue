@@ -62,7 +62,6 @@
       <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">添加</el-button>
       <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">导出</el-button>
     </div>
-
     <!-- 查询结果 -->
     <el-table
       v-loading="listLoading"
@@ -76,10 +75,8 @@
       <el-table-column align="center" label="一级分类" prop="p1_name" />
       <el-table-column align="center" label="二级分类" prop="p2_name" />
       <el-table-column align="center" label="三级分类" prop="p3_name" />
-
       <el-table-column align="center" min-width="100" label="商品名称" prop="name" />
       <el-table-column align="center" min-width="100" label="子商品数量" prop="amount" />
-
       <el-table-column align="center" prop="pic_url" label="封面图">
         <template slot-scope="scope">
           <img :src="scope.row.pic_url" width="40" >
@@ -94,20 +91,19 @@
       <el-table-column align="center" min-width="300" label="操作">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleDetail(scope.row)">查看</el-button>
-          <el-button v-show="scope.row.is_on_sale == '1'" type="danger" size="mini" @click="handleDelete(scope.row)">下架</el-button>
-          <el-button v-show="scope.row.is_on_sale == '0'" type="success" size="mini" @click="handleDelete(scope.row)">上架</el-button>
+          <el-button v-show="scope.row.is_on_sale == '1'" type="warning" size="mini" @click="handleState(scope.row)">下架</el-button>
+          <el-button v-show="scope.row.is_on_sale == '0'" type="success" size="mini" @click="handleState(scope.row)">上架</el-button>
           <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">编辑</el-button>
+          <el-button type="danger" size="mini" @click="handleDel(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-tooltip placement="top" content="返回顶部">
       <back-to-top :visibility-height="100" />
     </el-tooltip>
-
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
   </div>
 </template>
-
 <style>
 .table-expand {
   font-size: 0;
@@ -133,9 +129,8 @@
   margin-bottom: 0;
 }
 </style>
-
 <script>
-import { listGoods, listCatAndBrand, stateGoods } from '@/api/goods'
+import { listGoods, listCatAndBrand, stateGoods, deleteGoods } from '@/api/goods'
 import BackToTop from '@/components/BackToTop'
 // import Pagination from '@/components/Pagination' // Secondary package based on el-pagination
 import Pagination from '@/components/Pagination'
@@ -207,7 +202,6 @@ export default {
       const _this = this
       console.log(value[2])
       _this.listQuery.category_id = value[2] || undefined
-
       console.log(_this.listQuery.category_id)
     },
     // 获取分类的方法
@@ -258,7 +252,7 @@ export default {
         query: { id: row.goods_sn, total: row.total, amount: row.amount, gId: row.id }
       })
     },
-    handleDelete(row) {
+    handleState(row) {
       if (row.is_on_sale === 1 || row.is_on_sale === '1') {
         row.is_on_sale = 0
       } else {
@@ -274,6 +268,26 @@ export default {
             message: '修改成功'
           })
           this.getList()
+        })
+        .catch(response => {
+          this.$notify.error({
+            title: '失败',
+            message: response.data.errmsg
+          })
+        })
+    },
+    handleDel(row) {
+      deleteGoods({
+        id: row.id,
+        goodsSn: row.goods_sn
+      })
+        .then(response => {
+          this.$notify.success({
+            title: '成功',
+            message: '删除成功'
+          })
+          const index = this.list.indexOf(row)
+          this.list.splice(index, 1)
         })
         .catch(response => {
           this.$notify.error({

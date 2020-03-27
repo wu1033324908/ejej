@@ -144,8 +144,7 @@ export function addOneServiceUserLable(data) {
 // 商品标签删除
 export function goodsLabelDelete(data) {
   return request({
-    url: '/service/delete',
-    // url: 'goodsLabel/delete',
+    url: 'goodsLabel/delete',
     method: 'post',
     data
   })
@@ -153,7 +152,8 @@ export function goodsLabelDelete(data) {
 // 服务商标签
 export function serviceDelete(data) {
   return request({
-    url: '/service/delete',
+    // url: '/service/delete',
+    url: '/goodsLabel/delete',
     method: 'post',
     data
   })

@@ -99,7 +99,7 @@
         <el-table-column label="操作" align="operation" width="200">
           <template slot-scope="scope">
             <!-- <el-button type="primary" icon="el-icon-edit" @click="openLableDetail(scope.row)">编辑</el-button> -->
-            <el-button type="danger" @click="introduceHandleforbid(scope.row)">禁用</el-button>
+            <el-button type="danger" @click="introduceHandleforbid(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -430,6 +430,7 @@
 
 <script>
 import { deparSearch, uploadHeadUrlPath } from '@/api/depart'
+import { introduceDeleted } from '@/api/user'
 import { getCaseList } from '@/api/case'
 import {
   getServiceLable,
@@ -599,8 +600,17 @@ export default {
         })
     },
     // 禁用标签详情
-    introduceHandleforbid() {
-
+    introduceHandleforbid(row) {
+      introduceDeleted(row).then(response => {
+        this.$notify({
+          title: '成功',
+          message: '删除成功',
+          type: 'success',
+          duration: 2000
+        })
+        const index = this.introduce.indexOf(row)
+        this.introduce.splice(index, 1)
+      })
     },
     // 新增标签详情
     addLableDetail() {

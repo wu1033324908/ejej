@@ -457,7 +457,7 @@ export default {
           formData.append('file', blobInfo.blob())
           createStorage(formData)
             .then(res => {
-              success(res.data.data.url)
+              success(res.data.data.allfilePath)
             })
             .catch(() => {
               failure('上传失败，请重新上传')

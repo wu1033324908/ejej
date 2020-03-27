@@ -153,3 +153,5 @@ export function listCatAndBrand() {
 }
 const uploadPath = process.env.BASE_API + '/goods/uploadImg'
 export { uploadPath }
+const storageuploadPath = process.env.BASE_API + '/storage/create'
+export { storageuploadPath }

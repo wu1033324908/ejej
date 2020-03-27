@@ -76,8 +76,8 @@
         <el-form-item v-if="example_type==0" label="装修预算" prop="decorationBudget">
           <el-input v-model="detailCase.decorationBudget" placeholder="0.00" />
         </el-form-item>
-        <el-form-item v-if="example_type==1" label="施工费用" prop="retailPrice">
-          <el-input v-model="detailCase.retailPrice" placeholder="0.00" />
+        <el-form-item v-if="example_type==1" label="施工费用" prop="workMoney">
+          <el-input v-model="detailCase.workMoney" placeholder="0.00" />
         </el-form-item>
         <el-form-item v-if="example_type==2" label="装修费用" prop="decorationMoney">
           <el-input v-model="detailCase.decorationMoney" placeholder="0.00" />

@@ -19,17 +19,18 @@
           multiple
           :limit="1"
         >-->
-        <el-upload
+        <div style="height:180px;"><img :src="goodsData.picUrl" style="height:100%;border:1px solid #dedede;" alt=""></div>
+        <!-- <el-upload
           ref="upLoadAvatar"
           :headers="headers"
-          :action="uploadPath"
+          :action="storageuploadPath"
           :on-success="handleGalleryUrl"
           style="margin-top: 20px;margin-left: 5px; "
           class="avatar-uploader"
           accept=".jpg, .jpeg, .png, .gif"
         >
           <img v-if="goodsData.picUrl" :src="goodsData.picUrl" class="avatar" >
-        </el-upload>
+        </el-upload> -->
       </div>
       <table class="detailTable" style="display: inline-block">
         <tr>
@@ -707,7 +708,8 @@ import {
   uploadPath,
   updateGoodsProduct,
   listCatAndBrand,
-  editGoodsCondition
+  editGoodsCondition,
+  storageuploadPath
 } from '@/api/goods'
 import {
   getGoodsLableList,
@@ -721,6 +723,7 @@ import { getToken } from '@/utils/auth'
 export default {
   data() {
     return {
+      storageuploadPath,
       goods_sn: '',
       goodsData: {},
       categoryIds: {},
